@@ -1,7 +1,7 @@
 {
 	"name":		"jsvrcek/ics",
 	"type":		"library",
-	"keywords":	"ical, calendar, export, .ics",
+	"keywords":	["ical", "calendar", "export", ".ics"],
 	"authors":	[
 		{
 		    "name": "Justin Svrcek",
