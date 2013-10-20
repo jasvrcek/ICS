@@ -36,7 +36,7 @@ class CalendarExport
         {
             //start calendar
             $this->stream->addItemToStream('BEGIN:VCALENDAR');
-            $this->stream->addItemToStream('VERSION:2.0');
+            $this->stream->addItemToStream('VERSION:'.$cal->getVersion());
             
             //end calendar
             $this->stream->addItemToStream('END:VCALENDAR');
@@ -56,17 +56,21 @@ class CalendarExport
 
     /**
      * @param array $calendars
+     * @return CalendarExport
      */
     public function setCalendars(array $calendars)
     {
         $this->calendars = $calendars;
+        return $this;
     }
 
     /**
      * @param Calendar $cal
+     * @return CalendarExport
      */
     public function addCalendar(Calendar $cal)
     {
         $this->calendars[] = $cal;
+        return $this;
     }
 }

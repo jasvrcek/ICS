@@ -28,10 +28,13 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
     public function testGetStream()
     {
         $cal = new Calendar();
+        
         $ce = new CalendarExport();
         $ce->addCalendar($cal);
         
         $stream = $ce->getStream();
+        
+        //file_put_contents(__DIR__.'/../../../test.ics', $stream);
         
         $expected = file_get_contents(__DIR__.'/../../../test.ics');
         

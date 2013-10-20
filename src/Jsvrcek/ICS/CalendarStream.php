@@ -49,11 +49,10 @@ class CalendarStream
             while ($start < $length)
             {
                 $block .= mb_strcut($item, $start, self::LINE_LENGTH);
-                $block .= Constants::CRLF;
                 $start = $start + self::LINE_LENGTH;
                 
                 //add space if not last line
-                if ($start < $length) $block .= ' ';
+                if ($start < $length) $block .= Constants::CRLF.' ';
             }
         }
         else
