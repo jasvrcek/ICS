@@ -26,7 +26,7 @@ class Calendar
      *
      * @var string $method
      */
-    private $method = 'PUBLIC';
+    private $method = 'PUBLISH';
 
     /**
      *
@@ -45,6 +45,12 @@ class Calendar
      * @var array $events
      */
     private $events = array();
+    
+    /**
+     * 
+     * @var array $todos
+     */
+    private $todos = array();
 
     /**
      * 
@@ -193,5 +199,32 @@ class Calendar
         $this->events[] = $event;
         return $this;
     }
-
+    
+    /**
+     * @return array $todos returs array of CalendarAlarm objects
+     */
+    public function getTodos()
+    {
+        return $this->todos;
+    }
+    
+    /**
+     * @param CalendarTodo $todo
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addTodo(CalendarTodo $todo)
+    {
+        $this->todos[] = $todo;
+        return $this;
+    }
+    
+    /**
+     * @param array $todos
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setTodos(array $todos)
+    {
+        $this->todos = $todos;
+        return $this;
+    }
 }

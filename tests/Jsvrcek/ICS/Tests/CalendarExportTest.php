@@ -7,34 +7,39 @@ use Jsvrcek\ICS\Model\Calendar;
 
 class CalendarExportTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetAndSetCalendars()
+    /**
+     * @covers Jsvrcek\ICS\CalendarExport::getFormattedTimeOffset
+     */
+    public function testGetFormattedTimeOffset()
     {
-        $calendars = array(new Calendar());
         $ce = new CalendarExport();
-        $ce->setCalendars($calendars);
         
-        $this->assertEquals($calendars, $ce->getCalendars());
+        $offset = -18000;
+        $expected = '-0500';
+        $actual = $ce->getFormattedTimeOffset($offset);
+        $this->assertEquals($expected, $actual);
+        
+        $offset = -14400;
+        $expected = '-0400';
+        $actual = $ce->getFormattedTimeOffset($offset);
+        $this->assertEquals($expected, $actual);
     }
     
-    public function testAddCalendar()
-    {
-        $cal = new Calendar();
-        $ce = new CalendarExport();
-        $ce->addCalendar($cal);
-        
-        $this->assertEquals(array($cal), $ce->getCalendars());
-    }
     
+    /**
+     * @covers Jsvrcek\ICS\CalendarExport::getStream 
+     */
     public function testGetStream()
     {
         $cal = new Calendar();
+        $cal->setProdId('-//Jsvrcek//ICS//EN');
         
         $ce = new CalendarExport();
         $ce->addCalendar($cal);
         
         $stream = $ce->getStream();
         
-        //file_put_contents(__DIR__.'/../../../test.ics', $stream);
+        file_put_contents(__DIR__.'/../../../test.ics', $stream);
         
         $expected = file_get_contents(__DIR__.'/../../../test.ics');
         

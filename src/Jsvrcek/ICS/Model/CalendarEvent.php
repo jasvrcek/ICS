@@ -1,6 +1,10 @@
 <?php
 
 namespace Jsvrcek\ICS\Model;
+
+use Jsvrcek\ICS\Model\CalendarAlarm;
+use Jsvrcek\ICS\Exception\CalendarEventException;
+
 class CalendarEvent
 {
     /**
@@ -32,6 +36,12 @@ class CalendarEvent
      * @var string $description
      */
     private $description;
+    
+    /**
+     * 
+     * @var array $alarms
+     */
+    private $alarms = array();
 
     /**
      * @return string
@@ -69,6 +79,7 @@ class CalendarEvent
     public function setStart(\DateTime $start)
     {
         $this->start = $start;
+        $this->setEnd($start->add(new \DateInterval('P30M')));
         return $this;
     }
 
@@ -86,6 +97,17 @@ class CalendarEvent
      */
     public function setEnd(\DateTime $end)
     {
+        //check End is greater than Start
+        if ($this->getStart() instanceof \DateTime)
+        {
+            if ($this->getStart() > $end)
+                throw new CalendarEventException('End DateTime must be greater than Start DateTime');
+        }
+        else
+        {
+            throw new CalendarEventException('You must set the Start time before setting the End Time of a CalendarEvent');
+        }
+        
         $this->end = $end;
         return $this;
     }
@@ -125,5 +147,32 @@ class CalendarEvent
         $this->description = $description;
         return $this;
     }
-
+    
+    /**
+     * @return array $alarms returs array of CalendarAlarm objects
+     */
+    public function getAlarms()
+    {
+        return $this->alarms;
+    }
+    
+    /**
+     * @param CalendarAlarm $alarm
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addAlarm(CalendarAlarm $alarm)
+    {
+        $this->alarms[] = $alarm;
+        return $this;
+    }
+    
+    /**
+     * @param array $alarms
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setAlarms(array $alarms)
+    {
+        $this->alarms = $alarms;
+        return $this;
+    }
 }

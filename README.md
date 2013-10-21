@@ -30,3 +30,8 @@ Object-oriented php library for creating .ics iCal files
 	
 	//output .ics formatted text
 	echo $calendarExport->getStream();
+
+## Todos
+
+* Jsvrcek\ICS\Model\CalendarAlarm
+* Jsvrcek\ICS\Model\CalendarTodo
