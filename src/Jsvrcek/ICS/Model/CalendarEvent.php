@@ -2,6 +2,10 @@
 
 namespace Jsvrcek\ICS\Model;
 
+use Jsvrcek\ICS\Model\Relationship\Organizer;
+
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Exception\CalendarEventException;
 
@@ -26,16 +30,91 @@ class CalendarEvent
     private $end;
 
     /**
+     * @todo add support in CalendarExport
      * 
-     * @var string $summary
+     * @var string $class
      */
-    private $summary;
+    private $class;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var \DateTime $created
+     */
+    private $created;
 
     /**
      * 
      * @var string $description
      */
     private $description;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var string $geo
+     */
+    private $geo;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var string $lastModified
+     */
+    private $lastModified;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var string $location
+     */
+    private $location;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var Organizer $organizaer
+     */
+    private $organizer;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var string $priority
+     */
+    private $priority;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var \DateTime $timestamp
+     */
+    private $timestamp;
+
+    /**
+     * @todo add support in CalendarExport
+     * 
+     * @var string $status
+     */
+    private $status;
+
+    /**
+     * 
+     * @var string $summary
+     */
+    private $summary;
+
+    /**
+     * @todo add support in CalendarExport
+     * @var string $recuringId
+     */
+    private $recuringId;
+    
+    /**
+     * 
+     * @var array $attendees
+     */
+    private $attendees = array();
     
     /**
      * 
@@ -53,7 +132,7 @@ class CalendarEvent
 
     /**
      * @param string $uid
-     * @return CalendarEvent
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setUid($uid)
     {
@@ -74,7 +153,7 @@ class CalendarEvent
      * - end time can be overridden with setEnd()
      * 
      * @param \DateTime $start
-     * @return CalendarEvent
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setStart(\DateTime $start)
     {
@@ -94,7 +173,7 @@ class CalendarEvent
 
     /**
      * @param \DateTime $end
-     * @return CalendarEvent
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setEnd(\DateTime $end)
     {
@@ -123,7 +202,7 @@ class CalendarEvent
 
     /**
      * @param string $summary
-     * @return CalendarEvent
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setSummary($summary)
     {
@@ -141,7 +220,7 @@ class CalendarEvent
 
     /**
      * @param string $description
-     * @return CalendarEvent
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setDescription($description)
     {
@@ -174,6 +253,235 @@ class CalendarEvent
     public function setAlarms(array $alarms)
     {
         $this->alarms = $alarms;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * 
+     * @param string $class
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * 
+     * @param \DateTime $created
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setCreated(\DateTime $created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getGeo()
+    {
+        return $this->geo;
+    }
+
+    /**
+     * 
+     * @param string $geo
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setGeo($geo)
+    {
+        $this->geo = $geo;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return \DateTime
+     */
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+    /**
+     * 
+     * @param \DateTime $lastModified
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setLastModified(\DateTime $lastModified)
+    {
+        $this->lastModified = $lastModified;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * 
+     * @param string $location
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return Organizer
+     */
+    public function getOrganizer()
+    {
+        return $this->organizer;
+    }
+
+    /**
+     * 
+     * @param Organizer $organizer
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setOrganizer(Organizer $organizer)
+    {
+        $this->organizer = $organizer;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * 
+     * @param string $priority
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return \DateTime 
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * 
+     * @param \DateTime $timestamp
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setTimestamp(\DateTime $timestamp)
+    {
+        $this->timestamp = $timestamp;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * 
+     * @param string $status
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getRecuringId()
+    {
+        return $this->recuringId;
+    }
+
+    /**
+     * 
+     * @param string $recuringId
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setRecuringId($recuringId)
+    {
+        $this->recuringId = $recuringId;
+        return $this;
+    }
+
+    /**
+     * 
+     * @return array $attendees array of Attendee objects
+     */
+    public function getAttendees()
+    {
+        return $this->attendees;
+    }
+
+    /**
+     * 
+     * @param array $attendees array of Attendee objects
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setAttendees(array $attendees)
+    {
+        $this->attendees = $attendees;
+    }
+    
+    /**
+     * @param Attendee $attendee
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addAttendee(Attendee $attendee)
+    {
+        $this->attendees[] = $attendee;
         return $this;
     }
 }

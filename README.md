@@ -24,8 +24,8 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 	
 	$calendar = new Calendar();
 	$calendar->setProdId('-//My Company//Cool Calendar App//EN')
-		->addEvent()
-		->addEvent();
+		->addEvent($eventOne)
+		->addEvent($eventTwo);
 	
 	$calendarExport = new CalendarExport();
 	$calendarExport->addCalendar($calendar);
