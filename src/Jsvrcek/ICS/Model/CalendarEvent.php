@@ -2,6 +2,10 @@
 
 namespace Jsvrcek\ICS\Model;
 
+use Jsvrcek\ICS\Model\Description\Geo;
+
+use Jsvrcek\ICS\Model\Description\Location;
+
 use Jsvrcek\ICS\Model\Relationship\Organizer;
 
 use Jsvrcek\ICS\Model\Relationship\Attendee;
@@ -30,15 +34,11 @@ class CalendarEvent
     private $end;
 
     /**
-     * @todo add support in CalendarExport
-     * 
      * @var string $class
      */
     private $class;
 
     /**
-     * @todo add support in CalendarExport
-     * 
      * @var \DateTime $created
      */
     private $created;
@@ -50,25 +50,19 @@ class CalendarEvent
     private $description;
 
     /**
-     * @todo add support in CalendarExport
-     * 
-     * @var string $geo
+     * @var Geo $geo
      */
     private $geo;
 
     /**
-     * @todo add support in CalendarExport
-     * 
      * @var string $lastModified
      */
     private $lastModified;
 
     /**
-     * @todo add support in CalendarExport
-     * 
-     * @var string $location
+     * @var array $locations
      */
-    private $location;
+    private $locations = array();
 
     /**
      * @todo add support in CalendarExport
@@ -298,7 +292,7 @@ class CalendarEvent
 
     /**
      * 
-     * @return string
+     * @return Geo|null
      */
     public function getGeo()
     {
@@ -307,10 +301,10 @@ class CalendarEvent
 
     /**
      * 
-     * @param string $geo
+     * @param Geo $geo
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
-    public function setGeo($geo)
+    public function setGeo(Geo $geo)
     {
         $this->geo = $geo;
         return $this;
@@ -338,21 +332,32 @@ class CalendarEvent
 
     /**
      * 
-     * @return string
+     * @return array $locations array of Location objects
      */
-    public function getLocation()
+    public function getLocations()
     {
-        return $this->location;
+        return $this->locations;
     }
 
     /**
      * 
-     * @param string $location
+     * @param array $locations array of Location objects
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
-    public function setLocation($location)
+    public function setLocations(array $locations)
     {
-        $this->location = $location;
+        $this->locations = $locations;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param Location $location
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addLocation(Location $location)
+    {
+        $this->locations[] = $location;
         return $this;
     }
 

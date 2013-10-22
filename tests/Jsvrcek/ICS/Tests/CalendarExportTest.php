@@ -79,7 +79,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         
         $stream = $ce->getStream();
         
-        file_put_contents(__DIR__.'/../../../test.ics', $stream);
+        //file_put_contents(__DIR__.'/../../../test.ics', $stream);
         
         $expected = file_get_contents(__DIR__.'/../../../test.ics');
         

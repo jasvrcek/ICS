@@ -4,6 +4,10 @@ namespace Jsvrcek\ICS;
 
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
+use Jsvrcek\ICS\Model\Description\Location;
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+use Jsvrcek\ICS\Model\Relationship\Organizer;
+
 use Jsvrcek\ICS\CalendarStream;
 
 class CalendarExport
@@ -119,8 +123,26 @@ class CalendarExport
                     ->addItem('DTSTART:'.$this->getFormattedUTCDateTime($event->getStart()))
                     ->addItem('DTEND:'.$this->getFormattedUTCDateTime($event->getEnd()))
                     ->addItem('SUMMARY:'.$event->getSummary())
-                    ->addItem('DESCRIPTION:'.$event->getDescription())                
-                ->addItem('END:VEVENT');
+                    ->addItem('DESCRIPTION:'.$event->getDescription())
+                    ->addItem('CLASS:'.$event->getClass());
+                
+                    /* @var $location Location */
+                    foreach ($event->getLocations() as $location)
+                    {
+                        $this->stream
+                            ->addItem('LOCATION'.$location->getUri().$location->getLanguage().':'.$location->getName());
+                    }
+                    
+                    if ($event->getGeo())
+                        $this->stream->addItem('GEO:'.$event->getGeo()->getLatitude().';'.$event->getGeo()->getLongitude());
+                    
+                    if ($event->getCreated())
+                        $this->stream->addItem('CREATED:'.$this->getFormattedUTCDateTime($event->getCreated()));
+                    
+                    if ($event->getLastModified())
+                        $this->stream->addItem('LAST-MODIFIED:'.$this->getFormattedUTCDateTime($event->getLastModified()));
+                
+                $this->stream->addItem('END:VEVENT');
             }
             
             //end calendar
