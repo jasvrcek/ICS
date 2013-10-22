@@ -46,7 +46,7 @@ class CalendarEventTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($start, $this->object->getStart());
         
         //test default end
-        $this->assertEquals($start->add(new \DateInterval('P30M')), $this->object->getEnd());
+        $this->assertEquals($start->add(\DateInterval::createFromDateString('30 minutes')), $this->object->getEnd());
     }
 
     /**

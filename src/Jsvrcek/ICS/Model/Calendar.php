@@ -51,6 +51,12 @@ class Calendar
      * @var array $todos
      */
     private $todos = array();
+    
+    /**
+     * 
+     * @var array $freeBusy
+     */
+    private $freeBusy = array();
 
     /**
      * 
@@ -201,7 +207,7 @@ class Calendar
     }
     
     /**
-     * @return array $todos returs array of CalendarAlarm objects
+     * @return array $todos returs array of CalendarTodo objects
      */
     public function getTodos()
     {
@@ -225,6 +231,34 @@ class Calendar
     public function setTodos(array $todos)
     {
         $this->todos = $todos;
+        return $this;
+    }
+    
+    /**
+     * @return array $freeBusy returs array of CalendarFreeBusy objects
+     */
+    public function getFreeBusy()
+    {
+        return $this->freeBusy;
+    }
+    
+    /**
+     * @param CalendarFreeBusy $todo
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addFreeBusy(CalendarFreeBusy $todo)
+    {
+        $this->freeBusy[] = $todo;
+        return $this;
+    }
+    
+    /**
+     * @param array $freeBusy
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setFreeBusy(array $freeBusy)
+    {
+        $this->freeBusy = $freeBusy;
         return $this;
     }
 }

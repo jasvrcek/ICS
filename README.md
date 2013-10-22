@@ -1,7 +1,9 @@
 ICS
 ===
 
-Object-oriented php library for creating .ics iCal files
+Object-oriented php library for creating (and eventually reading) .ics iCal files
+
+* This project does not yet support all functionality of the .ics format.
 
 ## Usage
 
@@ -35,3 +37,7 @@ Object-oriented php library for creating .ics iCal files
 
 * Jsvrcek\ICS\Model\CalendarAlarm
 * Jsvrcek\ICS\Model\CalendarTodo
+
+## Reference
+ 
+ * http://www.ietf.org/rfc/rfc2445.txt

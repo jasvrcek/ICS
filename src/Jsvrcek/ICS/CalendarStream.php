@@ -35,8 +35,9 @@ class CalendarStream
     /**
      * splits item into new lines if necessary
      * @param string $item
+     * @return CalendarStream
      */
-    public function addItemToStream($item)
+    public function addItem($item)
     {
         $length = mb_strlen($item, '8bit');
         
@@ -61,6 +62,8 @@ class CalendarStream
         }
     
         $this->stream .= $block.Constants::CRLF;
+        
+        return $this;
     }
     
     /**

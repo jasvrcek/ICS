@@ -79,7 +79,8 @@ class CalendarEvent
     public function setStart(\DateTime $start)
     {
         $this->start = $start;
-        $this->setEnd($start->add(new \DateInterval('P30M')));
+        $end = clone $start;
+        $this->setEnd($end->add(\DateInterval::createFromDateString('30 minutes')));
         return $this;
     }
 

@@ -3,6 +3,7 @@
 namespace Jsvrcek\ICS;
 
 use Jsvrcek\ICS\Model\Calendar;
+use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\CalendarStream;
 
 class CalendarExport
@@ -35,23 +36,20 @@ class CalendarExport
         foreach ($this->getCalendars() as $cal)
         {
             //start calendar
-            $this->stream->addItemToStream('BEGIN:VCALENDAR');
-            $this->stream->addItemToStream('VERSION:'.$cal->getVersion());
-            
-            //calscale
-            $this->stream->addItemToStream('CALSCALE:'.$cal->getCalendarScale());
-            
-            //method
-            $this->stream->addItemToStream('METHOD:'.$cal->getMethod());
+            $this->stream->addItem('BEGIN:VCALENDAR')
+                ->addItem('PRODID:'.$cal->getProdId())
+                ->addItem('VERSION:'.$cal->getVersion())
+                ->addItem('CALSCALE:'.$cal->getCalendarScale())
+                ->addItem('METHOD:'.$cal->getMethod());
             
             //custom headers
             foreach ($cal->getCustomHeaders() as $key => $value)
             {
-                $this->stream->addItemToStream($key.':'.$value);
+                $this->stream->addItem($key.':'.$value);
             }
             
             //timezone
-            $this->stream->addItemToStream('BEGIN:VTIMEZONE');
+            $this->stream->addItem('BEGIN:VTIMEZONE');
             
                 $tz = $cal->getTimezone();
                 $transitions = $tz->getTransitions(strtotime('1970-01-01'), strtotime('1970-12-31'));
@@ -87,33 +85,46 @@ class CalendarExport
                     ${$varName}['offsetFrom'] = $this->getFormattedTimeOffset($offset);
                 }
                 
-                $this->stream->addItemToStream('TZID:'.$tz->getName());
+                $this->stream->addItem('TZID:'.$tz->getName());
                 
-                $this->stream->addItemToStream('BEGIN:STANDARD');
-                    $this->stream->addItemToStream('DTSTART:'.$standard['start']);
-                    $this->stream->addItemToStream('TZOFFSETTO:'.$standard['offsetTo']);
-                    $this->stream->addItemToStream('TZOFFSETFROM:'.$standard['offsetFrom']);
+                $this->stream->addItem('BEGIN:STANDARD')
+                    ->addItem('DTSTART:'.$standard['start'])
+                    ->addItem('TZOFFSETTO:'.$standard['offsetTo'])
+                    ->addItem('TZOFFSETFROM:'.$standard['offsetFrom']);
                     
                     if ($daylightSavings['exists'])
                     {
-                        $this->stream->addItemToStream('RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU');
+                        $this->stream->addItem('RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU');
                     }
-                $this->stream->addItemToStream('END:STANDARD');
+                $this->stream->addItem('END:STANDARD');
                 
                 if ($daylightSavings['exists'])
                 {
-                    $this->stream->addItemToStream('BEGIN:DAYLIGHT');
-                        $this->stream->addItemToStream('DTSTART:'.$daylightSavings['start']);
-                        $this->stream->addItemToStream('TZOFFSETTO:'.$daylightSavings['offsetTo']);
-                        $this->stream->addItemToStream('TZOFFSETFROM:'.$daylightSavings['offsetFrom']);
-                        $this->stream->addItemToStream('RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU');
-                    $this->stream->addItemToStream('END:DAYLIGHT');
+                    $this->stream->addItem('BEGIN:DAYLIGHT')
+                        ->addItem('DTSTART:'.$daylightSavings['start'])
+                        ->addItem('TZOFFSETTO:'.$daylightSavings['offsetTo'])
+                        ->addItem('TZOFFSETFROM:'.$daylightSavings['offsetFrom'])
+                        ->addItem('RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU')
+                    ->addItem('END:DAYLIGHT');
                 }
             
-            $this->stream->addItemToStream('END:VTIMEZONE');
+            $this->stream->addItem('END:VTIMEZONE');
+            
+            //add events
+            /* @var $event CalendarEvent */
+            foreach ($cal->getEvents() as $event)
+            {
+                $this->stream->addItem('BEGIN:VEVENT')
+                    ->addItem('UID:'.$event->getUid())
+                    ->addItem('DTSTART:'.$this->getFormattedUTCDateTime($event->getStart()))
+                    ->addItem('DTEND:'.$this->getFormattedUTCDateTime($event->getEnd()))
+                    ->addItem('SUMMARY:'.$event->getSummary())
+                    ->addItem('DESCRIPTION:'.$event->getDescription())                
+                ->addItem('END:VEVENT');
+            }
             
             //end calendar
-            $this->stream->addItemToStream('END:VCALENDAR');
+            $this->stream->addItem('END:VCALENDAR');
         }
         
         return $this->stream->getStream();
@@ -163,11 +174,18 @@ class CalendarExport
      */
     public function getFormattedTimeOffset($offset)
     {
-        $prefix = '';
-        
-        if ($offset < 0)
-            $prefix = '-';
+        $prefix = ($offset < 0) ? '-' : '+';
         
         return $prefix.gmdate('Hi', abs($offset));
+    }
+    
+    /**
+     * @param \DateTime $dateTime
+     * @return string
+     */
+    public function getFormattedUTCDateTime(\DateTime $dateTime)
+    {
+        return $dateTime->setTimezone(new \DateTimeZone('UTC'))
+                    ->format('Ymd\This\Z');
     }
 }
