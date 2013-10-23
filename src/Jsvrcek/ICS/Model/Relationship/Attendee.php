@@ -2,8 +2,16 @@
 
 namespace Jsvrcek\ICS\Model\Relationship;
 
+use Jsvrcek\ICS\Utility\Formatter;
+
 class Attendee
 {
+    /**
+     * 
+     * @var Formatter
+     */
+    private $formatter;
+    
     /**
      * RFC 5545 cal-address
      * @var string $value
@@ -77,6 +85,14 @@ class Attendee
     private $language;
     
     /**
+     * @param Formatter $formatter
+     */
+    public function __construct(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+    
+    /**
      * @return string
      */
     public function getValue()
@@ -91,7 +107,7 @@ class Attendee
      */
     public function setValue($uri)
     {
-        $this->value = $this->getFormattedUri($uri);
+        $this->value = $this->formatter->getFormattedUri($uri);
         return $this;
     }
 
@@ -139,7 +155,7 @@ class Attendee
     {
         foreach ($calendarMemberUris as &$uri)
         {
-            $uri = $this->getFormattedUri($uri);
+            $uri = $this->formatter->getFormattedUri($uri);
         }
         
         $this->calendarMembers = $calendarMemberUris;
@@ -153,7 +169,7 @@ class Attendee
      */
     public function addCalendarMember($uri)
     {
-        $this->calendarMembers[] = $this->getFormattedUri($uri);
+        $this->calendarMembers[] = $this->formatter->getFormattedUri($uri);
         return $this;
     }
 
@@ -244,7 +260,7 @@ class Attendee
     {
         foreach ($delegatedToUris as &$uri) 
         {
-            $uri = $this->getFormattedUri($uri);
+            $uri = $this->formatter->getFormattedUri($uri);
         }
             
         $this->delegatedTo = $delegatedToUris;
@@ -257,7 +273,7 @@ class Attendee
      */
     public function addDelegatedTo($uri)
     {
-        $this->delegatedTo[] = $this->getFormattedUri($uri);
+        $this->delegatedTo[] = $this->formatter->getFormattedUri($uri);
         return $this;
     }
 
@@ -278,7 +294,7 @@ class Attendee
     {
         foreach ($delegatedFromUris as &$uri)
         {
-            $uri = $this->getFormattedUri($uri);
+            $uri = $this->formatter->getFormattedUri($uri);
         }
         
         $this->delegatedFrom = $delegatedFromUris;
@@ -291,7 +307,7 @@ class Attendee
      */
     public function addDelegatedFrom($uri)
     {
-        $this->delegatedFrom[] = $this->getFormattedUri($uri);
+        $this->delegatedFrom[] = $this->formatter->getFormattedUri($uri);
         return $this;
     }
 
@@ -368,7 +384,10 @@ class Attendee
         $this->language = $language;
         return $this;
     }
-
+    
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $string = 'ATTENDEE';
@@ -415,17 +434,5 @@ class Attendee
         $string .= ':'.$this->value;
         
         return $string;
-    }
-    
-    /**
-     * @param string $uri
-     * @return string
-     */
-    private function getFormattedUri($uri)
-    {
-        if (strpos($uri, '@') && stripos($uri, 'mailto:') === false)
-            $uri = 'mailto:'.$uri;
-        
-        return $uri;
     }
 }

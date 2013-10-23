@@ -20,5 +20,7 @@ DESCRIPTION:
 ATTENDEE;CUTYPE=INDIVIDUAL;MEMBER="mailto:list@example.com";ROLE=REQ-P
  ARTICIPANT;PARTSTAT=ACCEPTED;SENT-BY="joe@example";CN=Jane Smith:mailt
  o:jane-smith@example.com
+ORGANIZER;SENT-BY="mary@example.com";CN=Sue Jones;LANGUAGE=en:mailto:s
+ ue@example.com
 END:VEVENT
 END:VCALENDAR

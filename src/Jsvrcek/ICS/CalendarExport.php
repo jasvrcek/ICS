@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS;
 
+use Jsvrcek\ICS\Utility\Formatter;
+
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
@@ -24,9 +26,16 @@ class CalendarExport
      */
     private $stream;
     
-    public function __construct()
+    /**
+     * 
+     * @var Formatter
+     */
+    private $formatter;
+    
+    public function __construct(CalendarStream $stream, Formatter $formatter)
     {
-        $this->stream = new CalendarStream();
+        $this->stream = $stream;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -76,9 +85,9 @@ class CalendarExport
                     $varName = ($transition['isdst']) ? 'daylightSavings' : 'standard';
                     
                     ${$varName}['exists'] = true;
-                    ${$varName}['start'] = $this->getFormattedDateTime(new \DateTime($transition['time']));
+                    ${$varName}['start'] = $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
                     
-                    ${$varName}['offsetTo'] = $this->getFormattedTimeOffset($transition['offset']);
+                    ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
                     
                     //get previous offset
                     $previousTimezoneObservance = $transition['ts'] - 100;
@@ -86,7 +95,7 @@ class CalendarExport
                     $tzDate->setTimestamp($previousTimezoneObservance);
                     $offset = $tzDate->getOffset();
                     
-                    ${$varName}['offsetFrom'] = $this->getFormattedTimeOffset($offset);
+                    ${$varName}['offsetFrom'] = $this->formatter->getFormattedTimeOffset($offset);
                 }
                 
                 $this->stream->addItem('TZID:'.$tz->getName());
@@ -120,8 +129,8 @@ class CalendarExport
             {
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
-                    ->addItem('DTSTART:'.$this->getFormattedUTCDateTime($event->getStart()))
-                    ->addItem('DTEND:'.$this->getFormattedUTCDateTime($event->getEnd()))
+                    ->addItem('DTSTART:'.$this->formatter->getFormattedUTCDateTime($event->getStart()))
+                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()))
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$event->getDescription());
                 
@@ -139,15 +148,18 @@ class CalendarExport
                         $this->stream->addItem('GEO:'.$event->getGeo()->getLatitude().';'.$event->getGeo()->getLongitude());
                     
                     if ($event->getCreated())
-                        $this->stream->addItem('CREATED:'.$this->getFormattedUTCDateTime($event->getCreated()));
+                        $this->stream->addItem('CREATED:'.$this->formatter->getFormattedUTCDateTime($event->getCreated()));
                     
                     if ($event->getLastModified())
-                        $this->stream->addItem('LAST-MODIFIED:'.$this->getFormattedUTCDateTime($event->getLastModified()));
+                        $this->stream->addItem('LAST-MODIFIED:'.$this->formatter->getFormattedUTCDateTime($event->getLastModified()));
                     
                     foreach ($event->getAttendees() as $attendee)
                     {
                         $this->stream->addItem($attendee->__toString());
                     }
+                    
+                    if ($event->getOrganizer())
+                        $this->stream->addItem($event->getOrganizer()->__toString());
                 
                 $this->stream->addItem('END:VEVENT');
             }
@@ -186,35 +198,5 @@ class CalendarExport
     {
         $this->calendars[] = $cal;
         return $this;
-    }
-    
-    /**
-     * @param \DateTime $dateTime
-     * @return string
-     */
-    public function getFormattedDateTime(\DateTime $dateTime)
-    {
-        return $dateTime->format('Ymd\THis');
-    }
-    
-    /**
-     * @param int $offset
-     * @return string
-     */
-    public function getFormattedTimeOffset($offset)
-    {
-        $prefix = ($offset < 0) ? '-' : '+';
-        
-        return $prefix.gmdate('Hi', abs($offset));
-    }
-    
-    /**
-     * @param \DateTime $dateTime
-     * @return string
-     */
-    public function getFormattedUTCDateTime(\DateTime $dateTime)
-    {
-        return $dateTime->setTimezone(new \DateTimeZone('UTC'))
-                    ->format('Ymd\This\Z');
     }
 }
