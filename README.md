@@ -40,4 +40,4 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 
 ## Reference
  
- * http://www.ietf.org/rfc/rfc2445.txt
+ * http://tools.ietf.org/html/rfc5545

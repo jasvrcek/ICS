@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS\Tests;
 
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+
 use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
@@ -63,11 +65,21 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStream()
     {
+        $attendee = new Attendee();
+        $attendee->setName('Jane Smith')
+            ->setCalendarUserType('INDIVIDUAL')
+            ->setParticipationStatus('ACCEPTED')
+            ->setRole('REQ-PARTICIPANT')
+            ->setSentBy('joe@example')
+            ->addCalendarMember('list@example.com')
+            ->setValue('jane-smith@example.com');
+        
         $event = new CalendarEvent();
         $event->setUid('lLKjd89283oja89282lkjd8@example.com')
             ->setStart(new \DateTime('1 October 2013'))
             ->setEnd(new \DateTime('31 October 2013'))
-            ->setSummary('Oktoberfest at the South Pole');
+            ->setSummary('Oktoberfest at the South Pole')
+            ->addAttendee($attendee);
         
         $cal = new Calendar();
         $cal->setProdId('-//Jsvrcek//ICS//EN')

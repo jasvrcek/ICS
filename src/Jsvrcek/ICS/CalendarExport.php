@@ -41,8 +41,8 @@ class CalendarExport
         {
             //start calendar
             $this->stream->addItem('BEGIN:VCALENDAR')
-                ->addItem('PRODID:'.$cal->getProdId())
                 ->addItem('VERSION:'.$cal->getVersion())
+                ->addItem('PRODID:'.$cal->getProdId())
                 ->addItem('CALSCALE:'.$cal->getCalendarScale())
                 ->addItem('METHOD:'.$cal->getMethod());
             
@@ -123,8 +123,10 @@ class CalendarExport
                     ->addItem('DTSTART:'.$this->getFormattedUTCDateTime($event->getStart()))
                     ->addItem('DTEND:'.$this->getFormattedUTCDateTime($event->getEnd()))
                     ->addItem('SUMMARY:'.$event->getSummary())
-                    ->addItem('DESCRIPTION:'.$event->getDescription())
-                    ->addItem('CLASS:'.$event->getClass());
+                    ->addItem('DESCRIPTION:'.$event->getDescription());
+                
+                    if ($event->getClass())
+                        $this->stream->addItem('CLASS:'.$event->getClass());
                 
                     /* @var $location Location */
                     foreach ($event->getLocations() as $location)
@@ -141,6 +143,11 @@ class CalendarExport
                     
                     if ($event->getLastModified())
                         $this->stream->addItem('LAST-MODIFIED:'.$this->getFormattedUTCDateTime($event->getLastModified()));
+                    
+                    foreach ($event->getAttendees() as $attendee)
+                    {
+                        $this->stream->addItem($attendee->__toString());
+                    }
                 
                 $this->stream->addItem('END:VEVENT');
             }
