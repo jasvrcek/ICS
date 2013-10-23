@@ -3,7 +3,7 @@
     "type":     "library",
     "description": "abstraction layer for creating RFC 5545 compliant .ics files",
     "keywords": ["ical", "calendar", "export", ".ics"],
-    "homepage": "https://github.com/jasvrcek/ICS"
+    "homepage": "https://github.com/jasvrcek/ICS",
     "authors":  [
         {
             "name": "Justin Svrcek",
