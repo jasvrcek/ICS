@@ -3,6 +3,7 @@
     "type":     "library",
     "description": "abstraction layer for creating RFC 5545 compliant .ics files",
     "keywords": ["ical", "calendar", "export", ".ics"],
+    "license": "MIT",
     "homepage": "https://github.com/jasvrcek/ICS",
     "authors":  [
         {
@@ -14,7 +15,7 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "psr-0": { "Jsvrcek\\ICS\\": "src" }
+        "psr-0": { "Jsvrcek\\ICS\\": "" }
     },
     "require-dev":{
         "phpunit/phpunit": "3.6.*"
