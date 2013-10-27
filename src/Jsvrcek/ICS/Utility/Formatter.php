@@ -31,7 +31,7 @@ class Formatter
     public function getFormattedUTCDateTime(\DateTime $dateTime)
     {
         return $dateTime->setTimezone(new \DateTimeZone('UTC'))
-                    ->format('Ymd\This\Z');
+                    ->format('Ymd\THis\Z');
     }
     
     /**

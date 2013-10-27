@@ -53,6 +53,12 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         $expected = '19980119T040000Z';
         $actual = $ce->getFormattedUTCDateTime($dateTime);
         $this->assertEquals($expected, $actual);
+        $ce = new Formatter();
+        
+        $dateTime = new \DateTime('1998-01-18 11:00:00', new \DateTimeZone('America/New_York'));
+        $expected = '19980118T160000Z';
+        $actual = $ce->getFormattedUTCDateTime($dateTime);
+        $this->assertEquals($expected, $actual);
     }
     
     /**
