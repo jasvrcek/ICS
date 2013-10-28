@@ -29,16 +29,10 @@ class CalendarStreamTest extends \PHPUnit_Framework_TestCase
         $s->addItem($item);
         $this->assertEquals($expected, $s->getStream());
         
-        //mb long string test
-        $this->markTestIncomplete('Multi-byte test skipped for now');
-        
         $s = new CalendarStream();
-        $item = ' ἀἀἀa10 ἀἀἀa20 ἀἀἀa30 ἀἀἀa40 ἀἀἀa50 ἀἀἀa60 ἀἀἀa70 ἀἀἀa80 ἀἀἀa90';
-        $expected = ' ἀἀἀa10 ἀἀἀa20 ἀἀἀa30 ἀἀἀa40 ἀἀἀa50 ἀἀἀa60 ἀἀἀa70'.Constants::CRLF.' '.' ἀἀἀa80 ἀἀἀa90'.Constants::CRLF;
+        $item = ' ëëëë1 ëëëë2 ëëëë3 ëëëë4 ëëëë5 ëëëë6 ëëëëëëëëë8 ëëëë9';
+        $expected = ' ëëëë1 ëëëë2 ëëëë3 ëëëë4 ëëëë5 ëëëë6 ëëëë'.Constants::CRLF.' '.'ëëëëë8 ëëëë9'.Constants::CRLF;
         $s->addItem($item);
-        
-        //echo "\n'$expected'\n'".$s->getStream()."'\n";
-        //exit;
         $this->assertEquals($expected, $s->getStream());
     }
     

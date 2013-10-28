@@ -39,7 +39,8 @@ class CalendarStream
      */
     public function addItem($item)
     {
-        $length = mb_strlen($item, '8bit');
+        //get number of bytes
+        $length = strlen($item);
         
         $block = '';
         
@@ -49,7 +50,7 @@ class CalendarStream
             
             while ($start < $length)
             {
-                $block .= mb_strcut($item, $start, self::LINE_LENGTH);
+                $block .= mb_strcut($item, $start, self::LINE_LENGTH, 'UTF-8');
                 $start = $start + self::LINE_LENGTH;
                 
                 //add space if not last line

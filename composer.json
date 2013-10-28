@@ -1,8 +1,8 @@
 {
     "name":     "jsvrcek/ics",
     "type":     "library",
-    "description": "abstraction layer for creating RFC 5545 compliant .ics files",
-    "keywords": ["ical", "calendar", "export", ".ics"],
+    "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
+    "keywords": ["ical", "calendar", "export", ".ics", "RFC 5545", "multi-byte safe"],
     "license": "MIT",
     "homepage": "https://github.com/jasvrcek/ICS",
     "authors":  [
