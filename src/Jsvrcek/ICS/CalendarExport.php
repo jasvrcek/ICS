@@ -146,6 +146,9 @@ class CalendarExport
                     
                     if ($event->getGeo())
                         $this->stream->addItem('GEO:'.$event->getGeo()->getLatitude().';'.$event->getGeo()->getLongitude());
+
+                    if ($event->getUrl())
+                        $this->stream->addItem('URL:'.$event->getUrl());
                     
                     if ($event->getCreated())
                         $this->stream->addItem('CREATED:'.$this->formatter->getFormattedUTCDateTime($event->getCreated()));

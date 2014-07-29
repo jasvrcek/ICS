@@ -117,6 +117,11 @@ class CalendarEvent
     private $alarms = array();
 
     /**
+     * @var string $url
+     */
+    private $url;
+
+    /**
      * @return string
      */
     public function getUid()
@@ -488,5 +493,23 @@ class CalendarEvent
     {
         $this->attendees[] = $attendee;
         return $this;
+    }
+
+    /**
+     * @param string $url
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 }
