@@ -150,6 +150,10 @@ class CalendarExport
                     if ($event->getUrl())
                         $this->stream->addItem('URL:'.$event->getUrl());
                     
+
+                    if ($event->getTimestamp())
+                        $this->stream->addItem('DTSTAMP:'.$this->formatter->getFormattedUTCDateTime($event->getTimestamp()));
+
                     if ($event->getCreated())
                         $this->stream->addItem('CREATED:'.$this->formatter->getFormattedUTCDateTime($event->getCreated()));
                     
