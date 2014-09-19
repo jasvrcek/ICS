@@ -86,7 +86,6 @@ class CalendarEvent
     private $timestamp;
 
     /**
-     * @todo add support in CalendarExport
      * 
      * @var string $status
      */
