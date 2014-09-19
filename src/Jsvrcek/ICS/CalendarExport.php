@@ -131,6 +131,7 @@ class CalendarExport
                     ->addItem('UID:'.$event->getUid())
                     ->addItem('DTSTART:'.$this->formatter->getFormattedUTCDateTime($event->getStart()))
                     ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()))
+                    ->addItem('STATUS:'.$event->getStatus())
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$event->getDescription());
                 
