@@ -67,19 +67,17 @@ class CalendarEvent
     /**
      * @todo add support in CalendarExport
      * 
-     * @var Organizer $organizaer
+     * @var Organizer $organizer
      */
     private $organizer;
 
     /**
-     * @todo add support in CalendarExport
      * 
      * @var string $priority
      */
     private $priority;
 
     /**
-     * @todo add support in CalendarExport
      * 
      * @var \DateTime $timestamp
      */

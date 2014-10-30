@@ -145,6 +145,9 @@ class CalendarExport
                             ->addItem('LOCATION'.$location->getUri().$location->getLanguage().':'.$location->getName());
                     }
                     
+                    if ($event->getPriority() > 0 && $event->getPriority() <= 9)
+                        $this->stream->addItem('PRIORITY:'.$event->getPriority());
+
                     if ($event->getGeo())
                         $this->stream->addItem('GEO:'.$event->getGeo()->getLatitude().';'.$event->getGeo()->getLongitude());
 
