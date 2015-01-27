@@ -1,0 +1,54 @@
+<?php
+
+namespace Jsvrcek\ICS\Tests\Model\Recurrence;
+
+use Jsvrcek\ICS\Model\Recurrence\DataType\Weekday;
+use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
+use Jsvrcek\ICS\Model\Recurrence\DataType\Frequency;
+
+use Jsvrcek\ICS\Utility\Formatter;
+use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+
+class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var RecurrenceRule
+     */
+    protected $object;
+
+    /**
+     * Sets up the fixture, for example, opens a network connection.
+     * This method is called before a test is executed.
+     * @return Rule
+     */
+    protected function setUp()
+    {
+        $this->object = new RecurrenceRule(new Formatter());
+    }
+
+    /**
+     * Tears down the fixture, for example, closes a network connection.
+     * This method is called after a test is executed.
+     */
+    protected function tearDown()
+    {
+    }
+
+    /**
+     * @covers Jsvrcek\ICS\Model\Attendee::__toString()
+     */
+    public function testToString()
+    {
+        $this->object
+            ->setFrequency(new Frequency(Frequency::YEARLY))
+            ->setInterval(2)
+            ->setCount(10)
+            ->addByDay(new WeekdayNum(Weekday::MONDAY, 10, WeekdayNum::COUNT_FROM_START))
+            ->addByDay(new WeekdayNum(Weekday::TUESDAY, 10, WeekdayNum::COUNT_FROM_END))
+        ;
+        
+        $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;COUNT=10;BYDAY=10MO,-10TU';
+        
+        $this->assertEquals($expected, $this->object->__toString());
+    }
+}

@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS;
 
+use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+
 use Jsvrcek\ICS\Utility\Formatter;
 
 use Jsvrcek\ICS\Model\Calendar;
@@ -130,8 +132,12 @@ class CalendarExport
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
                     ->addItem('DTSTART:'.$this->formatter->getFormattedUTCDateTime($event->getStart()))
-                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()))
-                    ->addItem('STATUS:'.$event->getStatus())
+                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()));
+                
+                    if ($event->getRecurrenceRule() instanceof RecurrenceRule)
+                        $this->stream->addItem($event->getRecurrenceRule()->__toString());
+                
+                $this->stream->addItem('STATUS:'.$event->getStatus())
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$event->getDescription());
                 

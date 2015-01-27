@@ -2,6 +2,14 @@
 
 namespace Jsvrcek\ICS\Tests;
 
+use Jsvrcek\ICS\Model\Recurrence\DataType\Weekday;
+
+use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
+
+use Jsvrcek\ICS\Model\Recurrence\DataType\Frequency;
+
+use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+
 use Jsvrcek\ICS\Model\Relationship\Organizer;
 
 use Jsvrcek\ICS\Utility\Formatter;
@@ -43,6 +51,13 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSummary('Oktoberfest at the South Pole')
             ->addAttendee($attendee)
             ->setOrganizer($organizer);
+        
+        $rrule = new RecurrenceRule(new Formatter());
+        $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
+            ->setInterval(2)
+            ->setCount(6)
+            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 2));
+        $event->setRecurrenceRule($rrule);
         
         $cal = new Calendar();
         $cal->setProdId('-//Jsvrcek//ICS//EN')

@@ -2,17 +2,18 @@
 
 namespace Jsvrcek\ICS\Model;
 
+use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
 use Jsvrcek\ICS\Model\Description\Geo;
-
 use Jsvrcek\ICS\Model\Description\Location;
-
 use Jsvrcek\ICS\Model\Relationship\Organizer;
-
 use Jsvrcek\ICS\Model\Relationship\Attendee;
-
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Exception\CalendarEventException;
 
+/**
+ * @author justinsvrcek
+ * http://tools.ietf.org/html/rfc5545#page-52
+ */
 class CalendarEvent
 {
     /**
@@ -32,6 +33,12 @@ class CalendarEvent
      * @var \DateTime $end
      */
     private $end;
+    
+    /**
+     * 
+     * @var RecurrenceRule
+     */
+    private $recurrenceRule;
 
     /**
      * @var string $class
@@ -65,7 +72,6 @@ class CalendarEvent
     private $locations = array();
 
     /**
-     * @todo add support in CalendarExport
      * 
      * @var Organizer $organizer
      */
@@ -185,6 +191,24 @@ class CalendarEvent
         }
         
         $this->end = $end;
+        return $this;
+    }
+    
+    /**
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+     */
+    public function getRecurrenceRule()
+    {
+        return $this->recurrenceRule;
+    }
+    
+    /**
+     * @param RecurrenceRule $recurrenceRule
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setRecurrenceRule(RecurrenceRule $recurrenceRule)
+    {
+        $this->recurrenceRule = $recurrenceRule;
         return $this;
     }
 
