@@ -1,3 +1,5 @@
+[![Build status](https://travis-ci.org/jasvrcek/ICS.svg?branch=master)](https://travis-ci.org/jasvrcek/ICS)
+
 ICS
 ===
 
