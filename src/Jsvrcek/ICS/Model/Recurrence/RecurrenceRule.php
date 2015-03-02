@@ -19,6 +19,8 @@ use Jsvrcek\ICS\Exception\CalendarRecurrenceException;
  */
 class RecurrenceRule
 {
+    const KEY = 'RRULE:';
+    
     /**
      * 
      * @var Frequency
@@ -451,6 +453,48 @@ class RecurrenceRule
     }
     
     /**
+     * parses an RRULE string, hydrates self with values
+     * 
+     * @param string $rRuleString
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+     */
+    public function parse($rRuleString)
+    {
+        //remove RRULE:
+        $string = str_replace(self::KEY, null, $rRuleString);
+        
+        $attributes = explode(';', $string);
+        
+        foreach ($attributes as $attribute)
+        {
+            list($key, $value) = explode('=', $attribute);
+            
+            switch ($key)
+            {
+                case Frequency::KEY:
+                    if ($valueStringKey = array_search($value, Frequency::$values))
+                    {
+                        $this->setFrequency(new Frequency($valueStringKey));
+                    }
+                    else 
+                    {
+                        throw new CalendarRecurrenceException('Unsupported FREQ value in Recurrence Rule (RRULE) string: '.$value);
+                    }
+                    break;
+                    
+                case 'INTERVAL':
+                    $this->setInterval((int)$value);
+                    break;
+                    
+                default:
+                    throw new CalendarRecurrenceException('Unsupported attribute in Recurrence Rule (RRULE) string: '.$key);
+            }
+        }
+        
+        return $this;
+    }
+    
+    /**
      * @return string
      */
     public function __toString()
@@ -469,7 +513,7 @@ class RecurrenceRule
         if ($this->byDayList)
             $items[] = 'BYDAY='.implode(',', $this->byDayList);
         
-        return 'RRULE:'.implode(';', $items);
+        return self::KEY.implode(';', $items);
     }
     
     /**

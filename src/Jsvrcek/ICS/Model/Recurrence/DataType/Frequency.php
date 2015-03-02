@@ -10,6 +10,8 @@ use Jsvrcek\ICS\Exception\CalendarRecurrenceException;
  */
 class Frequency
 {
+    const KEY = 'FREQ';
+    
     const SECONDLY = 1;
     const MINUTELY = 2;
     const HOURLY = 3;
@@ -23,6 +25,16 @@ class Frequency
      * @var integer
      */
     private $freq;
+    
+    public static $values = array(
+                self::SECONDLY => 'SECONDLY',
+                self::MINUTELY => 'MINUTELY',
+                self::HOURLY => 'HOURLY',
+                self::DAILY => 'DAILY',
+                self::WEEKLY => 'WEEKLY',
+                self::MONTHLY => 'MONTHLY',
+                self::YEARLY => 'YEARLY'
+            );
     
     /**
      * @param integer $frequency Frequency::SECONDLY, Frequency::MINUTELY, 
@@ -73,16 +85,6 @@ class Frequency
      */
     public function __toString()
     {
-        $output = array(
-                self::SECONDLY => 'SECONDLY',
-                self::MINUTELY => 'MINUTELY',
-                self::HOURLY => 'HOURLY',
-                self::DAILY => 'DAILY',
-                self::WEEKLY => 'WEEKLY',
-                self::MONTHLY => 'MONTHLY',
-                self::YEARLY => 'YEARLY'
-            );
-        
-        return 'FREQ='.$output[$this->freq];
+        return self::KEY.'='.self::$values[$this->freq];
     }
 }

@@ -28,7 +28,7 @@ class Weekday
      * 
      * @var array
      */
-    protected $weekdayStringList = array(
+    protected $values = array(
                 self::SUNDAY => 'SU', 
                 self::MONDAY => 'MO', 
                 self::TUESDAY => 'TU', 
@@ -87,6 +87,6 @@ class Weekday
      */
     public function __toString()
     {   
-        return $this->weekdayStringList[$this->weekday];
+        return $this->values[$this->weekday];
     }
 }

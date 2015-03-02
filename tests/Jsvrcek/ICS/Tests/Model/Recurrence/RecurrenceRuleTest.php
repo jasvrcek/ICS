@@ -35,7 +35,7 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Jsvrcek\ICS\Model\Attendee::__toString()
+     * @covers Jsvrcek\ICS\Model\Recurrence\RecurrentRule::__toString()
      */
     public function testToString()
     {
@@ -50,5 +50,29 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
         $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;COUNT=10;BYDAY=10MO,-10TU';
         
         $this->assertEquals($expected, $this->object->__toString());
+    }
+    
+    /**
+     * @covers Jsvrcek\ICS\Model\Recurrence\RecurrentRule::parse()
+     * @depends testToString
+     */
+    public function testParse()
+    {
+        //reset instance
+        $this->setUp();
+        
+        $rRuleString = 'RRULE:FREQ=YEARLY;INTERVAL=2';
+        $this->object->parse($rRuleString);
+        $this->assertEquals($rRuleString, $this->object->__toString());
+        
+        $rRuleString = 'RRULE:FREQ=WEEKLY;INTERVAL=4';
+        $this->object->parse($rRuleString);
+        $this->assertEquals($rRuleString, $this->object->__toString());
+        
+        /*
+        $rRuleString = 'RRULE:FREQ=YEARLY;INTERVAL=2;COUNT=10;BYDAY=10MO,-10TU';
+        $this->object->parse($rRuleString);
+        $this->assertEquals($rRuleString, $this->object->__toString());
+        */
     }
 }
