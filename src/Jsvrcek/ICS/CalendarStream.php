@@ -39,6 +39,8 @@ class CalendarStream
      */
     public function addItem($item);
     {
+	$line_breaks=array("\r\n","\n", "\r");
+	$item=str_replace($line_breaks,'\n',$item);
         $this->stream .= wordwrap($item,70,Constants::CRLF.' ',true).Constants::CRLF;
         
         return $this;
