@@ -38,7 +38,7 @@ class CalendarStream
      * @return CalendarStream
      */
     public function addItem($item)
-    {$foo->bar();
+    {
     	$line_breaks = array("\r\n","\n", "\r");
     	$item = str_replace($line_breaks,'\n',$item);
 
