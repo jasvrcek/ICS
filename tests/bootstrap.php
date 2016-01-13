@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('UTC');
+
 function includeIfExists($file)
 {
     if (file_exists($file)) {
