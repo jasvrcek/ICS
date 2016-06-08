@@ -7,7 +7,7 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 
 * This project does not yet support all functionality of the .ics format.
 
-## Usage
+## 1. Basic Usage
 
 	use Jsvrcek\ICS\Model\Calendar;
 	use Jsvrcek\ICS\Model\CalendarEvent;
@@ -52,6 +52,57 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 	//setup exporter
 	$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
 	$calendarExport->addCalendar($calendar);
+	
+	//output .ics formatted text
+	echo $calendarExport->getStream();
+
+## 2. Batch Event Provider
+
+The basic usage example will build the complete .ics string in memory and then echo it all
+at once. This will use a lot of memory for a large calendar. The following example shows 
+how to make CalendarExport::getStream() output each line of the ics file as it is generated, as well as how to set a provider
+for building the event list of a calendar in batches during export. 
+
+(Thank you to Thijs Wijnmaalen at [thijsw](https://github.com/thijsw/ics-large) for inspiration on the batch provider code.)
+
+	use Jsvrcek\ICS\Model\Calendar;
+	use Jsvrcek\ICS\Model\CalendarEvent;
+	
+	use Jsvrcek\ICS\Utility\Formatter;
+	use Jsvrcek\ICS\CalendarStream;
+	use Jsvrcek\ICS\CalendarExport;
+
+	//setup calendar
+	$calendar = new Calendar();
+	$calendar->setProdId('-//My Company//Cool Calendar App//EN');
+	
+	//setup event provider to add events in batches during event iteration in $calendarExport->getStream()
+	$calendar->setEventsProvider(function ($startKey) use ($myDatabase) {
+	
+		//pseudo-code to get a batch of events from database
+		$eventDataArray = $myDatabase->getEventsBatch($startKey);
+		
+		$events = array();
+		
+		foreach ($eventDataArray as $row)
+		{
+			$event = new CalendarEvent();
+			$event->setStart($row['start_date'])
+				->setSummary($row['summary'])
+				->setUid($row['event_uid']);
+			
+			$events[] = $event;
+		}
+		
+		return $events;
+	}); 
+	
+	//setup exporter
+	$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+	$calendarExport->addCalendar($calendar);
+	
+	//set exporter to send items directly to output instead of storing in memory
+	$calendarExport->getStreamObject()->setDoImmediateOutput(true);
 	
 	//output .ics formatted text
 	echo $calendarExport->getStream();
