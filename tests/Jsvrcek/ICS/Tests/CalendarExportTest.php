@@ -50,7 +50,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setEnd(new \DateTime('31 October 2013'))
             ->setSummary('Oktoberfest at the South Pole')
             ->addAttendee($attendee)
-            ->setOrganizer($organizer);
+            ->setOrganizer($organizer)
+            ->setSequence(3);
         
         $rrule = new RecurrenceRule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
@@ -64,8 +65,30 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setTimezone(new \DateTimeZone('Antarctica/McMurdo'))
             ->addEvent($event);
         
+        //create second calendar using batch event provider
+        $calTwo = new Calendar();
+        $calTwo->setProdId('-//Jsvrcek//ICS//EN2')
+            ->setTimezone(new \DateTimeZone('Arctic/Longyearbyen'));
+        
+        $calTwo->setEventsProvider(function($start){
+            $eventOne = new CalendarEvent();
+            $eventOne->setUid('asdfasdf@example.com')
+                ->setStart(new \DateTime('2016-01-01 01:01:01'))
+                ->setEnd(new \DateTime('2016-01-02 01:01:01'))
+                ->setSummary('A long day');
+            
+            $eventTwo = new CalendarEvent();
+            $eventTwo->setUid('asdfasdf@example.com')
+                ->setStart(new \DateTime('2016-01-02 01:01:01'))
+                ->setEnd(new \DateTime('2016-01-03 01:01:01'))
+                ->setSummary('Another long day');
+            
+            return ($start > 0) ? array() : array($eventOne, $eventTwo);
+        });
+        
         $ce = new CalendarExport(new CalendarStream(), new Formatter());
-        $ce->addCalendar($cal);
+        $ce->addCalendar($cal)
+            ->addCalendar($calTwo);
         
         $stream = $ce->getStream();
         

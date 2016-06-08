@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS\Model;
 
+use Jsvrcek\ICS\Utility\Provider;
+
 class Calendar
 {
     /**
@@ -39,24 +41,24 @@ class Calendar
      * @var \DateTimeZone $timezone
      */
     private $timezone;
-
-    /**
-     *
-     * @var array $events
-     */
-    private $events = array();
     
     /**
      * 
-     * @var array $todos
+     * @var Provider
      */
-    private $todos = array();
+    private $events;
     
     /**
      * 
-     * @var array $freeBusy
+     * @var Provider
      */
-    private $freeBusy = array();
+    private $todos;
+    
+    /**
+     * 
+     * @var Provider
+     */
+    private $freeBusy;
 
     /**
      * 
@@ -64,6 +66,33 @@ class Calendar
     public function __construct()
     {
         $this->timezone = new \DateTimeZone('America/New_York');
+        $this->events = new Provider();
+        $this->todos = new Provider();
+        $this->freeBusy = new Provider();
+    }
+    
+    /**
+     * For use if you want CalendarExport::getStream to get events in batches from a database during
+     * the output of the ics feed, instead of adding all events to the Calendar object before outputting
+     * the ics feed. 
+     * - CalendarExport::getStream iterates through the Calendar::$events internal data array. The $eventsProvider 
+     *     closure will be called every time this data array reaches its end during iteration, and the closure should
+     *     return the next batch of events 
+     * - A $startKey argument with the current key of the data array will be passed to the $eventsProvider closure
+     * - The $eventsProvider must return an array of CalendarEvent objects
+     * 
+     *  Example: Calendar::setEventsProvider(function($startKey){
+     *      //get database rows starting with $startKey
+     *      //return an array of CalendarEvent objects
+     *  })
+     * 
+     * @param \Closure $eventsProvider
+     * @return \Jsvrcek\ICS\Model\Calendar
+     */
+    public function setEventsProvider(\Closure $eventsProvider)
+    {
+        $this->events = new Provider($eventsProvider);
+        return $this;
     }
 
     /**
@@ -189,7 +218,7 @@ class Calendar
     }
 
     /**
-     * @return array
+     * @return Provider
      */
     public function getEvents()
     {
@@ -202,7 +231,7 @@ class Calendar
      */
     public function addEvent(CalendarEvent $event)
     {
-        $this->events[] = $event;
+        $this->events->add($event);
         return $this;
     }
     

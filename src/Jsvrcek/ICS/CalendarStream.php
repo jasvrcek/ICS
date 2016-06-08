@@ -9,12 +9,27 @@ class CalendarStream
     //length of line in bytes
     const LINE_LENGTH = 70;
     
+    /**
+     * echo items as they are set rather than building stream in memory, for use with streaming a large calendar 
+     * 
+     * @var boolean
+     */
+    private $doImmediateOutput = false;
     
     /**
      * 
      * @var string
      */
     private $stream = '';
+    
+    
+    /**
+     * @param boolean $doImmediateOutput
+     */
+    public function setDoImmediateOutput($doImmediateOutput)
+    {
+        $this->doImmediateOutput = $doImmediateOutput;
+    }
     
     /**
      * resets stream to blank string
@@ -39,9 +54,6 @@ class CalendarStream
      */
     public function addItem($item)
     {
-    	$line_breaks = array("\r\n","\n", "\r");
-    	$item = str_replace($line_breaks,'\n',$item);
-
         //get number of bytes
         $length = strlen($item);
         
@@ -66,6 +78,12 @@ class CalendarStream
         }
     
         $this->stream .= $block.Constants::CRLF;
+        
+        if ($this->doImmediateOutput)
+        {
+            echo $this;
+            $this->reset();
+        }
         
         return $this;
     }

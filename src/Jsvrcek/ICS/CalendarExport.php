@@ -39,6 +39,14 @@ class CalendarExport
         $this->stream = $stream;
         $this->formatter = $formatter;
     }
+    
+    /**
+     * @return CalendarStream
+     */
+    public function getStreamObject()
+    {
+        return $this->stream;
+    }
 
     /**
      * @return string
@@ -136,7 +144,10 @@ class CalendarExport
                 
                     if ($event->getRecurrenceRule() instanceof RecurrenceRule)
                         $this->stream->addItem($event->getRecurrenceRule()->__toString());
-                
+                    
+                    if ($event->getSequence())
+                        $this->stream->addItem('SEQUENCE:'.$event->getSequence());
+                    
                 $this->stream->addItem('STATUS:'.$event->getStatus())
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$event->getDescription());

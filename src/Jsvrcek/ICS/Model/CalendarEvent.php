@@ -109,6 +109,12 @@ class CalendarEvent
     
     /**
      * 
+     * @var integer
+     */
+    private $sequence;
+    
+    /**
+     * 
      * @var array $attendees
      */
     private $attendees = array();
@@ -484,6 +490,24 @@ class CalendarEvent
     public function setRecuringId($recuringId)
     {
         $this->recuringId = $recuringId;
+        return $this;
+    }
+    
+    /**
+     * @return integer
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+    
+    /**
+     * @param integer $sequence
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
         return $this;
     }
 
