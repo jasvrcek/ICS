@@ -9,52 +9,54 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 
 ## 1. Basic Usage
 
-	use Jsvrcek\ICS\Model\Calendar;
-	use Jsvrcek\ICS\Model\CalendarEvent;
-	use Jsvrcek\ICS\Model\Relationship\Attendee;
-	use Jsvrcek\ICS\Model\Relationship\Organizer;
+```php
+use Jsvrcek\ICS\Model\Calendar;
+use Jsvrcek\ICS\Model\CalendarEvent;
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+use Jsvrcek\ICS\Model\Relationship\Organizer;
+
+use Jsvrcek\ICS\Utility\Formatter;
+use Jsvrcek\ICS\CalendarStream;
+use Jsvrcek\ICS\CalendarExport;
+
+//setup an event
+$eventOne = new CalendarEvent();
+$eventOne->setStart(new \DateTime())
+	->setSummary('Family reunion')
+	->setUid('event-uid');
 	
-	use Jsvrcek\ICS\Utility\Formatter;
-	use Jsvrcek\ICS\CalendarStream;
-	use Jsvrcek\ICS\CalendarExport;
-	
-	//setup an event
-	$eventOne = new CalendarEvent();
-	$eventOne->setStart(new \DateTime())
-		->setSummary('Family reunion')
-		->setUid('event-uid');
-		
-	//add an Attendee
-	$attendee = new Attendee(new Formatter());
-	$attendee->setValue('moe@example.com')
-		->setName('Moe Smith');
-	$eventOne->addAttendee($attendee);
-	
-	//set the Organizer
-	$organizer = new Organizer(new Formatter());
-	$organizer->setValue('heidi@example.com')
-		->setName('Heidi Merkell')
-		->setLanguage('de');
-	$eventOne->setOrganizer($organizer);
-	
-	//new event
-	$eventTwo = new CalendarEvent();
-	$eventTwo->setStart(new \DateTime())
-		->setSummary('Dentist Appointment')
-		->setUid('event-uid');
-	
-	//setup calendar
-	$calendar = new Calendar();
-	$calendar->setProdId('-//My Company//Cool Calendar App//EN')
-		->addEvent($eventOne)
-		->addEvent($eventTwo);
-	
-	//setup exporter
-	$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
-	$calendarExport->addCalendar($calendar);
-	
-	//output .ics formatted text
-	echo $calendarExport->getStream();
+//add an Attendee
+$attendee = new Attendee(new Formatter());
+$attendee->setValue('moe@example.com')
+	->setName('Moe Smith');
+$eventOne->addAttendee($attendee);
+
+//set the Organizer
+$organizer = new Organizer(new Formatter());
+$organizer->setValue('heidi@example.com')
+	->setName('Heidi Merkell')
+	->setLanguage('de');
+$eventOne->setOrganizer($organizer);
+
+//new event
+$eventTwo = new CalendarEvent();
+$eventTwo->setStart(new \DateTime())
+	->setSummary('Dentist Appointment')
+	->setUid('event-uid');
+
+//setup calendar
+$calendar = new Calendar();
+$calendar->setProdId('-//My Company//Cool Calendar App//EN')
+	->addEvent($eventOne)
+	->addEvent($eventTwo);
+
+//setup exporter
+$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+$calendarExport->addCalendar($calendar);
+
+//output .ics formatted text
+echo $calendarExport->getStream();
+```
 
 ## 2. Batch Event Provider
 
@@ -65,47 +67,49 @@ for building the event list of a calendar in batches during export.
 
 (Thank you to Thijs Wijnmaalen at [thijsw](https://github.com/thijsw/ics-large) for inspiration on the batch provider code.)
 
-	use Jsvrcek\ICS\Model\Calendar;
-	use Jsvrcek\ICS\Model\CalendarEvent;
-	
-	use Jsvrcek\ICS\Utility\Formatter;
-	use Jsvrcek\ICS\CalendarStream;
-	use Jsvrcek\ICS\CalendarExport;
+```php
+use Jsvrcek\ICS\Model\Calendar;
+use Jsvrcek\ICS\Model\CalendarEvent;
 
-	//setup calendar
-	$calendar = new Calendar();
-	$calendar->setProdId('-//My Company//Cool Calendar App//EN');
+use Jsvrcek\ICS\Utility\Formatter;
+use Jsvrcek\ICS\CalendarStream;
+use Jsvrcek\ICS\CalendarExport;
+
+//setup calendar
+$calendar = new Calendar();
+$calendar->setProdId('-//My Company//Cool Calendar App//EN');
+
+//setup event provider to add events in batches during event iteration in $calendarExport->getStream()
+$calendar->setEventsProvider(function ($startKey) use ($myDatabase) {
+
+	//pseudo-code to get a batch of events from database
+	$eventDataArray = $myDatabase->getEventsBatch($startKey);
 	
-	//setup event provider to add events in batches during event iteration in $calendarExport->getStream()
-	$calendar->setEventsProvider(function ($startKey) use ($myDatabase) {
+	$events = array();
 	
-		//pseudo-code to get a batch of events from database
-		$eventDataArray = $myDatabase->getEventsBatch($startKey);
+	foreach ($eventDataArray as $row)
+	{
+		$event = new CalendarEvent();
+		$event->setStart($row['start_date'])
+			->setSummary($row['summary'])
+			->setUid($row['event_uid']);
 		
-		$events = array();
-		
-		foreach ($eventDataArray as $row)
-		{
-			$event = new CalendarEvent();
-			$event->setStart($row['start_date'])
-				->setSummary($row['summary'])
-				->setUid($row['event_uid']);
-			
-			$events[] = $event;
-		}
-		
-		return $events;
-	}); 
+		$events[] = $event;
+	}
 	
-	//setup exporter
-	$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
-	$calendarExport->addCalendar($calendar);
-	
-	//set exporter to send items directly to output instead of storing in memory
-	$calendarExport->getStreamObject()->setDoImmediateOutput(true);
-	
-	//output .ics formatted text
-	echo $calendarExport->getStream();
+	return $events;
+}); 
+
+//setup exporter
+$calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+$calendarExport->addCalendar($calendar);
+
+//set exporter to send items directly to output instead of storing in memory
+$calendarExport->getStreamObject()->setDoImmediateOutput(true);
+
+//output .ics formatted text
+echo $calendarExport->getStream();
+```
 
 ## Todos
 
