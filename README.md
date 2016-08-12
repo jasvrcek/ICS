@@ -113,7 +113,6 @@ echo $calendarExport->getStream();
 
 ## Todos
 
-* Jsvrcek\ICS\Model\CalendarAlarm
 * Jsvrcek\ICS\Model\CalendarTodo
 
 ## Reference
