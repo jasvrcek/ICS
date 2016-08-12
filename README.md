@@ -65,8 +65,6 @@ at once. This will use a lot of memory for a large calendar. The following examp
 how to make CalendarExport::getStream() output each line of the ics file as it is generated, as well as how to set a provider
 for building the event list of a calendar in batches during export. 
 
-(Thank you to Thijs Wijnmaalen at [thijsw](https://github.com/thijsw/ics-large) for inspiration on the batch provider code.)
-
 ```php
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
@@ -118,6 +116,11 @@ echo $calendarExport->getStream();
 ## Reference
  
  * http://tools.ietf.org/html/rfc5545
+
+## Credits
+
+ * Alex Balhatchet at [kaoru](https://github.com/kaoru) implemented CalendarAlarm.
+ * Thijs Wijnmaalen at [thijsw](https://github.com/thijsw/ics-large) provided inspiration on the batch provider code.
 
 ## License
 
