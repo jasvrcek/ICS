@@ -72,4 +72,27 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
         $actual = $ce->getFormattedUri('test@example.com');
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @covers Jsvrcek\ICS\Formatter::getFormattedDateInterval
+     */
+    public function testGetFormattedDateInterval()
+    {
+        $ce = new Formatter();
+
+        $tests = [
+            "PT15M",
+            "PT1H",
+            "P345D",
+            "P1Y6M29DT4H34M23S"
+        ];
+
+        foreach ($tests as $test) {
+            $this->assertEquals(
+                $test,
+                $ce->getFormattedDateInterval(new \DateInterval($test)),
+                $test
+            );
+        }
+    }
 }

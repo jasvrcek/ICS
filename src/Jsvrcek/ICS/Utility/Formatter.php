@@ -46,5 +46,28 @@ class Formatter
         
         return $uri;
     }
-    
+
+    /**
+     * converts DateInterval object to string that can be used for a VALARM DURATION
+     * @param \DateInterval $interval
+     * @return string
+     */
+    public function getFormattedDateInterval(\DateInterval $interval)
+    {
+        $format = "P";
+
+        if ($interval->y) { $format .= '%yY'; }
+        if ($interval->m) { $format .= '%mM'; }
+        if ($interval->d) { $format .= '%dD'; }
+
+        if ($interval->h || $interval->i || $interval->s) {
+            $format .= "T";
+        }
+
+        if ($interval->h) { $format .= '%hH'; }
+        if ($interval->i) { $format .= '%iM'; }
+        if ($interval->s) { $format .= '%sS'; }
+
+        return $interval->format($format);
+    }
 }
