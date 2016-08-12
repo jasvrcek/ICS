@@ -2,6 +2,7 @@
 
 namespace Jsvrcek\ICS\Tests;
 
+use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\Recurrence\DataType\Weekday;
 
 use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
@@ -59,6 +60,31 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setCount(6)
             ->addByDay(new WeekdayNum(Weekday::SATURDAY, 2));
         $event->setRecurrenceRule($rrule);
+
+        //add an alarms to this event
+        $alarmAudio = new CalendarAlarm();
+        $alarmAudio->setAction("audio");
+        $alarmAudio->setTrigger($event->getStart());
+        $alarmAudio->addAttachment("FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud");
+        $event->addAlarm($alarmAudio);
+
+        $alarmDisplay = new CalendarAlarm();
+        $alarmDisplay->setAction("display");
+        $alarmDisplay->setTrigger($event->getStart());
+        $alarmDisplay->setRepeat(3);
+        $alarmDisplay->setDuration(new \DateInterval('PT15M'));
+        $alarmDisplay->setDescription("DESCRIPTION");
+        $event->addAlarm($alarmDisplay);
+
+        $alarmEmail = new CalendarAlarm();
+        $alarmEmail->setAction('email');
+        $alarmEmail->setTrigger($event->getStart());
+        $alarmEmail->addAttendee($attendee);
+        $alarmEmail->setSummary("EMAIL SUBJECT");
+        $alarmEmail->setDescription("EMAIL BODY");
+        $alarmEmail->addAttachment("FMTTYPE=application/msword:http://example.com/agenda.docx");
+        $alarmEmail->addAttachment("FMTTYPE=application/pdf:http://example.com/agenda.pdf");
+        $event->addAlarm($alarmEmail);
         
         $cal = new Calendar();
         $cal->setProdId('-//Jsvrcek//ICS//EN')
