@@ -208,7 +208,8 @@ class CalendarExport
                         switch ($alarm->getAction())
                         {
                             case 'AUDIO':
-                                $this->stream->addItem('ATTACH;'.$alarm->getAttachments()[0]);
+                                $attachments = $alarm->getAttachments();
+                                $this->stream->addItem('ATTACH;'.$attachments[0]);
                                 break;
                             case 'DISPLAY':
                                 $this->stream->addItem('DESCRIPTION:'.$alarm->getDescription());

@@ -80,12 +80,12 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     {
         $ce = new Formatter();
 
-        $tests = [
+        $tests = array(
             "PT15M",
             "PT1H",
             "P345D",
             "P1Y6M29DT4H34M23S"
-        ];
+        );
 
         foreach ($tests as $test) {
             $this->assertEquals(
