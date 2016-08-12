@@ -2,6 +2,7 @@
 
 namespace Jsvrcek\ICS;
 
+use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
 
 use Jsvrcek\ICS\Utility\Formatter;
@@ -188,6 +189,50 @@ class CalendarExport
                     
                     if ($event->getOrganizer())
                         $this->stream->addItem($event->getOrganizer()->__toString());
+
+                    /** @var CalendarAlarm $alarm */
+                    foreach ($event->getAlarms() as $alarm)
+                    {
+                        //basic requirements for all types of alarm
+                        $this->stream->addItem('BEGIN:VALARM')
+                            ->addItem('TRIGGER;VALUE=DATE-TIME:'.$this->formatter->getFormattedUTCDateTime($alarm->getTrigger()))
+                            ->addItem('ACTION:'.$alarm->getAction());
+
+                        //only handle repeats if both repeat and duration are set
+                        if ($alarm->getRepeat() && $alarm->getDuration()) {
+                            $this->stream->addItem('REPEAT:'.$alarm->getRepeat())
+                                ->addItem('DURATION:'.$this->formatter->getFormattedDateInterval($alarm->getDuration()));
+                        }
+
+                        //action specific logic
+                        switch ($alarm->getAction())
+                        {
+                            case 'AUDIO':
+                                $this->stream->addItem('ATTACH;'.$alarm->getAttachments()[0]);
+                                break;
+                            case 'DISPLAY':
+                                $this->stream->addItem('DESCRIPTION:'.$alarm->getDescription());
+                                break;
+                            case 'EMAIL':
+                                $this->stream->addItem('SUMMARY:'.$alarm->getSummary())
+                                    ->addItem('DESCRIPTION:'.$alarm->getDescription());
+
+                                foreach ($alarm->getAttendees() as $attendee)
+                                {
+                                    $this->stream->addItem($attendee->__toString());
+                                }
+                                foreach ($alarm->getAttachments() as $attachment)
+                                {
+                                    $this->stream->addItem('ATTACH;'.$attachment);
+                                }
+                                break;
+                            default:
+                                throw new \Exception("Unknown ALARM action: '{$alarm->getAction()}'");
+                                break;
+                        }
+
+                        $this->stream->addItem('END:VALARM');
+                    }
                 
                 $this->stream->addItem('END:VEVENT');
             }
