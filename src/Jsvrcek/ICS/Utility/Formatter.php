@@ -33,6 +33,15 @@ class Formatter
         return $dateTime->setTimezone(new \DateTimeZone('UTC'))
                     ->format('Ymd\THis\Z');
     }
+
+    /**
+     * @param \DateTime $dateTime
+     * @return string
+     */
+    public function getFormattedDate(\DateTime $dateTime)
+    {
+        return $dateTime->format('Ymd');
+    }
     
     /**
      * converts email addresses into mailto: uri

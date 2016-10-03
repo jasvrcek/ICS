@@ -131,6 +131,27 @@ class CalendarEvent
     private $url;
 
     /**
+     * @var boolean
+     */
+    private $allDay = false;
+
+    /**
+     * @return boolean
+     */
+    public function isAllDay()
+    {
+        return $this->allDay;
+    }
+
+    /**
+     * @param boolean $allDay
+     */
+    public function setAllDay($allDay)
+    {
+        $this->allDay = $allDay;
+    }
+
+    /**
      * @return string
      */
     public function getUid()

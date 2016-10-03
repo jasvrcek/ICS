@@ -138,10 +138,18 @@ class CalendarExport
             /* @var $event CalendarEvent */
             foreach ($cal->getEvents() as $event)
             {
+                $dtStart = $event->isAllDay() ?
+                    $this->formatter->getFormattedDate($event->getStart()) : 
+                    $this->formatter->getFormattedUTCDateTime($event->getStart());
+
+                $dtEnd   = $event->isAllDay() ?
+                    $this->formatter->getFormattedDate($event->getEnd()) :
+                    $this->formatter->getFormattedUTCDateTime($event->getEnd());
+
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
-                    ->addItem('DTSTART:'.$this->formatter->getFormattedUTCDateTime($event->getStart()))
-                    ->addItem('DTEND:'.$this->formatter->getFormattedUTCDateTime($event->getEnd()));
+                    ->addItem('DTSTART:'. $dtStart)
+                    ->addItem('DTEND:'. $dtEnd);
                 
                     if ($event->getRecurrenceRule() instanceof RecurrenceRule)
                         $this->stream->addItem($event->getRecurrenceRule()->__toString());
