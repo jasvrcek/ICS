@@ -16,5 +16,10 @@
         "psr-4": {
             "Jsvrcek\\ICS\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jsvrcek\\ICS\\Test\\": "src/"
+        }
     }
 }
