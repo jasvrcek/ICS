@@ -1,9 +1,8 @@
 {
-    "name":     "jsvrcek/ics",
-    "type":     "library",
+    "name": "jsvrcek/ics",
+    "license": "MIT",
     "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
     "keywords": ["ical", "calendar", "export", ".ics", "RFC 5545", "multi-byte safe"],
-    "license": "MIT",
     "homepage": "https://github.com/jasvrcek/ICS",
     "authors":  [
         {
@@ -15,6 +14,13 @@
         "php": ">=5.3.0"
     },
     "autoload": {
-        "psr-0": { "Jsvrcek\\ICS\\": "src/" }
+        "psr-4": {
+            "Jsvrcek\\ICS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jsvrcek\\ICS\\Test\\": "src/"
+        }
     }
 }
