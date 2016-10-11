@@ -54,7 +54,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSummary('Oktoberfest at the South Pole')
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
-            ->setSequence(3);
+            ->setSequence(3)
+            ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
@@ -104,13 +105,15 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             $eventOne->setUid('asdfasdf@example.com')
                 ->setStart(new \DateTime('2016-01-01 01:01:01', $timezone))
                 ->setEnd(new \DateTime('2016-01-02 01:01:01', $timezone))
-                ->setSummary('A long day');
+                ->setSummary('A long day')
+                ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
             $eventTwo = new CalendarEvent();
             $eventTwo->setUid('asdfasdf@example.com')
                 ->setStart(new \DateTime('2016-01-02 01:01:01', $timezone))
                 ->setEnd(new \DateTime('2016-01-03 01:01:01', $timezone))
-                ->setSummary('Another long day');
+                ->setSummary('Another long day')
+                ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
             return ($start > 0) ? array() : array($eventOne, $eventTwo);
         });
