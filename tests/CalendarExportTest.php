@@ -30,6 +30,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStream()
     {
+        $timezone = new \DateTimeZone('Antarctica/McMurdo');
+        
         $organizer = new Organizer(new Formatter());
         $organizer->setValue('sue@example.com')
             ->setName('Sue Jones')
@@ -47,8 +49,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $event = new CalendarEvent();
         $event->setUid('lLKjd89283oja89282lkjd8@example.com')
-            ->setStart(new \DateTime('1 October 2013'))
-            ->setEnd(new \DateTime('31 October 2013'))
+            ->setStart(new \DateTime('1 October 2013', $timezone))
+            ->setEnd(new \DateTime('31 October 2013', $timezone))
             ->setSummary('Oktoberfest at the South Pole')
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
@@ -88,25 +90,26 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $cal = new Calendar();
         $cal->setProdId('-//Jsvrcek//ICS//EN')
-            ->setTimezone(new \DateTimeZone('Antarctica/McMurdo'))
+            ->setTimezone($timezone)
             ->addEvent($event);
 
         //create second calendar using batch event provider
+        $timezone = new \DateTimeZone('Arctic/Longyearbyen');
         $calTwo = new Calendar();
         $calTwo->setProdId('-//Jsvrcek//ICS//EN2')
-            ->setTimezone(new \DateTimeZone('Arctic/Longyearbyen'));
+            ->setTimezone($timezone);
 
-        $calTwo->setEventsProvider(function($start){
+        $calTwo->setEventsProvider(function($start) use ($timezone){
             $eventOne = new CalendarEvent();
             $eventOne->setUid('asdfasdf@example.com')
-                ->setStart(new \DateTime('2016-01-01 01:01:01'))
-                ->setEnd(new \DateTime('2016-01-02 01:01:01'))
+                ->setStart(new \DateTime('2016-01-01 01:01:01', $timezone))
+                ->setEnd(new \DateTime('2016-01-02 01:01:01', $timezone))
                 ->setSummary('A long day');
 
             $eventTwo = new CalendarEvent();
             $eventTwo->setUid('asdfasdf@example.com')
-                ->setStart(new \DateTime('2016-01-02 01:01:01'))
-                ->setEnd(new \DateTime('2016-01-03 01:01:01'))
+                ->setStart(new \DateTime('2016-01-02 01:01:01', $timezone))
+                ->setEnd(new \DateTime('2016-01-03 01:01:01', $timezone))
                 ->setSummary('Another long day');
 
             return ($start > 0) ? array() : array($eventOne, $eventTwo);
@@ -118,7 +121,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $stream = $ce->getStream();
 
-        //file_put_contents(__DIR__.'/../../../test.ics', $stream);
+        //file_put_contents(__DIR__.'/test.ics', $stream);
 
         $expected = file_get_contents(__DIR__.'/test.ics');
 
