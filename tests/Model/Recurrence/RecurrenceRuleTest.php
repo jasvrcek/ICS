@@ -45,9 +45,10 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
             ->setCount(10)
             ->addByDay(new WeekdayNum(Weekday::MONDAY, 10, WeekdayNum::COUNT_FROM_START))
             ->addByDay(new WeekdayNum(Weekday::TUESDAY, 10, WeekdayNum::COUNT_FROM_END))
+            ->setUntil(new \DateTime('2050-01-01 00:00:00', new \DateTimeZone('UTC')))
         ;
         
-        $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;COUNT=10;BYDAY=10MO,-10TU';
+        $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;UNTIL=20500101T000000Z;COUNT=10;BYDAY=10MO,-10TU';
         
         $this->assertEquals($expected, $this->object->__toString());
     }
@@ -66,6 +67,10 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($rRuleString, $this->object->__toString());
         
         $rRuleString = 'RRULE:FREQ=WEEKLY;INTERVAL=4';
+        $this->object->parse($rRuleString);
+        $this->assertEquals($rRuleString, $this->object->__toString());
+        
+        $rRuleString = 'RRULE:FREQ=WEEKLY;INTERVAL=4;UNTIL=20500101T000000Z';
         $this->object->parse($rRuleString);
         $this->assertEquals($rRuleString, $this->object->__toString());
         
