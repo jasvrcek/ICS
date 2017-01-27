@@ -30,7 +30,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStream()
     {
-        $timezone = new \DateTimeZone('America/New_York');
+        $timezone = new \DateTimeZone('Antarctica/McMurdo');
         
         $organizer = new Organizer(new Formatter());
         $organizer->setValue('sue@example.com')
