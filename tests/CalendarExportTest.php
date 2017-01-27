@@ -30,7 +30,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStream()
     {
-        $timezone = new \DateTimeZone('Antarctica/McMurdo');
+        $timezone = new \DateTimeZone('America/New_York');
         
         $organizer = new Organizer(new Formatter());
         $organizer->setValue('sue@example.com')
@@ -49,9 +49,9 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $event = new CalendarEvent();
         $event->setUid('lLKjd89283oja89282lkjd8@example.com')
-            ->setStart(new \DateTime('1 October 2013', $timezone))
-            ->setEnd(new \DateTime('31 October 2013', $timezone))
-            ->setSummary('Oktoberfest at the South Pole')
+            ->setStart(new \DateTime('4 October 2013 12:00:00', $timezone))
+            ->setEnd(new \DateTime('4 October 2013 22:00:00', $timezone))
+            ->setSummary('Poker night at the South Pole')
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
             ->setSequence(3)
@@ -60,8 +60,12 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $rrule = new RecurrenceRule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
             ->setInterval(2)
-            ->setCount(6)
-            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 2));
+            ->setCount(40)
+            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 1))
+            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 2))
+            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 3))
+            ->addByDay(new WeekdayNum(Weekday::SATURDAY, 4))
+            ->addByDay(new WeekdayNum(Weekday::FRIDAY, 1));
         $event->setRecurrenceRule($rrule);
 
         //add an alarms to this event
@@ -88,11 +92,28 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $alarmEmail->addAttachment("FMTTYPE=application/msword:http://example.com/agenda.docx");
         $alarmEmail->addAttachment("FMTTYPE=application/pdf:http://example.com/agenda.pdf");
         $event->addAlarm($alarmEmail);
+        
+        //test exception dates
+        $eventTwo = new CalendarEvent();
+        $eventTwo->setUid('eventtwo@example.com')
+            ->setStart(new \DateTime('2 October 2013', $timezone))
+            ->setSummary('Every Wednesday event')
+            ->setTimestamp(new \DateTime('1 September 2013', $timezone));
+        
+        $rrule = new RecurrenceRule(new Formatter());
+        $rrule->setFrequency(new Frequency(Frequency::WEEKLY));
+        
+        $eventTwo->setRecurrenceRule($rrule);
+        
+        //add exception dates to the event recurrence
+        $eventTwo->addExceptionDate(new \DateTime('16 October 2013', $timezone))
+            ->addExceptionDate(new \DateTime('30 October 2013', $timezone));
 
         $cal = new Calendar();
         $cal->setProdId('-//Jsvrcek//ICS//EN')
             ->setTimezone($timezone)
-            ->addEvent($event);
+            ->addEvent($event)
+            ->addEvent($eventTwo);
 
         //create second calendar using batch event provider
         $timezone = new \DateTimeZone('Arctic/Longyearbyen');

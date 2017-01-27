@@ -154,6 +154,11 @@ class CalendarExport
                     if ($event->getRecurrenceRule() instanceof RecurrenceRule)
                         $this->stream->addItem($event->getRecurrenceRule()->__toString());
                     
+                    foreach ($event->getExceptionDates() as $date)
+                    {
+                        $this->stream->addItem('EXDATE:'.$this->formatter->getFormattedDateTime($date));
+                    }
+                    
                     if ($event->getSequence())
                         $this->stream->addItem('SEQUENCE:'.$event->getSequence());
                     

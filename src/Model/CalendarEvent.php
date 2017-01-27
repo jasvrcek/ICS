@@ -39,6 +39,14 @@ class CalendarEvent
      * @var RecurrenceRule
      */
     private $recurrenceRule;
+    
+    /**
+     * array of dates to skip
+     * https://tools.ietf.org/html/rfc5545#page-120
+     * 
+     * @var array
+     */
+    private $exceptionDates = array();
 
     /**
      * @var string $class
@@ -236,6 +244,34 @@ class CalendarEvent
     public function setRecurrenceRule(RecurrenceRule $recurrenceRule)
     {
         $this->recurrenceRule = $recurrenceRule;
+        return $this;
+    }
+    
+    /**
+     * array of DateTime instances
+     * @param array $dates
+     */
+    public function setExceptionDates(array $dates)
+    {
+        $this->exceptionDates = $dates;
+        return $this;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getExceptionDates()
+    {
+        return $this->exceptionDates;
+    }
+    
+    /**
+     * @param \DateTime $date
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addExceptionDate(\DateTime $date)
+    {
+        $this->exceptionDates[] = $date;
         return $this;
     }
 

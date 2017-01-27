@@ -3,14 +3,18 @@
 namespace Jsvrcek\ICS\Utility;
 
 class Formatter
-{    
+{
+    const DATE_TIME = 'Ymd\THis';
+    const DATE_TIME_UTC = 'Ymd\THis\Z';
+    const DATE = 'Ymd';
+    
     /**
      * @param \DateTime $dateTime
      * @return string
      */
     public function getFormattedDateTime(\DateTime $dateTime)
     {
-        return $dateTime->format('Ymd\THis');
+        return $dateTime->format(self::DATE_TIME);
     }
     
     /**
@@ -31,7 +35,7 @@ class Formatter
     public function getFormattedUTCDateTime(\DateTime $dateTime)
     {
         return $dateTime->setTimezone(new \DateTimeZone('UTC'))
-                    ->format('Ymd\THis\Z');
+                    ->format(self::DATE_TIME_UTC);
     }
 
     /**
@@ -40,7 +44,7 @@ class Formatter
      */
     public function getFormattedDate(\DateTime $dateTime)
     {
-        return $dateTime->format('Ymd');
+        return $dateTime->format(self::DATE);
     }
     
     /**
