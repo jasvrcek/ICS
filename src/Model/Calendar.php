@@ -105,7 +105,7 @@ class Calendar
 
     /**
      * @param string $version
-     * @return Calendar
+     * @return \Jsvrcek\ICS\Model\Calendar
      */
     public function setVersion($version)
     {
@@ -245,7 +245,7 @@ class Calendar
     
     /**
      * @param CalendarTodo $todo
-     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     * @return \Jsvrcek\ICS\Model\Calendar
      */
     public function addTodo(CalendarTodo $todo)
     {
@@ -255,7 +255,7 @@ class Calendar
     
     /**
      * @param array $todos
-     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     * @return \Jsvrcek\ICS\Model\Calendar
      */
     public function setTodos(array $todos)
     {
@@ -273,7 +273,7 @@ class Calendar
     
     /**
      * @param CalendarFreeBusy $todo
-     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     * @return \Jsvrcek\ICS\Model\Calendar
      */
     public function addFreeBusy(CalendarFreeBusy $todo)
     {
@@ -283,7 +283,7 @@ class Calendar
     
     /**
      * @param array $freeBusy
-     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     * @return \Jsvrcek\ICS\Model\Calendar
      */
     public function setFreeBusy(array $freeBusy)
     {

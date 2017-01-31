@@ -60,7 +60,7 @@ class Weekday
 
     /**
      * @param integer $weekday
-     * @return Weekday
+     * @return \Jsvrcek\ICS\Model\Recurrence\DataType\Weekday
      */
     public function setWeekday($weekday)
     {
