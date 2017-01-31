@@ -58,7 +58,7 @@ class Frequency
 
     /**
      * @param integer $freq
-     * @return Frequency
+     * @return \Jsvrcek\ICS\Model\Recurrence\DataType\Frequency
      */
     public function setFreq($freq)
     {

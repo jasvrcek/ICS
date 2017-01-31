@@ -153,10 +153,12 @@ class CalendarEvent
 
     /**
      * @param boolean $allDay
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
     public function setAllDay($allDay)
     {
         $this->allDay = $allDay;
+        return $this;
     }
 
     /**
@@ -585,6 +587,7 @@ class CalendarEvent
     public function setAttendees(array $attendees)
     {
         $this->attendees = $attendees;
+        return $this;
     }
     
     /**

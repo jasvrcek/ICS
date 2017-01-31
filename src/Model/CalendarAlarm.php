@@ -80,6 +80,7 @@ class CalendarAlarm
 
     /**
      * @return string
+     *
      */
     public function getAction()
     {
@@ -88,11 +89,13 @@ class CalendarAlarm
 
     /**
      * @param string $action
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setAction($action)
     {
         $action = strtoupper($action);
         $this->action = $action;
+        return $this;
     }
 
     /**
@@ -105,10 +108,12 @@ class CalendarAlarm
 
     /**
      * @param \DateTime $trigger
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setTrigger($trigger)
     {
         $this->trigger = $trigger;
+        return $this;
     }
 
     /**
@@ -121,15 +126,17 @@ class CalendarAlarm
 
     /**
      * @param array $attachments
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setAttachments($attachments)
     {
         $this->attachments = $attachments;
+        return $this;
     }
 
     /**
      * @param string $attachment
-     * @return CalendarAlarm
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function addAttachment($attachment)
     {
@@ -147,10 +154,12 @@ class CalendarAlarm
 
     /**
      * @param string $description
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
@@ -163,10 +172,12 @@ class CalendarAlarm
 
     /**
      * @param string $summary
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setSummary($summary)
     {
         $this->summary = $summary;
+        return $this;
     }
 
     /**
@@ -179,15 +190,17 @@ class CalendarAlarm
 
     /**
      * @param array $attendees array of Attendee objects
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setAttendees(array $attendees)
     {
         $this->attendees = $attendees;
+        return $this;
     }
 
     /**
      * @param Attendee $attendee
-     * @return CalendarAlarm
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function addAttendee(Attendee $attendee)
     {
@@ -205,10 +218,12 @@ class CalendarAlarm
 
     /**
      * @param int $repeat
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setRepeat($repeat)
     {
         $this->repeat = $repeat;
+        return $this;
     }
 
     /**
@@ -221,9 +236,11 @@ class CalendarAlarm
 
     /**
      * @param \DateInterval $duration
+     * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setDuration($duration)
     {
         $this->duration = $duration;
+        return $this;
     }
 }
