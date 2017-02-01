@@ -134,8 +134,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @param $frequency
+     * @param Frequency $frequency
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
     public function setFrequency(Frequency $frequency)
     {
@@ -145,7 +145,7 @@ class RecurrenceRule
 
     /**
      * 
-     * @return 
+     * @return \DateTime
      */
     public function getUntil()
     {
@@ -154,9 +154,10 @@ class RecurrenceRule
 
     /**
      * 
-     * @param $until
+     * @param \DateTime $until = null
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
-    public function setUntil(\DateTime $until)
+    public function setUntil(\DateTime $until = null)
     {
         $this->until = $until;
         return $this;
@@ -164,16 +165,17 @@ class RecurrenceRule
 
     /**
      * 
-     * @return 
+     * @return integer
      */
     public function getCount()
     {
         return $this->count;
     }
 
+    
     /**
-     * 
-     * @param $count
+     * @param integer $count
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
     public function setCount($count)
     {
@@ -185,7 +187,7 @@ class RecurrenceRule
 
     /**
      * 
-     * @return 
+     * @return integer
      */
     public function getInterval()
     {
@@ -193,8 +195,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @param $interval
+     * @param integer $interval
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
     public function setInterval($interval)
     {
@@ -205,8 +207,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return 
+     * @return array
      */
     public function getBySecondList()
     {
@@ -214,8 +215,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
      * @param array $bySecondList
+     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
     public function setBySecondList(array $bySecondList)
     {
