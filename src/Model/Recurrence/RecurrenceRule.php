@@ -354,7 +354,7 @@ class RecurrenceRule
     {
         $this->validateInteger($integer);
     
-        $this->byMonthDayList[] = $bySecond;
+        $this->byMonthDayList[] = $integer;
         return $this;
     }
 
@@ -393,6 +393,18 @@ class RecurrenceRule
     public function setByWeekNumberList(array $byWeekNumberList)
     {
         $this->byWeekNumberList = $byWeekNumberList;
+        return $this;
+    }
+	
+   /**
+     * @param integer $integer
+	 * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+	 */
+    public function addByMonth($integer)
+    {
+        $this->validateInteger($integer);
+    
+        $this->byMonthList[] = $integer;
         return $this;
     }
 
@@ -518,6 +530,12 @@ class RecurrenceRule
         
         if ($this->byDayList)
             $items[] = 'BYDAY='.implode(',', $this->byDayList);
+		
+        if ($this->byMonthList)
+            $items[] = 'BYMONTH='.implode(',', $this->byMonthList);
+      
+        if ($this->byMonthDayList)
+            $items[] = 'BYMONTHDAY='.implode(',', $this->byMonthDayList);
         
         return self::KEY.implode(';', $items);
     }
