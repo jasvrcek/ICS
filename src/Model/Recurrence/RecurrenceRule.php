@@ -91,7 +91,6 @@ class RecurrenceRule
     private $byWeekNumberList = array();
     
     /**
-     * @todo need to add to RecurrenceRule::__toString()
      *
      * @var array
      */

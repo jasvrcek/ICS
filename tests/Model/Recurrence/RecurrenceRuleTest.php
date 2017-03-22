@@ -73,6 +73,10 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
         $rRuleString = 'RRULE:FREQ=WEEKLY;INTERVAL=4;UNTIL=20500101T000000Z';
         $this->object->parse($rRuleString);
         $this->assertEquals($rRuleString, $this->object->__toString());
+		
+        $rRuleString = 'RRULE:FREQ=YEARLY;INTERVAL=1;COUNT=10;BYMONTH=3;BYMONTHDAY=22';
+        $this->object->parse($rRuleString);
+        $this->assertEquals($rRuleString, $this->object->__toString());
         
         /*
         $rRuleString = 'RRULE:FREQ=YEARLY;INTERVAL=2;COUNT=10;BYDAY=10MO,-10TU';
