@@ -51,6 +51,21 @@ class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
         $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;UNTIL=20500101T000000Z;COUNT=10;BYDAY=10MO,-10TU';
         
         $this->assertEquals($expected, $this->object->__toString());
+
+        //get a new object, test byMonth
+        $this->setUp();
+
+        $this->object
+            ->setFrequency(new Frequency(Frequency::WEEKLY))
+            ->setInterval(1)
+            ->addByMonth(2)
+            ->addByMonth(3)
+            ->addByMonth(4)
+        ;
+
+        $expected = 'RRULE:FREQ=WEEKLY;INTERVAL=1;BYMONTH=2,3,4';
+        
+        $this->assertEquals($expected, $this->object->__toString());
     }
     
     /**
