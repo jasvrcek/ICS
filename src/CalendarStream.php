@@ -54,6 +54,9 @@ class CalendarStream
      */
     public function addItem($item)
     {
+		// newlines need to be converted to literal \n
+		$item = str_replace("\n", "\\n", str_replace("\r\n","\n", $item));
+		
         //get number of bytes
         $length = strlen($item);
         
