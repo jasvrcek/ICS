@@ -76,7 +76,7 @@ class CalendarExport
             $this->stream->addItem('BEGIN:VTIMEZONE');
             
                 $tz = $cal->getTimezone();
-                $transitions = $tz->getTransitions(strtotime('1970-01-01'), strtotime('1970-12-31'));
+                $transitions = $tz->getTransitions(strtotime('2017-01-01'), strtotime('2017-12-31'));
                 
                 $daylightSavings = array(
                         'exists' => false,
