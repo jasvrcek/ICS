@@ -1,6 +1,7 @@
 <?php
 
 namespace Jsvrcek\ICS\Model\Description;
+
 class Geo
 {
     /**
@@ -9,7 +10,7 @@ class Geo
     private $latitude;
 
     /**
-     * 
+     *
      * @var float $longitude
      */
     private $longitude;
@@ -49,5 +50,4 @@ class Geo
         $this->longitude = $longitude;
         return $this;
     }
-
 }

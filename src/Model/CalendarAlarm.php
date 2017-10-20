@@ -17,7 +17,7 @@ class CalendarAlarm
      *
      * @var string $action
      */
-     private $action;
+    private $action;
 
     /**
      * RFC 5545 supports triggers relative to the parent VEVENT or VTODO, but Jsvrcek\ICS does not.

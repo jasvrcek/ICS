@@ -121,7 +121,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $calTwo->setProdId('-//Jsvrcek//ICS//EN2')
             ->setTimezone($timezone);
 
-        $calTwo->setEventsProvider(function($start) use ($timezone){
+        $calTwo->setEventsProvider(function ($start) use ($timezone) {
             $eventOne = new CalendarEvent();
             $eventOne->setUid('asdfasdf@example.com')
                 ->setStart(new \DateTime('2016-01-01 01:01:01', $timezone))

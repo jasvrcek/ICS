@@ -54,8 +54,9 @@ class Formatter
      */
     public function getFormattedUri($uri)
     {
-        if (strpos($uri, '@') && stripos($uri, 'mailto:') === false)
+        if (strpos($uri, '@') && stripos($uri, 'mailto:') === false) {
             $uri = 'mailto:'.$uri;
+        }
         
         return $uri;
     }
@@ -69,17 +70,29 @@ class Formatter
     {
         $format = "P";
 
-        if ($interval->y) { $format .= '%yY'; }
-        if ($interval->m) { $format .= '%mM'; }
-        if ($interval->d) { $format .= '%dD'; }
+        if ($interval->y) {
+            $format .= '%yY';
+        }
+        if ($interval->m) {
+            $format .= '%mM';
+        }
+        if ($interval->d) {
+            $format .= '%dD';
+        }
 
         if ($interval->h || $interval->i || $interval->s) {
             $format .= "T";
         }
 
-        if ($interval->h) { $format .= '%hH'; }
-        if ($interval->i) { $format .= '%iM'; }
-        if ($interval->s) { $format .= '%sS'; }
+        if ($interval->h) {
+            $format .= '%hH';
+        }
+        if ($interval->i) {
+            $format .= '%iM';
+        }
+        if ($interval->s) {
+            $format .= '%sS';
+        }
 
         return $interval->format($format);
     }

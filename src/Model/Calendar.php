@@ -7,7 +7,7 @@ use Jsvrcek\ICS\Utility\Provider;
 class Calendar
 {
     /**
-     * 
+     *
      * @var string $version
      */
     private $version = '2.0';
@@ -43,25 +43,25 @@ class Calendar
     private $timezone;
     
     /**
-     * 
+     *
      * @var Provider
      */
     private $events;
     
     /**
-     * 
+     *
      * @var Provider
      */
     private $todos;
     
     /**
-     * 
+     *
      * @var Provider
      */
     private $freeBusy;
 
     /**
-     * 
+     *
      */
     public function __construct()
     {
@@ -74,18 +74,18 @@ class Calendar
     /**
      * For use if you want CalendarExport::getStream to get events in batches from a database during
      * the output of the ics feed, instead of adding all events to the Calendar object before outputting
-     * the ics feed. 
-     * - CalendarExport::getStream iterates through the Calendar::$events internal data array. The $eventsProvider 
+     * the ics feed.
+     * - CalendarExport::getStream iterates through the Calendar::$events internal data array. The $eventsProvider
      *     closure will be called every time this data array reaches its end during iteration, and the closure should
-     *     return the next batch of events 
+     *     return the next batch of events
      * - A $startKey argument with the current key of the data array will be passed to the $eventsProvider closure
      * - The $eventsProvider must return an array of CalendarEvent objects
-     * 
+     *
      *  Example: Calendar::setEventsProvider(function($startKey){
      *      //get database rows starting with $startKey
      *      //return an array of CalendarEvent objects
      *  })
-     * 
+     *
      * @param \Closure $eventsProvider
      * @return \Jsvrcek\ICS\Model\Calendar
      */
@@ -178,7 +178,7 @@ class Calendar
     /**
      * use to add custom headers as array key-value pairs<br>
      * <strong>Example:</strong> $customHeaders = array('X-WR-TIMEZONE' => 'America/New_York')
-     * 
+     *
      * @param array $customHeaders
      * @return \Jsvrcek\ICS\Model\Calendar
      */

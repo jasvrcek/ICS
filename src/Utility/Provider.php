@@ -5,13 +5,13 @@ namespace Jsvrcek\ICS\Utility;
 class Provider implements \Iterator
 {
     /**
-     * 
+     *
      * @var \Closure
      */
     private $provider;
     
     /**
-     * 
+     *
      * @var array
      */
     public $data = array();
@@ -23,7 +23,7 @@ class Provider implements \Iterator
     public $manuallyAddedData = array();
     
     /**
-     * 
+     *
      * @var integer
      */
     private $key;
@@ -31,7 +31,7 @@ class Provider implements \Iterator
     /**
      * @param \Closure $provider An optional closure for adding items in batches during iteration. The closure will be
      *     called each time the end of the internal data array is reached during iteration, and the current data
-     *     array key value will be passed as an argument. The closure should return an array containing the next 
+     *     array key value will be passed as an argument. The closure should return an array containing the next
      *     batch of items.
      */
     public function __construct(\Closure $provider = null)
@@ -42,7 +42,7 @@ class Provider implements \Iterator
     /**
      * for manually adding items, rather than using a provider closure to add items in batches during iteration
      * Cannot be used in conjunction with a provider closure!
-     * 
+     *
      * @param mixed $item
      */
     public function add($item)
@@ -84,22 +84,18 @@ class Provider implements \Iterator
         $this->key = 0;
     }
     
-    /** 
+    /**
      * get next batch from provider if data array is at the end
-     * 
+     *
      * (non-PHPdoc)
      * @see Iterator::valid()
      */
     public function valid()
     {
-        if (count($this->data) < 1)
-        {
-            if ($this->provider instanceof \Closure)
-            {
+        if (count($this->data) < 1) {
+            if ($this->provider instanceof \Closure) {
                 $this->data = $this->provider->__invoke($this->key);
-            }
-            else
-            {
+            } else {
                 $this->data = $this->manuallyAddedData;
                 $this->manuallyAddedData = array();
             }
