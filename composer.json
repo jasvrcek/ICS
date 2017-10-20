@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jsvrcek\\ICS\\Test\\": "src/"
+            "Jsvrcek\\ICS\\Tests\\": "tests/"
         }
     }
 }
