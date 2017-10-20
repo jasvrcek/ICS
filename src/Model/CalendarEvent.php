@@ -7,7 +7,6 @@ use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Model\Relationship\Attendee;
-use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Exception\CalendarEventException;
 
 /**
@@ -17,25 +16,21 @@ use Jsvrcek\ICS\Exception\CalendarEventException;
 class CalendarEvent
 {
     /**
-     *
-     * @var string $uid
+     * @var string
      */
     private $uid;
 
     /**
-     *
-     * @var \DateTime $start
+     * @var \DateTime
      */
     private $start;
 
     /**
-     *
-     * @var \DateTime $end
+     * @var \DateTime
      */
     private $end;
     
     /**
-     *
      * @var RecurrenceRule
      */
     private $recurrenceRule;
@@ -44,97 +39,88 @@ class CalendarEvent
      * array of dates to skip
      * https://tools.ietf.org/html/rfc5545#page-120
      *
-     * @var array
+     * @var \DateTime[]
      */
     private $exceptionDates = array();
 
     /**
-     * @var string $class
+     * @var string
      */
     private $class;
 
     /**
-     * @var \DateTime $created
+     * @var \DateTime
      */
     private $created;
 
     /**
-     *
-     * @var string $description
+     * @var string
      */
     private $description;
 
     /**
-     * @var Geo $geo
+     * @var Geo
      */
     private $geo;
 
     /**
-     * @var string $lastModified
+     * @var \DateTime
      */
     private $lastModified;
 
     /**
-     * @var array $locations
+     * @var Location[]
      */
     private $locations = array();
 
     /**
-     *
-     * @var Organizer $organizer
+     * @var Organizer
      */
     private $organizer;
 
     /**
-     *
-     * @var string $priority
+     * @var string
      */
     private $priority;
 
     /**
-     *
-     * @var \DateTime $timestamp
+     * @var \DateTime
      */
     private $timestamp;
 
     /**
-     *
-     * @var string $status
+     * @var string
      */
     private $status;
 
     /**
-     *
-     * @var string $summary
+     * @var string
      */
     private $summary;
 
     /**
      * @todo add support in CalendarExport
-     * @var string $recuringId
+     * @var string
      */
     private $recuringId;
     
     /**
-     *
      * @var integer
      */
     private $sequence;
     
     /**
-     *
-     * @var array $attendees
+     * @var Attendee[]
      */
     private $attendees = array();
     
     /**
-     *
-     * @var array $alarms
+     * @var CalendarAlarm[]
      */
     private $alarms = array();
 
     /**
-     * @var string $url
+     * @var string
      */
     private $url;
 
@@ -212,7 +198,8 @@ class CalendarEvent
 
     /**
      * @param \DateTime $end
-     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     * @return CalendarEvent
+     * @throws CalendarEventException
      */
     public function setEnd(\DateTime $end)
     {
@@ -246,10 +233,11 @@ class CalendarEvent
         $this->recurrenceRule = $recurrenceRule;
         return $this;
     }
-    
+
     /**
      * array of DateTime instances
      * @param array $dates
+     * @return $this
      */
     public function setExceptionDates(array $dates)
     {
@@ -276,7 +264,7 @@ class CalendarEvent
     }
 
     /**
-     * @return the string
+     * @return string
      */
     public function getSummary()
     {
@@ -294,7 +282,7 @@ class CalendarEvent
     }
 
     /**
-     * @return the string
+     * @return string
      */
     public function getDescription()
     {
@@ -312,7 +300,7 @@ class CalendarEvent
     }
     
     /**
-     * @return array $alarms returs array of CalendarAlarm objects
+     * @return CalendarAlarm[]
      */
     public function getAlarms()
     {

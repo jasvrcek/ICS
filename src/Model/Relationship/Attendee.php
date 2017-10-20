@@ -7,80 +7,79 @@ use Jsvrcek\ICS\Utility\Formatter;
 class Attendee
 {
     /**
-     *
      * @var Formatter
      */
     private $formatter;
     
     /**
      * RFC 5545 cal-address
-     * @var string $value
+     * @var string
      */
     private $value;
     
     /**
      * RFC 5545 cutypeparam
-     * @var string $calendarUserType
+     * @var string
      */
     private $calendarUserType;
 
     /**
      * RFC 5545 memberparam
-     * @var array $calendarMember array of uri values
+     * @var array of uri values
      */
     private $calendarMembers = array();
 
     /**
      * RFC 5545 roleparam
-     * @var string $role
+     * @var string
      */
     private $role;
 
     /**
      * RFC 5545 partstatparam
-     * @var string $participationStatus
+     * @var string
      */
     private $participationStatus;
 
     /**
      * RFC 5545 rsvpparam
-     * @var string $rsvp
+     * @var string
      */
     private $rsvp;
 
     /**
      * RFC 5545 deltoparam
-     * @var array $delegatedTo array of uri values
+     * @var array of uri values
      */
     private $delegatedTo = array();
 
     /**
      * RFC 5545 delfromparam
-     * @var array $delegatedFrom array of uri values
+     * @var array of uri values
      */
     private $delegatedFrom = array();
 
     /**
      * RFC 5545 sentbyparam
-     * @var string $sentBy
+     * @var string
      */
     private $sentBy;
 
     /**
      * RFC 5545 cnparam
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
      * RFC 5545 dirparam
-     * @var string $directory
+     * @var string
      */
     private $directory;
 
     /**
      * RFC 5545 languageparam
-     * @var string $language
+     * @var string
      */
     private $language;
     
@@ -358,9 +357,9 @@ class Attendee
      * @param string $directory uri directory entry associated with the calendar user
      * @return \Jsvrcek\ICS\Model\Relationship\Attendee
      */
-    public function setDirectory($uri)
+    public function setDirectory($directory)
     {
-        $this->directory = $uri;
+        $this->directory = $directory;
         return $this;
     }
 

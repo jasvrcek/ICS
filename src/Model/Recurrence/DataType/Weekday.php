@@ -19,13 +19,11 @@ class Weekday
     const SATURDAY = 7;
     
     /**
-     *
      * @var integer
      */
     private $weekday;
     
     /**
-     *
      * @var array
      */
     protected $values = array(

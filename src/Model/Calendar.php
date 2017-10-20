@@ -7,61 +7,52 @@ use Jsvrcek\ICS\Utility\Provider;
 class Calendar
 {
     /**
-     *
-     * @var string $version
+     * @var string
      */
     private $version = '2.0';
 
     /**
-     *
-     * @var string $prodId
+     * @var string
      */
     private $prodId = '';
 
     /**
-     *
-     * @var string $calendarScale
+     * @var string
      */
     private $calendarScale = 'GREGORIAN';
 
     /**
-     *
-     * @var string $method
+     * @var string
      */
     private $method = 'PUBLISH';
 
     /**
-     *
-     * @var array $customHeaders
+     * @var array
      */
     private $customHeaders = array();
 
     /**
-     *
-     * @var \DateTimeZone $timezone
+     * @var \DateTimeZone
      */
     private $timezone;
     
     /**
-     *
      * @var Provider
      */
     private $events;
     
     /**
-     *
      * @var Provider
      */
     private $todos;
     
     /**
-     *
      * @var Provider
      */
     private $freeBusy;
 
     /**
-     *
+     * Calendar constructor.
      */
     public function __construct()
     {
@@ -236,7 +227,7 @@ class Calendar
     }
     
     /**
-     * @return array $todos returs array of CalendarTodo objects
+     * @return Provider returs array of CalendarTodo objects
      */
     public function getTodos()
     {
@@ -264,7 +255,7 @@ class Calendar
     }
     
     /**
-     * @return array $freeBusy returs array of CalendarFreeBusy objects
+     * @return Provider returs array of CalendarFreeBusy objects
      */
     public function getFreeBusy()
     {

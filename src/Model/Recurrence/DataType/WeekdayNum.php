@@ -14,13 +14,11 @@ class WeekdayNum extends Weekday
     const COUNT_FROM_END = '-';
     
     /**
-     *
      * @var integer 1-53
      */
     private $weekdaynum;
     
     /**
-     *
      * @var mixed
      */
     private $countFromStartOrEnd;

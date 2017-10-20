@@ -5,25 +5,21 @@ namespace Jsvrcek\ICS\Utility;
 class Provider implements \Iterator
 {
     /**
-     *
      * @var \Closure
      */
     private $provider;
     
     /**
-     *
      * @var array
      */
     public $data = array();
     
     /**
-     *
      * @var array
      */
     public $manuallyAddedData = array();
     
     /**
-     *
      * @var integer
      */
     private $key;

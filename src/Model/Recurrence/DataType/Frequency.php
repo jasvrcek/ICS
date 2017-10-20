@@ -21,7 +21,6 @@ class Frequency
     const YEARLY = 7;
     
     /**
-     *
      * @var integer
      */
     private $freq;

@@ -2,8 +2,6 @@
 
 namespace Jsvrcek\ICS;
 
-use Jsvrcek\ICS\Constants;
-
 class CalendarStream
 {
     //length of line in bytes
@@ -21,8 +19,7 @@ class CalendarStream
      * @var string
      */
     private $stream = '';
-    
-    
+
     /**
      * @param boolean $doImmediateOutput
      */

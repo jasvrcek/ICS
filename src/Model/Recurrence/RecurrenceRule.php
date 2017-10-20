@@ -21,50 +21,42 @@ class RecurrenceRule
     const KEY = 'RRULE:';
     
     /**
-     *
      * @var Frequency
      */
     private $frequency;
     
     /**
-     *
      * @var \DateTime
      */
     private $until;
     
     /**
-     *
      * @var integer
      */
     private $count;
     
     /**
-     *
      * @var integer
      */
     private $interval;
     
     /**
-     *
      * @var array
      */
     private $bySecondList = array();
     
     /**
-     *
      * @var array
      */
     private $byMinuteList = array();
     
     /**
-     *
      * @var array
      */
     private $byHourList = array();
     
     /**
-     *
-     * @var array
+     * @var WeekdayNum[]
      */
     private $byDayList = array();
     
@@ -90,7 +82,6 @@ class RecurrenceRule
     private $byWeekNumberList = array();
     
     /**
-     *
      * @var array
      */
     private $byMonthList = array();
@@ -110,7 +101,6 @@ class RecurrenceRule
     private $weekStart;
     
     /**
-     *
      * @var Formatter
      */
     private $formatter;
@@ -124,7 +114,7 @@ class RecurrenceRule
     }
 
     /**
-     * @return \Jsvrcek\ICS\Model\Recurrence\Frequency
+     * @return \Jsvrcek\ICS\Model\Recurrence\DataType\Frequency
      */
     public function getFrequency()
     {
@@ -462,12 +452,13 @@ class RecurrenceRule
         $this->weekStart = $weekStart;
         return $this;
     }
-    
+
     /**
      * parses an RRULE string, hydrates self with values
      *
      * @param string $rRuleString
-     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+     * @return RecurrenceRule
+     * @throws CalendarRecurrenceException
      */
     public function parse($rRuleString)
     {

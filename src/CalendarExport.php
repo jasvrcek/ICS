@@ -4,33 +4,24 @@ namespace Jsvrcek\ICS;
 
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
-
 use Jsvrcek\ICS\Utility\Formatter;
-
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
-use Jsvrcek\ICS\Model\Relationship\Attendee;
-use Jsvrcek\ICS\Model\Relationship\Organizer;
-
-use Jsvrcek\ICS\CalendarStream;
 
 class CalendarExport
 {
     /**
-     *
-     * @var array
+     * @var Calendar[]
      */
     private $calendars = array();
     
     /**
-     *
      * @var CalendarStream;
      */
     private $stream;
     
     /**
-     *
      * @var Formatter
      */
     private $formatter;
@@ -51,6 +42,7 @@ class CalendarExport
 
     /**
      * @return string
+     * @throws \Exception
      */
     public function getStream()
     {
@@ -199,7 +191,7 @@ class CalendarExport
                 }
                     
                 foreach ($event->getAttendees() as $attendee) {
-                    $this->stream->addItem($attendee->__toString());
+                    $this->stream->addItem((string)$attendee);
                 }
                     
                 if ($event->getOrganizer()) {
@@ -233,7 +225,7 @@ class CalendarExport
                                     ->addItem('DESCRIPTION:'.$alarm->getDescription());
 
                                 foreach ($alarm->getAttendees() as $attendee) {
-                                    $this->stream->addItem($attendee->__toString());
+                                    $this->stream->addItem((string)$attendee);
                                 }
                                 foreach ($alarm->getAttachments() as $attachment) {
                                     $this->stream->addItem('ATTACH;'.$attachment);
@@ -259,7 +251,7 @@ class CalendarExport
     
 
     /**
-     * @return array
+     * @return Calendar[]
      */
     public function getCalendars()
     {
