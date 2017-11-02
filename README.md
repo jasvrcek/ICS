@@ -85,8 +85,7 @@ $calendar->setEventsProvider(function ($startKey) use ($myDatabase) {
 	
 	$events = array();
 	
-	foreach ($eventDataArray as $row)
-	{
+	foreach ($eventDataArray as $row) {
 		$event = new CalendarEvent();
 		$event->setStart($row['start_date'])
 			->setSummary($row['summary'])
