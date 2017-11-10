@@ -19,28 +19,26 @@ class Weekday
     const SATURDAY = 7;
     
     /**
-     * 
      * @var integer
      */
     private $weekday;
     
     /**
-     * 
      * @var array
      */
     protected $values = array(
-                self::SUNDAY => 'SU', 
-                self::MONDAY => 'MO', 
-                self::TUESDAY => 'TU', 
-                self::WEDNESDAY => 'WE', 
-                self::THURSDAY => 'TH', 
-                self::FRIDAY => 'FR', 
+                self::SUNDAY => 'SU',
+                self::MONDAY => 'MO',
+                self::TUESDAY => 'TU',
+                self::WEDNESDAY => 'WE',
+                self::THURSDAY => 'TH',
+                self::FRIDAY => 'FR',
                 self::SATURDAY => 'SA'
             );
     
     /**
-     * @param integer $weekday Weekday::SUNDAY, Weekday::MONDAY, 
-     *                           Weekday::TUESDAY, Weekday::WEDNESDAY, Weekday::THURSDAY, 
+     * @param integer $weekday Weekday::SUNDAY, Weekday::MONDAY,
+     *                           Weekday::TUESDAY, Weekday::WEDNESDAY, Weekday::THURSDAY,
      *                           Weekday::FRIDAY, Weekday::SATURDAY
      */
     public function __construct($weekday)
@@ -76,8 +74,7 @@ class Weekday
      */
     private function validateWeekday($weekday)
     {
-        if (!is_int($weekday) || $weekday < 1 || $weekday > 7)
-        {
+        if (!is_int($weekday) || $weekday < 1 || $weekday > 7) {
             throw new CalendarRecurrenceException('You must pass a Weekday constant to the contructor.');
         }
     }
@@ -86,7 +83,7 @@ class Weekday
      * @return string
      */
     public function __toString()
-    {   
+    {
         return $this->values[$this->weekday];
     }
 }

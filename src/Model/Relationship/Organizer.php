@@ -7,38 +7,37 @@ use Jsvrcek\ICS\Utility\Formatter;
 class Organizer
 {
     /**
-     * 
      * @var Formatter
      */
     private $formatter;
     
     /**
      * RFC 5545 cal-address
-     * @var string $value
+     * @var string
      */
     private $value;
 
     /**
      * RFC 5545 cnparam
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
      * RFC 5545 dirparam
-     * @var string $directory
+     * @var string
      */
     private $directory;
 
     /**
      * RFC 5545 sentbyparam
-     * @var string $sentBy
+     * @var string
      */
     private $sentBy;
 
     /**
      * RFC 5545 languageparam
-     * @var string $language 
+     * @var string
      */
     private $language;
     
@@ -100,9 +99,9 @@ class Organizer
      * @param string $directory uri directory entry associated with the calendar user
      * @return \Jsvrcek\ICS\Model\Relationship\Organizer
      */
-    public function setDirectory($uri)
+    public function setDirectory($directory)
     {
-        $this->directory = $uri;
+        $this->directory = $directory;
         return $this;
     }
 
@@ -147,17 +146,21 @@ class Organizer
     {
         $string = 'ORGANIZER';
         
-        if ($this->sentBy)
+        if ($this->sentBy) {
             $string .= ';SENT-BY="'.$this->sentBy.'"';
+        }
         
-        if ($this->name)
+        if ($this->name) {
             $string .= ';CN='.$this->name;
+        }
         
-        if ($this->directory)
+        if ($this->directory) {
             $string .= ';DIR="'.$this->directory.'"';
+        }
         
-        if ($this->language)
+        if ($this->language) {
             $string .= ';LANGUAGE='.$this->language;
+        }
         
         $string .= ':'.$this->value;
         

@@ -4,5 +4,4 @@ namespace Jsvrcek\ICS\Model;
 
 class CalendarFreeBusy
 {
-
 }

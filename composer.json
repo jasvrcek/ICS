@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^5.3 || ^7.0"
+        "php": "^5.4 || ^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8 || ^5.5"
@@ -23,7 +23,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jsvrcek\\ICS\\Test\\": "src/"
+            "Jsvrcek\\ICS\\Tests\\": "tests/"
         }
     }
 }

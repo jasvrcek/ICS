@@ -3,7 +3,6 @@
 namespace Jsvrcek\ICS\Model;
 
 use Jsvrcek\ICS\Model\Relationship\Attendee;
-use Jsvrcek\ICS\Utility\Formatter;
 
 /**
  * See http://icalendar.org/iCalendar-RFC-5545/3-6-6-alarm-component.html
@@ -14,17 +13,16 @@ use Jsvrcek\ICS\Utility\Formatter;
 class CalendarAlarm
 {
     /**
-     *
-     * @var string $action
+     * @var string
      */
-     private $action;
+    private $action;
 
     /**
      * RFC 5545 supports triggers relative to the parent VEVENT or VTODO, but Jsvrcek\ICS does not.
      * Only absolute trigger times are supported.
      * @todo Support RELATED, DTSTART, and DTEND.
      *
-     * @var \DateTime $trigger
+     * @var \DateTime
      */
     private $trigger;
 
@@ -37,28 +35,28 @@ class CalendarAlarm
      *
      *     "FMTTYPE=application/msword:http://example.com/agenda.doc"
      *
-     * @var array $attachments
+     * @var array
      */
     private $attachments = array();
 
     /**
      * For DISPLAY and EMAIL actions only. For EMAIL this is the body.
      *
-     * @var string $description
+     * @var string
      */
     private $description;
 
     /**
      * For EMAIL action only. This is the email subject.
      *
-     * @var string $summary
+     * @var string
      */
     private $summary;
 
     /**
      * For EMAIL action only. This is the email recipients.
      *
-     * @var array $attendees
+     * @var Attendee[]
      */
     private $attendees = array();
 
@@ -66,7 +64,7 @@ class CalendarAlarm
      * For all actions. The number of times to repeat the alarm.
      * If REPEAT is set then DURATION must also be set.
      *
-     * @var integer $repeat
+     * @var integer
      */
     private $repeat;
 
@@ -74,13 +72,12 @@ class CalendarAlarm
      * For all actions. The duration of the alarm.
      * If DURATION is set then REPEAT must also be set.
      *
-     * @var \DateInterval $duration
+     * @var \DateInterval
      */
     private $duration;
 
     /**
      * @return string
-     *
      */
     public function getAction()
     {

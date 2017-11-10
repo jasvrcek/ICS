@@ -1,23 +1,21 @@
 <?php
 
 namespace Jsvrcek\ICS\Model\Description;
+
 class Location
 {
     /**
-     * 
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
-     * 
-     * @var string $uri 
+     * @var string
      */
     private $uri;
 
     /**
-     * 
-     * @var string $language 
+     * @var string
      */
     private $language;
 

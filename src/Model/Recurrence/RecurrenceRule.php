@@ -2,7 +2,6 @@
 
 namespace Jsvrcek\ICS\Model\Recurrence;
 
-
 use Jsvrcek\ICS\Utility\Formatter;
 
 use Jsvrcek\ICS\Model\Recurrence\DataType\Frequency;
@@ -11,9 +10,9 @@ use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
 use Jsvrcek\ICS\Exception\CalendarRecurrenceException;
 
 /**
- * @todo BYSECOND, BYMINUTE, BYHOUR, BYMONTHDAY, BYYEARDAY, BYWEEKNO, BYMONTH, BYSETPOS, and WKST 
+ * @todo BYSECOND, BYMINUTE, BYHOUR, BYMONTHDAY, BYYEARDAY, BYWEEKNO, BYMONTH, BYSETPOS, and WKST
  * are not implemented in the __toString function yet
- * 
+ *
  * @author justinsvrcek
  * http://tools.ietf.org/html/rfc5545#page-37
  */
@@ -22,50 +21,42 @@ class RecurrenceRule
     const KEY = 'RRULE:';
     
     /**
-     * 
      * @var Frequency
      */
     private $frequency;
     
     /**
-     *
      * @var \DateTime
      */
     private $until;
     
     /**
-     *
      * @var integer
      */
     private $count;
     
     /**
-     *
      * @var integer
      */
     private $interval;
     
     /**
-     * 
      * @var array
      */
     private $bySecondList = array();
     
     /**
-     *
      * @var array
      */
     private $byMinuteList = array();
     
     /**
-     *
      * @var array
      */
     private $byHourList = array();
     
     /**
-     *
-     * @var array
+     * @var WeekdayNum[]
      */
     private $byDayList = array();
     
@@ -91,7 +82,6 @@ class RecurrenceRule
     private $byWeekNumberList = array();
     
     /**
-     *
      * @var array
      */
     private $byMonthList = array();
@@ -111,7 +101,6 @@ class RecurrenceRule
     private $weekStart;
     
     /**
-     * 
      * @var Formatter
      */
     private $formatter;
@@ -125,7 +114,7 @@ class RecurrenceRule
     }
 
     /**
-     * @return \Jsvrcek\ICS\Model\Recurrence\Frequency
+     * @return \Jsvrcek\ICS\Model\Recurrence\DataType\Frequency
      */
     public function getFrequency()
     {
@@ -143,7 +132,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getUntil()
@@ -152,7 +141,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @param \DateTime $until = null
      * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
@@ -163,7 +152,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @return integer
      */
     public function getCount()
@@ -185,7 +174,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @return integer
      */
     public function getInterval()
@@ -236,7 +225,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getByMinuteList()
@@ -267,8 +256,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getByHourList()
     {
@@ -298,7 +287,7 @@ class RecurrenceRule
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function getByDayList()
@@ -321,14 +310,14 @@ class RecurrenceRule
      * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
     public function addByDay(WeekdayNum $weekdaynum)
-    {    
+    {
         $this->byDayList[] = $weekdaynum;
         return $this;
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getByMonthDayList()
     {
@@ -358,8 +347,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getByYearDayList()
     {
@@ -377,8 +366,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getByWeekNumberList()
     {
@@ -394,11 +383,11 @@ class RecurrenceRule
         $this->byWeekNumberList = $byWeekNumberList;
         return $this;
     }
-	
-   /**
-     * @param integer $integer
-	 * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
-	 */
+    
+    /**
+      * @param integer $integer
+      * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+      */
     public function addByMonth($integer)
     {
         $this->validateInteger($integer);
@@ -408,8 +397,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getByMonthList()
     {
@@ -427,8 +416,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return array 
+     *
+     * @return array
      */
     public function getBySetPosYearDayList()
     {
@@ -446,8 +435,8 @@ class RecurrenceRule
     }
 
     /**
-     * 
-     * @return Weekday 
+     *
+     * @return Weekday
      */
     public function getWeekStart()
     {
@@ -463,12 +452,13 @@ class RecurrenceRule
         $this->weekStart = $weekStart;
         return $this;
     }
-    
+
     /**
      * parses an RRULE string, hydrates self with values
-     * 
+     *
      * @param string $rRuleString
-     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
+     * @return RecurrenceRule
+     * @throws CalendarRecurrenceException
      */
     public function parse($rRuleString)
     {
@@ -477,19 +467,14 @@ class RecurrenceRule
         
         $attributes = explode(';', $string);
         
-        foreach ($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             list($key, $value) = explode('=', $attribute);
             
-            switch ($key)
-            {
+            switch ($key) {
                 case Frequency::KEY:
-                    if ($valueStringKey = array_search($value, Frequency::$values))
-                    {
+                    if ($valueStringKey = array_search($value, Frequency::$values)) {
                         $this->setFrequency(new Frequency($valueStringKey));
-                    }
-                    else 
-                    {
+                    } else {
                         throw new CalendarRecurrenceException('Unsupported FREQ value in Recurrence Rule (RRULE) string: '.$value);
                     }
                     break;
@@ -515,26 +500,32 @@ class RecurrenceRule
      * @return string
      */
     public function __toString()
-    {   
+    {
         $items = array($this->getFrequency()->__toString());
         
-        if ($this->interval)
+        if ($this->interval) {
             $items[] = 'INTERVAL='.$this->interval;
+        }
         
-        if ($this->until)
+        if ($this->until) {
             $items[] = 'UNTIL='.$this->formatter->getFormattedUTCDateTime($this->until);
+        }
         
-        if ($this->count)
+        if ($this->count) {
             $items[] = 'COUNT='.$this->count;
+        }
         
-        if ($this->byDayList)
+        if ($this->byDayList) {
             $items[] = 'BYDAY='.implode(',', $this->byDayList);
-		
-        if ($this->byMonthList)
+        }
+        
+        if ($this->byMonthList) {
             $items[] = 'BYMONTH='.implode(',', $this->byMonthList);
+        }
       
-        if ($this->byMonthDayList)
+        if ($this->byMonthDayList) {
             $items[] = 'BYMONTHDAY='.implode(',', $this->byMonthDayList);
+        }
         
         return self::KEY.implode(';', $items);
     }
@@ -545,8 +536,7 @@ class RecurrenceRule
      */
     private function validateInteger($integer)
     {
-        if (!is_int($integer))
-        {
+        if (!is_int($integer)) {
             throw new CalendarRecurrenceException('Value must be an integer');
         }
     }

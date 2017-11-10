@@ -7,80 +7,79 @@ use Jsvrcek\ICS\Utility\Formatter;
 class Attendee
 {
     /**
-     * 
      * @var Formatter
      */
     private $formatter;
     
     /**
      * RFC 5545 cal-address
-     * @var string $value
+     * @var string
      */
     private $value;
     
     /**
      * RFC 5545 cutypeparam
-     * @var string $calendarUserType
+     * @var string
      */
     private $calendarUserType;
 
     /**
      * RFC 5545 memberparam
-     * @var array $calendarMember array of uri values
+     * @var array of uri values
      */
     private $calendarMembers = array();
 
     /**
      * RFC 5545 roleparam
-     * @var string $role
+     * @var string
      */
     private $role;
 
     /**
      * RFC 5545 partstatparam
-     * @var string $participationStatus
+     * @var string
      */
     private $participationStatus;
 
     /**
      * RFC 5545 rsvpparam
-     * @var string $rsvp
+     * @var string
      */
     private $rsvp;
 
     /**
      * RFC 5545 deltoparam
-     * @var array $delegatedTo array of uri values
+     * @var array of uri values
      */
     private $delegatedTo = array();
 
     /**
      * RFC 5545 delfromparam
-     * @var array $delegatedFrom array of uri values
+     * @var array of uri values
      */
     private $delegatedFrom = array();
 
     /**
      * RFC 5545 sentbyparam
-     * @var string $sentBy
+     * @var string
      */
     private $sentBy;
 
     /**
      * RFC 5545 cnparam
-     * @var string $name
+     * @var string
      */
     private $name;
 
     /**
      * RFC 5545 dirparam
-     * @var string $directory
+     * @var string
      */
     private $directory;
 
     /**
      * RFC 5545 languageparam
-     * @var string $language 
+     * @var string
      */
     private $language;
     
@@ -121,7 +120,7 @@ class Attendee
 
     /**
      * RFC 5545 cutypeparam http://tools.ietf.org/html/rfc5545#section-3.2.3
-     * 
+     *
      * @param string $calendarUserType
      *     "INDIVIDUAL"   ; An individual<br>
      *     "GROUP"        ; A group of individuals<br>
@@ -153,8 +152,7 @@ class Attendee
      */
     public function setCalendarMembers($calendarMemberUris)
     {
-        foreach ($calendarMemberUris as &$uri)
-        {
+        foreach ($calendarMemberUris as &$uri) {
             $uri = $this->formatter->getFormattedUri($uri);
         }
         
@@ -183,7 +181,7 @@ class Attendee
 
     /**
      * RFC 5545 roleparam http://tools.ietf.org/html/rfc5545#section-3.2.16
-     * @param string $role 
+     * @param string $role
      *     "CHAIR"             ; Indicates chair of the calendar entity <br>
      *     "REQ-PARTICIPANT"   ; Indicates a participant whose participation is required <br>
      *     "OPT-PARTICIPANT"   ; Indicates a participant whose participation is optional <br>
@@ -215,7 +213,7 @@ class Attendee
      *     "DECLINED"         ; Event declined <br>
      *     "TENTATIVE"        ; Event tentatively accepted <br>
      *     "DELEGATED"        ; Event delegated
-     * 
+     *
      * @return \Jsvrcek\ICS\Model\Relationship\Attendee
      */
     public function setParticipationStatus($participationStatus)
@@ -258,8 +256,7 @@ class Attendee
      */
     public function setDelegatedTo(array $delegatedToUris)
     {
-        foreach ($delegatedToUris as &$uri) 
-        {
+        foreach ($delegatedToUris as &$uri) {
             $uri = $this->formatter->getFormattedUri($uri);
         }
             
@@ -292,8 +289,7 @@ class Attendee
      */
     public function setDelegatedFrom(array $delegatedFromUris)
     {
-        foreach ($delegatedFromUris as &$uri)
-        {
+        foreach ($delegatedFromUris as &$uri) {
             $uri = $this->formatter->getFormattedUri($uri);
         }
         
@@ -361,9 +357,9 @@ class Attendee
      * @param string $directory uri directory entry associated with the calendar user
      * @return \Jsvrcek\ICS\Model\Relationship\Attendee
      */
-    public function setDirectory($uri)
+    public function setDirectory($directory)
     {
-        $this->directory = $uri;
+        $this->directory = $directory;
         return $this;
     }
 
@@ -392,44 +388,49 @@ class Attendee
     {
         $string = 'ATTENDEE';
         
-        if ($this->calendarUserType)
+        if ($this->calendarUserType) {
             $string .= ';CUTYPE='.$this->calendarUserType;
+        }
         
-        if (count($this->calendarMembers))
-        {
+        if (count($this->calendarMembers)) {
             $string .= ';MEMBER="'.implode('","', $this->calendarMembers).'"';
         }
         
-        if ($this->role)
+        if ($this->role) {
             $string .= ';ROLE='.$this->role;
+        }
         
-        if ($this->participationStatus)
+        if ($this->participationStatus) {
             $string .= ';PARTSTAT='.$this->participationStatus;
+        }
         
-        if ($this->rsvp)
+        if ($this->rsvp) {
             $string .= ';RSVP='.$this->rsvp;
+        }
         
-        if (count($this->delegatedTo))
-        {
+        if (count($this->delegatedTo)) {
             $string .= ';DELEGATED-TO="'.implode('","', $this->delegatedTo).'"';
         }
         
-        if (count($this->delegatedFrom))
-        {
+        if (count($this->delegatedFrom)) {
             $string .= ';DELEGATED-FROM="'.implode('","', $this->delegatedFrom).'"';
         }
         
-        if ($this->sentBy)
+        if ($this->sentBy) {
             $string .= ';SENT-BY="'.$this->sentBy.'"';
+        }
         
-        if ($this->name)
+        if ($this->name) {
             $string .= ';CN='.$this->name;
+        }
         
-        if ($this->directory)
+        if ($this->directory) {
             $string .= ';DIR="'.$this->directory.'"';
+        }
         
-        if ($this->language)
+        if ($this->language) {
             $string .= ';LANGUAGE='.$this->language;
+        }
         
         $string .= ':'.$this->value;
         
