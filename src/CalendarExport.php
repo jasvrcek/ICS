@@ -66,11 +66,17 @@ class CalendarExport
             $this->stream->addItem('BEGIN:VTIMEZONE');
 
             $tz = $cal->getTimezone();
-            $calEvents = $cal->getEvents();
-            $firstEvent = $calEvents->manuallyAddedData[0];
 
-            $startYear = $firstEvent->getStart()->format('Y');
-            $endYear = $firstEvent->getEnd()->format('Y');
+            $calEvents = $cal->getEvents();
+
+            // Fallback to current year
+            $startYear = $endYear = date('Y');
+            if ($calEvents->first() !== false) {
+                // Take first event as referenece for timezone transitions
+                $firstEvent = $calEvents->manuallyAddedData[0];
+                $startYear = $firstEvent->getStart()->format('Y');
+                $endYear = $firstEvent->getEnd()->format('Y');
+            }
 
             $transitions = $tz->getTransitions(strtotime($startYear . '-01-01'), strtotime($endYear . '-12-31'));
 
