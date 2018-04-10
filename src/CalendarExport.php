@@ -72,8 +72,8 @@ class CalendarExport
             // Fallback to current year
             $startYear = $endYear = date('Y');
             if ($calEvents->first() !== false) {
-                // Take first event as referenece for timezone transitions
-                $firstEvent = $calEvents->manuallyAddedData[0];
+                // Take first event as reference for timezone transitions
+                $firstEvent = $calEvents->first();
                 $startYear = $firstEvent->getStart()->format('Y');
                 $endYear = $firstEvent->getEnd()->format('Y');
             }
