@@ -8,22 +8,22 @@ class Provider implements \Iterator
      * @var \Closure
      */
     private $provider;
-    
+
     /**
      * @var array
      */
     public $data = array();
-    
+
     /**
      * @var array
      */
     public $manuallyAddedData = array();
-    
+
     /**
      * @var integer
      */
     private $key;
-    
+
     /**
      * @param \Closure $provider An optional closure for adding items in batches during iteration. The closure will be
      *     called each time the end of the internal data array is reached during iteration, and the current data
@@ -34,7 +34,7 @@ class Provider implements \Iterator
     {
         $this->provider = $provider;
     }
-    
+
     /**
      * for manually adding items, rather than using a provider closure to add items in batches during iteration
      * Cannot be used in conjunction with a provider closure!
@@ -45,7 +45,7 @@ class Provider implements \Iterator
     {
         $this->manuallyAddedData[] = $item;
     }
-    
+
     /* (non-PHPdoc)
      * @see Iterator::current()
      */
@@ -53,7 +53,7 @@ class Provider implements \Iterator
     {
         return current($this->data);
     }
-    
+
     /* (non-PHPdoc)
      * @see Iterator::key()
      */
@@ -61,7 +61,7 @@ class Provider implements \Iterator
     {
         return $this->key;
     }
-    
+
     /* (non-PHPdoc)
      * @see Iterator::next()
      */
@@ -70,7 +70,7 @@ class Provider implements \Iterator
         array_shift($this->data);
         $this->key++;
     }
-    
+
     /* (non-PHPdoc)
      * @see Iterator::rewind()
      */
@@ -79,7 +79,7 @@ class Provider implements \Iterator
         $this->data = array();
         $this->key = 0;
     }
-    
+
     /**
      * get next batch from provider if data array is at the end
      *
@@ -96,7 +96,19 @@ class Provider implements \Iterator
                 $this->manuallyAddedData = array();
             }
         }
-        
+
         return count($this->data) > 0;
+    }
+
+    /*
+     * Returns first event
+     */
+    public function first()
+    {
+        if (!isset($this->manuallyAddedData[0])) {
+            return false;
+        }
+
+        return $this->manuallyAddedData[0];
     }
 }
