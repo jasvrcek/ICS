@@ -7,7 +7,7 @@ class Formatter
     const DATE_TIME = 'Ymd\THis';
     const DATE_TIME_UTC = 'Ymd\THis\Z';
     const DATE = 'Ymd';
-    
+
     /**
      * @param \DateTime $dateTime
      * @return string
@@ -16,7 +16,7 @@ class Formatter
     {
         return $dateTime->format(self::DATE_TIME);
     }
-    
+
     /**
      * @param int $offset
      * @return string
@@ -24,10 +24,10 @@ class Formatter
     public function getFormattedTimeOffset($offset)
     {
         $prefix = ($offset < 0) ? '-' : '+';
-        
+
         return $prefix.gmdate('Hi', abs($offset));
     }
-    
+
     /**
      * @param \DateTime $dateTime
      * @return string
@@ -42,11 +42,19 @@ class Formatter
      * @param \DateTime $dateTime
      * @return string
      */
+    public function getFormattedDateTimeWithTimeZone(\DateTime $dateTime) {
+        return 'TZID=' . $dateTime->getTimezone()->getName() . ':' . self::getFormattedDateTime($dateTime);
+    }
+
+    /**
+     * @param \DateTime $dateTime
+     * @return string
+     */
     public function getFormattedDate(\DateTime $dateTime)
     {
         return $dateTime->format(self::DATE);
     }
-    
+
     /**
      * converts email addresses into mailto: uri
      * @param string $uri
@@ -57,7 +65,7 @@ class Formatter
         if (strpos($uri, '@') && stripos($uri, 'mailto:') === false) {
             $uri = 'mailto:'.$uri;
         }
-        
+
         return $uri;
     }
 

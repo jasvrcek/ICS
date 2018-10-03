@@ -26,6 +26,11 @@ class CalendarExport
      */
     private $formatter;
 
+    /**
+     * @var string;
+     */
+    private $dateTimeFormat = 'local';
+
     public function __construct(CalendarStream $stream, Formatter $formatter)
     {
         $this->stream = $stream;
@@ -97,7 +102,13 @@ class CalendarExport
                 $varName = ($transition['isdst']) ? 'daylightSavings' : 'standard';
 
                 ${$varName}['exists'] = true;
-                ${$varName}['start'] = $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
+                if ($this->dateTimeFormat === 'local') {
+                    ${$varName}['start'] = ':' . $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
+                } else if ($this->dateTimeFormat === 'utc') {
+                    ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
+                } else if ($this->dateTimeFormat == 'local-tz') {
+                    ${$varName}['start'] = ';' . $this->formatter->getFormattedDateTimeWithTimeZone(new \DateTime($transition['time']));
+                }
 
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
 
@@ -113,7 +124,7 @@ class CalendarExport
             $this->stream->addItem('TZID:'.$tz->getName());
 
             $this->stream->addItem('BEGIN:STANDARD')
-                    ->addItem('DTSTART:'.$standard['start'])
+                    ->addItem('DTSTART'.$standard['start'])
                     ->addItem('TZOFFSETTO:'.$standard['offsetTo'])
                     ->addItem('TZOFFSETFROM:'.$standard['offsetFrom']);
 
@@ -124,7 +135,7 @@ class CalendarExport
 
             if ($daylightSavings['exists']) {
                 $this->stream->addItem('BEGIN:DAYLIGHT')
-                        ->addItem('DTSTART:'.$daylightSavings['start'])
+                        ->addItem('DTSTART'.$daylightSavings['start'])
                         ->addItem('TZOFFSETTO:'.$daylightSavings['offsetTo'])
                         ->addItem('TZOFFSETFROM:'.$daylightSavings['offsetFrom'])
                         ->addItem('RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU')
@@ -136,18 +147,25 @@ class CalendarExport
             //add events
             /* @var $event CalendarEvent */
             foreach ($cal->getEvents() as $event) {
-                $dtStart = $event->isAllDay() ?
-                    $this->formatter->getFormattedDate($event->getStart()) :
-                    $this->formatter->getFormattedDateTime($event->getStart());
 
-                $dtEnd   = $event->isAllDay() ?
-                    $this->formatter->getFormattedDate($event->getEnd()) :
-                    $this->formatter->getFormattedDateTime($event->getEnd());
+                if ($event->isAllDay()) {
+                    $dtStart = ':' . $this->formatter->getFormattedDate($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedDate($event->getEnd());
+                } else if ($this->dateTimeFormat === 'local') {
+                    $dtStart = ':' . $this->formatter->getFormattedDateTime($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedDateTime($event->getEnd());
+                } else if ($this->dateTimeFormat === 'utc') {
+                    $dtStart = ':' . $this->formatter->getFormattedUTCDateTime($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedUTCDateTime($event->getEnd());
+                } else if ($this->dateTimeFormat === 'local-tz'){
+                    $dtStart = ';' . $this->formatter->getFormattedDateTimeWithTimeZone($event->getStart());
+                    $dtEnd = ';' . $this->formatter->getFormattedDateTimeWithTimeZone($event->getEnd());
+                }
 
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
-                    ->addItem('DTSTART:'. $dtStart)
-                    ->addItem('DTEND:'. $dtEnd);
+                    ->addItem('DTSTART'. $dtStart)
+                    ->addItem('DTEND'. $dtEnd);
 
                 if ($event->getRecurrenceRule() instanceof RecurrenceRule) {
                     $this->stream->addItem($event->getRecurrenceRule()->__toString());
@@ -278,6 +296,22 @@ class CalendarExport
     {
         $this->calendars = $calendars;
         return $this;
+    }
+
+    /**
+     * @param string $format
+     * @return $this
+     * @throws \Exception
+     */
+    public function setDateTimeFormat($format)
+    {
+        if (in_array($format, ['local', 'local-tz', 'utc'])) {
+            $this->dateTimeFormat = $format;
+        } else {
+            throw new \Exception('Invalid Format Chosen');
+        }
+        return $this;
+
     }
 
     /**
