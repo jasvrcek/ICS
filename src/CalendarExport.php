@@ -119,7 +119,7 @@ class CalendarExport
             $this->stream->addItem('TZID:'.$tz->getName());
 
             $this->stream->addItem('BEGIN:STANDARD')
-                    ->addItem('DTSTART'.$standard['start'])
+                    ->addItem('DTSTART'. $standard['start'])
                     ->addItem('TZOFFSETTO:'.$standard['offsetTo'])
                     ->addItem('TZOFFSETFROM:'.$standard['offsetFrom']);
 
@@ -130,7 +130,7 @@ class CalendarExport
 
             if ($daylightSavings['exists']) {
                 $this->stream->addItem('BEGIN:DAYLIGHT')
-                        ->addItem('DTSTART'.$daylightSavings['start'])
+                        ->addItem('DTSTART'. $daylightSavings['start'])
                         ->addItem('TZOFFSETTO:'.$daylightSavings['offsetTo'])
                         ->addItem('TZOFFSETFROM:'.$daylightSavings['offsetFrom'])
                         ->addItem('RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU')
