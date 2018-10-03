@@ -44,7 +44,7 @@ class CalendarExport
      * @return string
      * @throws \Exception
      */
-    public function getStream()
+    public function getStream($date_time_format = 'local')
     {
         $this->stream->reset();
 
@@ -97,7 +97,13 @@ class CalendarExport
                 $varName = ($transition['isdst']) ? 'daylightSavings' : 'standard';
 
                 ${$varName}['exists'] = true;
-                ${$varName}['start'] = $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
+                if ($date_time_format === 'local') {
+                    ${$varName}['start'] = ':' . $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
+                } else if ($date_time_format === 'utc') {
+                    ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
+                } else if ($date_time_format == 'local-tz') {
+                    ${$varName}['start'] = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone(new \DateTime($transition['time']));
+                }
 
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
 
@@ -113,7 +119,7 @@ class CalendarExport
             $this->stream->addItem('TZID:'.$tz->getName());
 
             $this->stream->addItem('BEGIN:STANDARD')
-                    ->addItem('DTSTART:'.$standard['start'])
+                    ->addItem('DTSTART'.$standard['start'])
                     ->addItem('TZOFFSETTO:'.$standard['offsetTo'])
                     ->addItem('TZOFFSETFROM:'.$standard['offsetFrom']);
 
@@ -124,7 +130,7 @@ class CalendarExport
 
             if ($daylightSavings['exists']) {
                 $this->stream->addItem('BEGIN:DAYLIGHT')
-                        ->addItem('DTSTART:'.$daylightSavings['start'])
+                        ->addItem('DTSTART'.$daylightSavings['start'])
                         ->addItem('TZOFFSETTO:'.$daylightSavings['offsetTo'])
                         ->addItem('TZOFFSETFROM:'.$daylightSavings['offsetFrom'])
                         ->addItem('RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU')
@@ -136,18 +142,26 @@ class CalendarExport
             //add events
             /* @var $event CalendarEvent */
             foreach ($cal->getEvents() as $event) {
-                $dtStart = $event->isAllDay() ?
-                    $this->formatter->getFormattedDate($event->getStart()) :
-                    $this->formatter->getFormattedDateTime($event->getStart());
 
-                $dtEnd   = $event->isAllDay() ?
-                    $this->formatter->getFormattedDate($event->getEnd()) :
-                    $this->formatter->getFormattedDateTime($event->getEnd());
+                if ($event->isAllDay()) {
+                    $dtStart = $this->formatter->getFormattedDate($event->getStart());
+                    $dtEnd = $this->formatter->getFormattedDate($event->getEnd());
+                } else if ($date_time_format === 'local') {
+                    $dtStart = ':' . $this->formatter->getFormattedDateTime($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedDateTime($event->getEnd());
+                } else if ($date_time_format === 'utc') {
+                    $dtStart = ':' . $this->formatter->getFormattedUTCDateTime($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedUTCDateTime($event->getEnd());
+                } else {
+                    $dtStart = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone($event->getStart());
+                    $dtEnd = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone($event->getEnd());
+                }
+
 
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
-                    ->addItem('DTSTART:'. $dtStart)
-                    ->addItem('DTEND:'. $dtEnd);
+                    ->addItem('DTSTART'. $dtStart)
+                    ->addItem('DTEND'. $dtEnd);
 
                 if ($event->getRecurrenceRule() instanceof RecurrenceRule) {
                     $this->stream->addItem($event->getRecurrenceRule()->__toString());
