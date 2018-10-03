@@ -303,7 +303,7 @@ class CalendarExport
      * @return $this
      * @throws \Exception
      */
-    public function setDateTimeFormat(string  $format)
+    public function setDateTimeFormat($format)
     {
         if (in_array($format, ['local', 'local-tz', 'utc'])) {
             $this->dateTimeFormat = $format;
