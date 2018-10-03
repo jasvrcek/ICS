@@ -26,6 +26,11 @@ class CalendarExport
      */
     private $formatter;
 
+    /**
+     * @var string;
+     */
+    private $dateTimeFormat = 'local';
+
     public function __construct(CalendarStream $stream, Formatter $formatter)
     {
         $this->stream = $stream;
@@ -44,7 +49,7 @@ class CalendarExport
      * @return string
      * @throws \Exception
      */
-    public function getStream($date_time_format = 'local')
+    public function getStream()
     {
         $this->stream->reset();
 
@@ -97,11 +102,11 @@ class CalendarExport
                 $varName = ($transition['isdst']) ? 'daylightSavings' : 'standard';
 
                 ${$varName}['exists'] = true;
-                if ($date_time_format === 'local') {
+                if ($this->dateTimeFormat === 'local') {
                     ${$varName}['start'] = ':' . $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
-                } else if ($date_time_format === 'utc') {
+                } else if ($this->dateTimeFormat === 'utc') {
                     ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
-                } else if ($date_time_format == 'local-tz') {
+                } else if ($this->dateTimeFormat == 'local-tz') {
                     ${$varName}['start'] = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone(new \DateTime($transition['time']));
                 }
 
@@ -146,10 +151,10 @@ class CalendarExport
                 if ($event->isAllDay()) {
                     $dtStart = $this->formatter->getFormattedDate($event->getStart());
                     $dtEnd = $this->formatter->getFormattedDate($event->getEnd());
-                } else if ($date_time_format === 'local') {
+                } else if ($this->dateTimeFormat === 'local') {
                     $dtStart = ':' . $this->formatter->getFormattedDateTime($event->getStart());
                     $dtEnd = ':' . $this->formatter->getFormattedDateTime($event->getEnd());
-                } else if ($date_time_format === 'utc') {
+                } else if ($this->dateTimeFormat === 'utc') {
                     $dtStart = ':' . $this->formatter->getFormattedUTCDateTime($event->getStart());
                     $dtEnd = ':' . $this->formatter->getFormattedUTCDateTime($event->getEnd());
                 } else {
@@ -292,6 +297,22 @@ class CalendarExport
     {
         $this->calendars = $calendars;
         return $this;
+    }
+
+    /**
+     * @param string $format
+     * @return $this
+     * @throws \Exception
+     */
+    public function setDateTimeFormat(string  $format)
+    {
+        if (in_array($format, ['local', 'local-tz', 'utc'])) {
+            $this->dateTimeFormat = $format;
+        } else {
+            throw new \Exception('Invalid Format Chosen');
+        }
+        return $this;
+
     }
 
     /**

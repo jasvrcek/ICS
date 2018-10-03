@@ -263,9 +263,10 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $ce = new CalendarExport(new CalendarStream(), new Formatter());
         $ce->addCalendar($cal)
-            ->addCalendar($calTwo);
+            ->addCalendar($calTwo)
+            ->setDateTimeFormat('utc');
 
-        $stream = $ce->getStream('utc');
+        $stream = $ce->getStream();
 
         $expected = file_get_contents(__DIR__ . '/test-utc.ics');
 
@@ -385,9 +386,10 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
 
         $ce = new CalendarExport(new CalendarStream(), new Formatter());
         $ce->addCalendar($cal)
-            ->addCalendar($calTwo);
+            ->addCalendar($calTwo)
+            ->setDateTimeFormat('local-tz');
 
-        $stream = $ce->getStream('local-tz');
+        $stream = $ce->getStream();
 
         $expected = file_get_contents(__DIR__ . '/test-local-tz.ics');
 
