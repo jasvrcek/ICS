@@ -42,7 +42,7 @@ class Formatter
      * @param \DateTime $dateTime
      * @return string
      */
-    public function getFormattedLocalDateTimeWithTimeZone(\DateTime $dateTime) {
+    public function getFormattedDateTimeWithTimeZone(\DateTime $dateTime) {
         return 'TZID=' . $dateTime->getTimezone()->getName() . ':' . self::getFormattedDateTime($dateTime);
     }
 

@@ -62,7 +62,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Jsvrcek\ICS\Utility\Formatter::getFormattedLocalDateTimeWithTimeZone
+     * @covers \Jsvrcek\ICS\Utility\Formatter::getFormattedDateTimeWithTimeZone
      */
     public function testGetFormattedLocalDateTimeWithTimeZone()
     {
@@ -70,7 +70,7 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
 
         $dateTime = new \DateTime('1998-01-18 23:00:00', new \DateTimeZone('America/New_York'));
         $expected = 'TZID=America/New_York:19980118T230000';
-        $actual = $ce->getFormattedLocalDateTimeWithTimeZone($dateTime);
+        $actual = $ce->getFormattedDateTimeWithTimeZone($dateTime);
         $this->assertEquals($expected, $actual);
     }
 

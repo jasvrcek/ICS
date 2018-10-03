@@ -107,7 +107,7 @@ class CalendarExport
                 } else if ($this->dateTimeFormat === 'utc') {
                     ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
                 } else if ($this->dateTimeFormat == 'local-tz') {
-                    ${$varName}['start'] = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone(new \DateTime($transition['time']));
+                    ${$varName}['start'] = ';' . $this->formatter->getFormattedDateTimeWithTimeZone(new \DateTime($transition['time']));
                 }
 
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
@@ -149,19 +149,18 @@ class CalendarExport
             foreach ($cal->getEvents() as $event) {
 
                 if ($event->isAllDay()) {
-                    $dtStart = $this->formatter->getFormattedDate($event->getStart());
-                    $dtEnd = $this->formatter->getFormattedDate($event->getEnd());
+                    $dtStart = ':' . $this->formatter->getFormattedDate($event->getStart());
+                    $dtEnd = ':' . $this->formatter->getFormattedDate($event->getEnd());
                 } else if ($this->dateTimeFormat === 'local') {
                     $dtStart = ':' . $this->formatter->getFormattedDateTime($event->getStart());
                     $dtEnd = ':' . $this->formatter->getFormattedDateTime($event->getEnd());
                 } else if ($this->dateTimeFormat === 'utc') {
                     $dtStart = ':' . $this->formatter->getFormattedUTCDateTime($event->getStart());
                     $dtEnd = ':' . $this->formatter->getFormattedUTCDateTime($event->getEnd());
-                } else {
-                    $dtStart = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone($event->getStart());
-                    $dtEnd = ';' . $this->formatter->getFormattedLocalDateTimeWithTimeZone($event->getEnd());
+                } else if ($this->dateTimeFormat === 'local-tz'){
+                    $dtStart = ';' . $this->formatter->getFormattedDateTimeWithTimeZone($event->getStart());
+                    $dtEnd = ';' . $this->formatter->getFormattedDateTimeWithTimeZone($event->getEnd());
                 }
-
 
                 $this->stream->addItem('BEGIN:VEVENT')
                     ->addItem('UID:'.$event->getUid())
