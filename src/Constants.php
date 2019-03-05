@@ -1,4 +1,5 @@
 <?php
+
 namespace Jsvrcek\ICS;
 
 class Constants

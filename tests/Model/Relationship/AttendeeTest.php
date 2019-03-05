@@ -1,9 +1,8 @@
 <?php
 
-namespace Jsvrcek\ICS\Tests\Model\Relationship;
+namespace Jsvrcek\ICS\Model\Relationship;
 
 use Jsvrcek\ICS\Utility\Formatter;
-use Jsvrcek\ICS\Model\Relationship\Attendee;
 
 class AttendeeTest extends \PHPUnit_Framework_TestCase
 {

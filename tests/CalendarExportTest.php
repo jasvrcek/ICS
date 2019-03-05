@@ -1,27 +1,17 @@
 <?php
 
-namespace Jsvrcek\ICS\Tests;
+namespace Jsvrcek\ICS;
 
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\Recurrence\DataType\Weekday;
-
 use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
-
 use Jsvrcek\ICS\Model\Recurrence\DataType\Frequency;
-
-use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
-
 use Jsvrcek\ICS\Model\Relationship\Organizer;
-
 use Jsvrcek\ICS\Utility\Formatter;
-
-use Jsvrcek\ICS\CalendarStream;
-
 use Jsvrcek\ICS\Model\Relationship\Attendee;
-
-use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
+use Recurr\Rule;
 
 class CalendarExportTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,11 +22,13 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
     {
         $timezone = new \DateTimeZone('Antarctica/McMurdo');
 
-        $organizer = new Organizer(new Formatter());
-        $organizer->setValue('sue@example.com')
-            ->setName('Sue Jones')
-            ->setSentBy('mary@example.com')
-            ->setLanguage('en');
+        $organizer = new Organizer(
+            'sue@example.com',
+            'Sue Jones',
+            null,
+            'mary@example.com',
+            'en'
+        );
 
         $attendee = new Attendee(new Formatter());
         $attendee->setName('Jane Smith')
@@ -57,7 +49,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSequence(3)
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
             ->setInterval(2)
             ->setCount(40)
@@ -100,7 +93,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSummary('Every Wednesday event')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::WEEKLY));
 
         $eventTwo->setRecurrenceRule($rrule);
@@ -154,11 +148,13 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
     {
         $timezone = new \DateTimeZone('Antarctica/McMurdo');
 
-        $organizer = new Organizer(new Formatter());
-        $organizer->setValue('sue@example.com')
-            ->setName('Sue Jones')
-            ->setSentBy('mary@example.com')
-            ->setLanguage('en');
+        $organizer = new Organizer(
+            'sue@example.com',
+            'Sue Jones',
+            null,
+            'mary@example.com',
+            'en'
+        );
 
         $attendee = new Attendee(new Formatter());
         $attendee->setName('Jane Smith')
@@ -179,7 +175,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSequence(3)
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
             ->setInterval(2)
             ->setCount(40)
@@ -222,7 +219,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSummary('Every Wednesday event')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::WEEKLY));
 
         $eventTwo->setRecurrenceRule($rrule);
@@ -277,11 +275,13 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
     {
         $timezone = new \DateTimeZone('Antarctica/McMurdo');
 
-        $organizer = new Organizer(new Formatter());
-        $organizer->setValue('sue@example.com')
-            ->setName('Sue Jones')
-            ->setSentBy('mary@example.com')
-            ->setLanguage('en');
+        $organizer = new Organizer(
+            'sue@example.com',
+            'Sue Jones',
+            null,
+            'mary@example.com',
+            'en'
+        );
 
         $attendee = new Attendee(new Formatter());
         $attendee->setName('Jane Smith')
@@ -302,7 +302,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSequence(3)
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))
             ->setInterval(2)
             ->setCount(40)
@@ -345,7 +346,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSummary('Every Wednesday event')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
-        $rrule = new RecurrenceRule(new Formatter());
+        // @todo fix
+        $rrule = new Rule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::WEEKLY));
 
         $eventTwo->setRecurrenceRule($rrule);

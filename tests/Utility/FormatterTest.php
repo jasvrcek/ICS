@@ -1,8 +1,6 @@
 <?php
 
-namespace Jsvrcek\ICS\Tests\Utility;
-
-use Jsvrcek\ICS\Utility\Formatter;
+namespace Jsvrcek\ICS\Utility;
 
 class FormatterTest extends \PHPUnit_Framework_TestCase
 {

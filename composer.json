@@ -1,17 +1,22 @@
 {
-    "name": "jsvrcek/ics",
+    "name": "milan-mimra/ics",
     "license": "MIT",
     "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
     "keywords": ["ical", "calendar", "export", ".ics", "RFC 5545", "multi-byte safe"],
-    "homepage": "https://github.com/jasvrcek/ICS",
+    "homepage": "https://github.com/milan-mimra/ics",
     "authors":  [
         {
             "name": "Justin Svrcek",
             "homepage": "https://github.com/jasvrcek"
+        },
+        {
+            "name": "Milan Mimra",
+            "homepage": "https://github.com/milan-mimra"
         }
     ],
     "require": {
-        "php": "^5.4 || ^7.0"
+        "php": "^7.1",
+        "simshaun/recurr": "^3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8 || ^5.5"
@@ -23,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Jsvrcek\\ICS\\Tests\\": "tests/"
+            "Jsvrcek\\ICS\\": "tests/"
         }
     }
 }

@@ -7,12 +7,7 @@ use Jsvrcek\ICS\Utility\Formatter;
 class Organizer
 {
     /**
-     * @var Formatter
-     */
-    private $formatter;
-    
-    /**
-     * RFC 5545 cal-address
+     * RFC 5545 cal-address http://tools.ietf.org/html/rfc5545#section-3.3.3
      * @var string
      */
     private $value;
@@ -24,141 +19,82 @@ class Organizer
     private $name;
 
     /**
-     * RFC 5545 dirparam
-     * @var string
+     * RFC 5545 dirparam http://tools.ietf.org/html/rfc5545#section-3.2.6
+     * uri directory entry associated with the calendar user
+     * @var string|null
      */
     private $directory;
 
     /**
-     * RFC 5545 sentbyparam
-     * @var string
+     * RFC 5545 sentbyparam http://tools.ietf.org/html/rfc5545#section-3.2.18
+     * email address
+     * @var string|null
      */
     private $sentBy;
 
     /**
      * RFC 5545 languageparam
-     * @var string
+     * RFC 1766 language identifier
+     * @var string|null
      */
     private $language;
-    
-    /**
-     * @param Formatter $formatter
-     */
-    public function __construct(Formatter $formatter)
-    {
-        $this->formatter = $formatter;
+
+    public function __construct(
+        string $value,
+        string $name,
+        ?string $directory,
+        ?string $sentBy,
+        ?string $language
+    ) {
+        $formatter = new Formatter();
+
+        $this->value = $formatter->getFormattedUri($value);
+        $this->name = $name;
+        $this->directory = $directory;
+        $this->sentBy = $sentBy;
+        $this->language = $language;
     }
-    
-    /**
-     * @return string
-     */
-    public function getValue()
+
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    /**
-     * RFC 5545 cal-address http://tools.ietf.org/html/rfc5545#section-3.3.3
-     * @param string $uri
-     * @return \Jsvrcek\ICS\Model\Relationship\Organizer
-     */
-    public function setValue($uri)
-    {
-        $this->value = $this->formatter->getFormattedUri($uri);
-        return $this;
-    }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return \Jsvrcek\ICS\Model\Relationship\Organizer
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDirectory()
+    public function getDirectory(): ?string
     {
         return $this->directory;
     }
 
-    /**
-     * RFC 5545 dirparam http://tools.ietf.org/html/rfc5545#section-3.2.6
-     * @param string $directory uri directory entry associated with the calendar user
-     * @return \Jsvrcek\ICS\Model\Relationship\Organizer
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSentBy()
+    public function getSentBy(): ?string
     {
         return $this->sentBy;
     }
 
-    /**
-     * RFC 5545 sentbyparam http://tools.ietf.org/html/rfc5545#section-3.2.18
-     * @param string $sentBy email address
-     * @return \Jsvrcek\ICS\Model\Relationship\Organizer
-     */
-    public function setSentBy($sentBy)
-    {
-        $this->sentBy = $sentBy;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLanguage()
+    public function getLanguage(): ?string
     {
         return $this->language;
     }
 
-    /**
-     * @param string $language RFC 1766 language identifier
-     * @return \Jsvrcek\ICS\Model\Relationship\Organizer
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-        return $this;
-    }
-    
-    public function __toString()
+    public function __toString(): string
     {
         $string = 'ORGANIZER';
         
-        if ($this->sentBy) {
+        if ($this->sentBy !== null) {
             $string .= ';SENT-BY="'.$this->sentBy.'"';
         }
-        
-        if ($this->name) {
-            $string .= ';CN='.$this->name;
-        }
-        
-        if ($this->directory) {
+
+        $string .= ';CN='.$this->name;
+
+        if ($this->directory !== null) {
             $string .= ';DIR="'.$this->directory.'"';
         }
         
-        if ($this->language) {
+        if ($this->language !== null) {
             $string .= ';LANGUAGE='.$this->language;
         }
         

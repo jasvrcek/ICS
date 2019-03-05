@@ -2,12 +2,12 @@
 
 namespace Jsvrcek\ICS\Model;
 
-use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
 use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Model\Relationship\Attendee;
 use Jsvrcek\ICS\Exception\CalendarEventException;
+use Recurr\Rule;
 
 /**
  * @author justinsvrcek
@@ -31,7 +31,7 @@ class CalendarEvent
     private $end;
     
     /**
-     * @var RecurrenceRule
+     * @var Rule
      */
     private $recurrenceRule;
     
@@ -215,20 +215,17 @@ class CalendarEvent
         $this->end = $end;
         return $this;
     }
-    
-    /**
-     * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
-     */
-    public function getRecurrenceRule()
+
+    public function getRecurrenceRule(): Rule
     {
         return $this->recurrenceRule;
     }
     
     /**
-     * @param RecurrenceRule $recurrenceRule
+     * @param Rule $recurrenceRule
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
-    public function setRecurrenceRule(RecurrenceRule $recurrenceRule)
+    public function setRecurrenceRule(Rule $recurrenceRule)
     {
         $this->recurrenceRule = $recurrenceRule;
         return $this;

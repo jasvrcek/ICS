@@ -3,11 +3,11 @@
 namespace Jsvrcek\ICS;
 
 use Jsvrcek\ICS\Model\CalendarAlarm;
-use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
 use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
+use Recurr\Rule;
 
 class CalendarExport
 {
@@ -167,8 +167,8 @@ class CalendarExport
                     ->addItem('DTSTART'. $dtStart)
                     ->addItem('DTEND'. $dtEnd);
 
-                if ($event->getRecurrenceRule() instanceof RecurrenceRule) {
-                    $this->stream->addItem($event->getRecurrenceRule()->__toString());
+                if ($event->getRecurrenceRule() instanceof Rule) {
+                    $this->stream->addItem($event->getRecurrenceRule()->getString());
                 }
 
                 foreach ($event->getExceptionDates() as $date) {

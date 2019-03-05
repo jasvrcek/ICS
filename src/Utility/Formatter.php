@@ -2,6 +2,10 @@
 
 namespace Jsvrcek\ICS\Utility;
 
+use DateInterval;
+use DateTime;
+use DateTimeZone;
+
 class Formatter
 {
     const DATE_TIME = 'Ymd\THis';
@@ -9,10 +13,10 @@ class Formatter
     const DATE = 'Ymd';
 
     /**
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      * @return string
      */
-    public function getFormattedDateTime(\DateTime $dateTime)
+    public function getFormattedDateTime(DateTime $dateTime)
     {
         return $dateTime->format(self::DATE_TIME);
     }
@@ -29,28 +33,28 @@ class Formatter
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      * @return string
      */
-    public function getFormattedUTCDateTime(\DateTime $dateTime)
+    public function getFormattedUTCDateTime(DateTime $dateTime)
     {
-        return $dateTime->setTimezone(new \DateTimeZone('UTC'))
+        return $dateTime->setTimezone(new DateTimeZone('UTC'))
                     ->format(self::DATE_TIME_UTC);
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      * @return string
      */
-    public function getFormattedDateTimeWithTimeZone(\DateTime $dateTime) {
+    public function getFormattedDateTimeWithTimeZone(DateTime $dateTime) {
         return 'TZID=' . $dateTime->getTimezone()->getName() . ':' . self::getFormattedDateTime($dateTime);
     }
 
     /**
-     * @param \DateTime $dateTime
+     * @param DateTime $dateTime
      * @return string
      */
-    public function getFormattedDate(\DateTime $dateTime)
+    public function getFormattedDate(DateTime $dateTime)
     {
         return $dateTime->format(self::DATE);
     }
@@ -71,10 +75,10 @@ class Formatter
 
     /**
      * converts DateInterval object to string that can be used for a VALARM DURATION
-     * @param \DateInterval $interval
+     * @param DateInterval $interval
      * @return string
      */
-    public function getFormattedDateInterval(\DateInterval $interval)
+    public function getFormattedDateInterval(DateInterval $interval)
     {
         $format = "P";
 

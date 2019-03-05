@@ -2,6 +2,7 @@
 
 namespace Jsvrcek\ICS\Model;
 
+use DateTimeZone;
 use Jsvrcek\ICS\Utility\Provider;
 
 class Calendar
@@ -32,7 +33,7 @@ class Calendar
     private $customHeaders = array();
 
     /**
-     * @var \DateTimeZone
+     * @var DateTimeZone
      */
     private $timezone;
     
@@ -51,12 +52,9 @@ class Calendar
      */
     private $freeBusy;
 
-    /**
-     * Calendar constructor.
-     */
     public function __construct()
     {
-        $this->timezone = new \DateTimeZone('America/New_York');
+        $this->timezone = new DateTimeZone('America/New_York');
         $this->events = new Provider();
         $this->todos = new Provider();
         $this->freeBusy = new Provider();
@@ -191,7 +189,7 @@ class Calendar
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
     public function getTimezone()
     {
@@ -199,10 +197,10 @@ class Calendar
     }
 
     /**
-     * @param \DateTimeZone $timezone
+     * @param DateTimeZone $timezone
      * @return \Jsvrcek\ICS\Model\Calendar
      */
-    public function setTimezone(\DateTimeZone $timezone)
+    public function setTimezone(DateTimeZone $timezone)
     {
         $this->timezone = $timezone;
         return $this;

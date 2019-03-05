@@ -1,9 +1,6 @@
 <?php
 
-namespace Jsvrcek\ICS\Tests;
-
-use Jsvrcek\ICS\CalendarStream;
-use Jsvrcek\ICS\Constants;
+namespace Jsvrcek\ICS;
 
 class CalendarStreamTest extends \PHPUnit_Framework_TestCase
 {
