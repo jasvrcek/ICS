@@ -104,4 +104,21 @@ class Formatter
 
         return $interval->format($format);
     }
+
+    public function getFormattedImageString(array $image)
+    {
+        $imageString = 'IMAGE;VALUE='.$image['VALUE'];
+        if ($image['DISPLAY']) {
+            $imageString .= ';DISPLAY=' . $image['DISPLAY'];
+        }
+        if ($image['FMTTYPE']) {
+            $imageString .= ';FMTTYPE=' . $image['FMTTYPE'];
+        }
+        if ($image['VALUE'] == 'URI') {
+            $imageString .= ':' . $image['URI'];
+        } else {
+            $imageString .= ':' . $image['BINARY'];
+        }
+        return $imageString;
+    }
 }
