@@ -62,6 +62,10 @@ class CalendarExport
                 ->addItem('CALSCALE:'.$cal->getCalendarScale())
                 ->addItem('METHOD:'.$cal->getMethod());
 
+            if ($cal->getName()) {
+                $this->stream->addItem('NAME:'.$cal->getName());
+            }
+
             //custom headers
             foreach ($cal->getCustomHeaders() as $key => $value) {
                 $this->stream->addItem($key.':'.$value);

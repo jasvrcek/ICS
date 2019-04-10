@@ -19,6 +19,11 @@ class Calendar
     /**
      * @var string
      */
+    private $name = '';
+
+    /**
+     * @var string
+     */
     private $calendarScale = 'GREGORIAN';
 
     /**
@@ -35,17 +40,17 @@ class Calendar
      * @var \DateTimeZone
      */
     private $timezone;
-    
+
     /**
      * @var Provider
      */
     private $events;
-    
+
     /**
      * @var Provider
      */
     private $todos;
-    
+
     /**
      * @var Provider
      */
@@ -61,7 +66,7 @@ class Calendar
         $this->todos = new Provider();
         $this->freeBusy = new Provider();
     }
-    
+
     /**
      * For use if you want CalendarExport::getStream to get events in batches from a database during
      * the output of the ics feed, instead of adding all events to the Calendar object before outputting
@@ -125,6 +130,24 @@ class Calendar
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the RFC-7986 "Name" field for the calendar
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
     public function getCalendarScale()
     {
         return $this->calendarScale;
@@ -178,7 +201,7 @@ class Calendar
         $this->customHeaders = $customHeaders;
         return $this;
     }
-    
+
     /**
      * @param string $key
      * @param string $value
@@ -225,7 +248,7 @@ class Calendar
         $this->events->add($event);
         return $this;
     }
-    
+
     /**
      * @return Provider returs array of CalendarTodo objects
      */
@@ -233,7 +256,7 @@ class Calendar
     {
         return $this->todos;
     }
-    
+
     /**
      * @param CalendarTodo $todo
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -243,7 +266,7 @@ class Calendar
         $this->todos[] = $todo;
         return $this;
     }
-    
+
     /**
      * @param array $todos
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -253,7 +276,7 @@ class Calendar
         $this->todos = $todos;
         return $this;
     }
-    
+
     /**
      * @return Provider returs array of CalendarFreeBusy objects
      */
@@ -261,7 +284,7 @@ class Calendar
     {
         return $this->freeBusy;
     }
-    
+
     /**
      * @param CalendarFreeBusy $todo
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -271,7 +294,7 @@ class Calendar
         $this->freeBusy[] = $todo;
         return $this;
     }
-    
+
     /**
      * @param array $freeBusy
      * @return \Jsvrcek\ICS\Model\Calendar
