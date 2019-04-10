@@ -67,19 +67,7 @@ class CalendarExport
             }
 
             if ($cal->getImage()) {
-                $imageString = 'IMAGE;VALUE='.$cal->getImage()['VALUE'];
-                if ($cal->getImage()['DISPLAY']) {
-                    $imageString .= ';DISPLAY=' . $cal->getImage()['DISPLAY'];
-                }
-                if ($cal->getImage()['FMTTYPE']) {
-                    $imageString .= ';FMTTYPE=' . $cal->getImage()['FMTTYPE'];
-                }
-                if ($cal->getImage()['VALUE'] == 'URI') {
-                    $imageString .= ':' . $cal->getImage()['URI'];
-                } else {
-                    $imageString .= ':' . $cal->getImage()['BINARY'];
-                }
-                $this->stream->addItem($imageString);
+                $this->stream->addItem($this->formatter->getFormattedImageString($cal->getImage()));
             }
 
             //custom headers
@@ -197,6 +185,10 @@ class CalendarExport
 
                 if ($event->getSequence()) {
                     $this->stream->addItem('SEQUENCE:'.$event->getSequence());
+                }
+
+                if ($event->getImage()) {
+                    $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
 
                 $this->stream->addItem('STATUS:'.$event->getStatus())
