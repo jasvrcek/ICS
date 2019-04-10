@@ -108,4 +108,35 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
+
+    /**
+     * @covers Jsvrcek\ICS\\Formatter::getFormattedImageString
+     */
+    public function testGetFormattedImageString()
+    {
+        $ce = new Formatter();
+
+        $tests = [
+            [
+                'expected' => 'IMAGE;VALUE=URI;DISPLAY=BADGE;FMTTYPE=image/png:http://example.com/images/party.png',
+                'image' => [
+                    'VALUE' => 'URI',
+                    'URI' => 'http://example.com/images/party.png',
+                    'DISPLAY' => 'BADGE',
+                    'FMTTYPE' => 'image/png'
+                ]
+            ],
+            [
+                'expected' => 'IMAGE;VALUE=BINARY;ENCODING=BASE64;DISPLAY=BADGE;FMTTYPE=image/png:VGhpcyBpcyBteSBhbWF6aW5nIGltYWdl',
+                'image' => ''
+            ]
+        ];
+
+        foreach ($tests as $test) {
+            $this->assertEquals(
+                $test['expected'],
+                $ce->getFormattedImageString($test['image'])
+            );
+        }
+    }
 }
