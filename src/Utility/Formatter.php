@@ -105,6 +105,11 @@ class Formatter
         return $interval->format($format);
     }
 
+    /**
+     * converts an image array into a correctly formatted string.
+     * @param array $image
+     * @return string
+     */
     public function getFormattedImageString(array $image)
     {
         $imageString = 'IMAGE;VALUE='.$image['VALUE'];
