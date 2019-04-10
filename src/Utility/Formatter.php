@@ -113,10 +113,14 @@ class Formatter
     public function getFormattedImageString(array $image)
     {
         $imageString = 'IMAGE;VALUE='.$image['VALUE'];
-        if ($image['DISPLAY']) {
+        if ($image['VALUE'] == 'BINARY'){
+            $imageString .= ';ENCODING=' . $image['ENCODING'];
+        }
+
+        if (isset($image['DISPLAY'])) {
             $imageString .= ';DISPLAY=' . $image['DISPLAY'];
         }
-        if ($image['FMTTYPE']) {
+        if (isset($image['FMTTYPE'])) {
             $imageString .= ';FMTTYPE=' . $image['FMTTYPE'];
         }
         if ($image['VALUE'] == 'URI') {

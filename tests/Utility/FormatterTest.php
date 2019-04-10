@@ -128,7 +128,13 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'expected' => 'IMAGE;VALUE=BINARY;ENCODING=BASE64;DISPLAY=BADGE;FMTTYPE=image/png:VGhpcyBpcyBteSBhbWF6aW5nIGltYWdl',
-                'image' => ''
+                'image' => [
+                    'VALUE' => 'BINARY',
+                    'ENCODING' => 'BASE64',
+                    'BINARY' => 'VGhpcyBpcyBteSBhbWF6aW5nIGltYWdl',
+                    'DISPLAY' => 'BADGE',
+                    'FMTTYPE' => 'image/png'
+                ]
             ]
         ];
 
