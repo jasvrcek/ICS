@@ -232,7 +232,7 @@ class Calendar
             } elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY']) {
                 $new_image = [
                     'VALUE' => 'BINARY',
-                    'ENCODING' = $image['ENCODING'],
+                    'ENCODING' => $image['ENCODING'],
                     'BINARY' => $image['BINARY']
                 ];
             } else {

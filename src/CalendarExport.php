@@ -66,6 +66,22 @@ class CalendarExport
                 $this->stream->addItem('NAME:'.$cal->getName());
             }
 
+            if ($cal->getImage()) {
+                $imageString = 'IMAGE;VALUE='.$cal->getImage()['VALUE'];
+                if ($cal->getImage()['DISPLAY']) {
+                    $imageString .= ';DISPLAY=' . $cal->getImage()['DISPLAY'];
+                }
+                if ($cal->getImage()['FMTTYPE']) {
+                    $imageString .= ';FMTTYPE=' . $cal->getImage()['FMTTYPE'];
+                }
+                if ($cal->getImage()['VALUE'] == 'URI') {
+                    $imageString .= ':' . $cal->getImage()['URI'];
+                } else {
+                    $imageString .= ':' . $cal->getImage()['BINARY'];
+                }
+                $this->stream->addItem($imageString);
+            }
+
             //custom headers
             foreach ($cal->getCustomHeaders() as $key => $value) {
                 $this->stream->addItem($key.':'.$value);
