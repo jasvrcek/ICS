@@ -62,6 +62,14 @@ class CalendarExport
                 ->addItem('CALSCALE:'.$cal->getCalendarScale())
                 ->addItem('METHOD:'.$cal->getMethod());
 
+            if ($cal->getName()) {
+                $this->stream->addItem('NAME:'.$cal->getName());
+            }
+
+            if ($cal->getImage()) {
+                $this->stream->addItem($this->formatter->getFormattedImageString($cal->getImage()));
+            }
+
             //custom headers
             foreach ($cal->getCustomHeaders() as $key => $value) {
                 $this->stream->addItem($key.':'.$value);
@@ -177,6 +185,10 @@ class CalendarExport
 
                 if ($event->getSequence()) {
                     $this->stream->addItem('SEQUENCE:'.$event->getSequence());
+                }
+
+                if ($event->getImage()) {
+                    $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
 
                 $this->stream->addItem('STATUS:'.$event->getStatus())
