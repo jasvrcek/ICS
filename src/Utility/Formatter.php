@@ -140,6 +140,6 @@ class Formatter
      */
     public function getEscapedText($text)
     {
-        return preg_replace('/((?<!\\\\),|;)/', '\\${1}', $text);
+        return preg_replace('/((?<!\\\),|(?<!\\\);)/', '\\\$1', $text);
     }
 }
