@@ -104,4 +104,15 @@ class Formatter
 
         return $interval->format($format);
     }
+
+    /**
+     * Escapes , and ; characters in text type fields.
+     *
+     * @param string $text The text to escape
+     * @return string
+     */
+    public function getEscapedText($text)
+    {
+        return preg_replace('/((?<!\\\\),|;)/','\\${1}',$text);
+    }
 }
