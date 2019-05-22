@@ -106,6 +106,33 @@ class Formatter
     }
 
     /**
+     * converts an image array into a correctly formatted string.
+     * @param array $image
+     * @return string
+     */
+    public function getFormattedImageString(array $image)
+    {
+        $imageString = 'IMAGE;VALUE='.$image['VALUE'];
+        if ($image['VALUE'] == 'BINARY'){
+            $imageString .= ';ENCODING=' . $image['ENCODING'];
+        }
+
+        if (isset($image['DISPLAY'])) {
+            $imageString .= ';DISPLAY=' . $image['DISPLAY'];
+        }
+        if (isset($image['FMTTYPE'])) {
+            $imageString .= ';FMTTYPE=' . $image['FMTTYPE'];
+        }
+        if ($image['VALUE'] == 'URI') {
+            $imageString .= ':' . $image['URI'];
+        } else {
+            $imageString .= ':' . $image['BINARY'];
+        }
+        return $imageString;
+
+    }
+
+    /**
      * Escapes , and ; characters in text type fields.
      *
      * @param string $text The text to escape
@@ -113,6 +140,6 @@ class Formatter
      */
     public function getEscapedText($text)
     {
-        return preg_replace('/((?<!\\\\),|;)/','\\${1}',$text);
+        return preg_replace('/((?<!\\\\),|;)/', '\\${1}', $text);
     }
 }

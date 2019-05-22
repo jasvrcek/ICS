@@ -19,6 +19,11 @@ class Calendar
     /**
      * @var string
      */
+    private $name = '';
+
+    /**
+     * @var string
+     */
     private $calendarScale = 'GREGORIAN';
 
     /**
@@ -29,23 +34,28 @@ class Calendar
     /**
      * @var array
      */
+    private $image = [];
+
+    /**
+     * @var array
+     */
     private $customHeaders = array();
 
     /**
      * @var \DateTimeZone
      */
     private $timezone;
-    
+
     /**
      * @var Provider
      */
     private $events;
-    
+
     /**
      * @var Provider
      */
     private $todos;
-    
+
     /**
      * @var Provider
      */
@@ -61,7 +71,7 @@ class Calendar
         $this->todos = new Provider();
         $this->freeBusy = new Provider();
     }
-    
+
     /**
      * For use if you want CalendarExport::getStream to get events in batches from a database during
      * the output of the ics feed, instead of adding all events to the Calendar object before outputting
@@ -125,6 +135,24 @@ class Calendar
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Sets the RFC-7986 "Name" field for the calendar
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
     public function getCalendarScale()
     {
         return $this->calendarScale;
@@ -161,6 +189,64 @@ class Calendar
     /**
      * @return array
      */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Images can come in one of two formats:
+     *    1: URI - where a URI to the relevant image is provided
+     *    2: BINARY - Where a Binary representation of the image is provided, normally Base64 Encoded.
+     *
+     * If sending a URI for the image, set the "VALUE" key to be "URI" and provide a URI key with the relevant URI.
+     * IE:
+     *     $calendar->setImage(
+     *         'VALUE' => 'URL',
+     *         'URI' => 'https://some.domain.com/path/to/image.jpg'
+     *     );
+     * It is optional to add a FMTTYPE key as well in the array, to indicate relevant mime type.
+     * IE: 'FMTTYPE' => 'image/jpg'
+     *
+     * When sending Binary version, you must provide the encoding type of the image, as well as the encoded string.
+     * IE:
+     *    $calendar->setImage(
+     *        'VALUE' => 'BINARY',
+     *        'ENCODING' => 'BASE64',
+     *        'BINARY' => $base64_encoded_string
+     *    );
+     * For Binary, it is RECOMMENDED to add the FMTTYPE as well, but still not REQUIRED
+     *
+     * @param array $image
+     */
+    public function setImage($image)
+    {
+        // Do some validation on provided data.
+        if (array_key_exists('VALUE', $image) && in_array($image['VALUE'], ['URI', 'BINARY'])) {
+            if ($image['VALUE'] == 'URI' && $image['URI']) {
+                $new_image = [
+                    'VALUE' => 'URI',
+                    'URI' => $image['URI']
+                ];
+
+            } elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY']) {
+                $new_image = [
+                    'VALUE' => 'BINARY',
+                    'ENCODING' => $image['ENCODING'],
+                    'BINARY' => $image['BINARY']
+                ];
+            } else {
+                return;
+            }
+            $new_image['DISPLAY'] = isset($image['DISPLAY']) ? $image['DISPLAY'] : '';
+            $new_image['FMTTYPE'] = isset($image['FMTTYPE']) ? $image['FMTTYPE'] : '';
+            $this->image = $new_image;
+        }
+    }
+
+    /**
+     * @return array
+     */
     public function getCustomHeaders()
     {
         return $this->customHeaders;
@@ -178,7 +264,7 @@ class Calendar
         $this->customHeaders = $customHeaders;
         return $this;
     }
-    
+
     /**
      * @param string $key
      * @param string $value
@@ -225,7 +311,7 @@ class Calendar
         $this->events->add($event);
         return $this;
     }
-    
+
     /**
      * @return Provider returs array of CalendarTodo objects
      */
@@ -233,7 +319,7 @@ class Calendar
     {
         return $this->todos;
     }
-    
+
     /**
      * @param CalendarTodo $todo
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -243,7 +329,7 @@ class Calendar
         $this->todos[] = $todo;
         return $this;
     }
-    
+
     /**
      * @param array $todos
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -253,7 +339,7 @@ class Calendar
         $this->todos = $todos;
         return $this;
     }
-    
+
     /**
      * @return Provider returs array of CalendarFreeBusy objects
      */
@@ -261,7 +347,7 @@ class Calendar
     {
         return $this->freeBusy;
     }
-    
+
     /**
      * @param CalendarFreeBusy $todo
      * @return \Jsvrcek\ICS\Model\Calendar
@@ -271,7 +357,7 @@ class Calendar
         $this->freeBusy[] = $todo;
         return $this;
     }
-    
+
     /**
      * @param array $freeBusy
      * @return \Jsvrcek\ICS\Model\Calendar

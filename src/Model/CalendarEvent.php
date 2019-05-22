@@ -29,12 +29,12 @@ class CalendarEvent
      * @var \DateTime
      */
     private $end;
-    
+
     /**
      * @var RecurrenceRule
      */
     private $recurrenceRule;
-    
+
     /**
      * array of dates to skip
      * https://tools.ietf.org/html/rfc5545#page-120
@@ -99,21 +99,26 @@ class CalendarEvent
     private $summary;
 
     /**
+     * @var array
+     */
+    private $image = [];
+
+    /**
      * @todo add support in CalendarExport
      * @var string
      */
     private $recuringId;
-    
+
     /**
      * @var integer
      */
     private $sequence;
-    
+
     /**
      * @var Attendee[]
      */
     private $attendees = array();
-    
+
     /**
      * @var CalendarAlarm[]
      */
@@ -211,11 +216,11 @@ class CalendarEvent
         } else {
             throw new CalendarEventException('You must set the Start time before setting the End Time of a CalendarEvent');
         }
-        
+
         $this->end = $end;
         return $this;
     }
-    
+
     /**
      * @return \Jsvrcek\ICS\Model\Recurrence\RecurrenceRule
      */
@@ -223,7 +228,7 @@ class CalendarEvent
     {
         return $this->recurrenceRule;
     }
-    
+
     /**
      * @param RecurrenceRule $recurrenceRule
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -244,7 +249,7 @@ class CalendarEvent
         $this->exceptionDates = $dates;
         return $this;
     }
-    
+
     /**
      * @return array
      */
@@ -252,7 +257,7 @@ class CalendarEvent
     {
         return $this->exceptionDates;
     }
-    
+
     /**
      * @param \DateTime $date
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -298,7 +303,7 @@ class CalendarEvent
         $this->description = $description;
         return $this;
     }
-    
+
     /**
      * @return CalendarAlarm[]
      */
@@ -306,7 +311,7 @@ class CalendarEvent
     {
         return $this->alarms;
     }
-    
+
     /**
      * @param CalendarAlarm $alarm
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -316,7 +321,7 @@ class CalendarEvent
         $this->alarms[] = $alarm;
         return $this;
     }
-    
+
     /**
      * @param array $alarms
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -537,7 +542,7 @@ class CalendarEvent
         $this->recuringId = $recuringId;
         return $this;
     }
-    
+
     /**
      * @return integer
      */
@@ -545,7 +550,7 @@ class CalendarEvent
     {
         return $this->sequence;
     }
-    
+
     /**
      * @param integer $sequence
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -575,7 +580,7 @@ class CalendarEvent
         $this->attendees = $attendees;
         return $this;
     }
-    
+
     /**
      * @param Attendee $attendee
      * @return \Jsvrcek\ICS\Model\CalendarEvent
@@ -602,5 +607,63 @@ class CalendarEvent
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Images can come in one of two formats:
+     *    1: URI - where a URI to the relevant image is provided
+     *    2: BINARY - Where a Binary representation of the image is provided, normally Base64 Encoded.
+     *
+     * If sending a URI for the image, set the "VALUE" key to be "URI" and provide a URI key with the relevant URI.
+     * IE:
+     *     $calendar->setImage(
+     *         'VALUE' => 'URL',
+     *         'URI' => 'https://some.domain.com/path/to/image.jpg'
+     *     );
+     * It is optional to add a FMTTYPE key as well in the array, to indicate relevant mime type.
+     * IE: 'FMTTYPE' => 'image/jpg'
+     *
+     * When sending Binary version, you must provide the encoding type of the image, as well as the encoded string.
+     * IE:
+     *    $calendar->setImage(
+     *        'VALUE' => 'BINARY',
+     *        'ENCODING' => 'BASE64',
+     *        'BINARY' => $base64_encoded_string
+     *    );
+     * For Binary, it is RECOMMENDED to add the FMTTYPE as well, but still not REQUIRED
+     *
+     * @param array $image
+     */
+    public function setImage($image)
+    {
+        // Do some validation on provided data.
+        if (array_key_exists('VALUE', $image) && in_array($image['VALUE'], ['URI', 'BINARY'])) {
+            if ($image['VALUE'] == 'URI' && $image['URI']) {
+                $new_image = [
+                    'VALUE' => 'URI',
+                    'URI' => $image['URI']
+                ];
+
+            } elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY']) {
+                $new_image = [
+                    'VALUE' => 'BINARY',
+                    'ENCODING' => $image['ENCODING'],
+                    'BINARY' => $image['BINARY']
+                ];
+            } else {
+                return;
+            }
+            $new_image['DISPLAY'] = isset($image['DISPLAY']) ? $image['DISPLAY'] : '';
+            $new_image['FMTTYPE'] = isset($image['FMTTYPE']) ? $image['FMTTYPE'] : '';
+            $this->image = $new_image;
+        }
     }
 }
