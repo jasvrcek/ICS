@@ -198,6 +198,11 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
                 'original' => 'How many, ducks\; Is a question\, This; is not',
                 'expected' => 'How many\, ducks\; Is a question\, This\; is not',
                 'name' => 'both pre-escaped comma and semi-colon, and unescaped comma and semi-colon'
+            ],
+            [
+                'original' => 'It appears that backslashes (\) must also be escaped',
+                'expected' => 'It appears that backslashes (\\\) must also be escaped',
+                'name' => 'un-escaped backslash'
             ]
         ];
 
