@@ -129,5 +129,18 @@ class Formatter
             $imageString .= ':' . $image['BINARY'];
         }
         return $imageString;
+
+    }
+
+    /**
+     * Escapes , and ; characters in text type fields.
+     *
+     * @param string $text The text to escape
+     * @return string
+     */
+    public function getEscapedText($text)
+    {
+        $text = preg_replace('/((?<!\\\),|(?<!\\\);)/', '\\\$1', $text);
+        return preg_replace('/((?<!\\\)\\\(?!,|;|n|N|\\\))/', '\\\\$1',$text);
     }
 }

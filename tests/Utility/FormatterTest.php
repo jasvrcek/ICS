@@ -145,4 +145,83 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             );
         }
     }
+
+    /**
+     * @covers Jsvrcek\ICS\Formatter::getEscapedText
+     */
+    public function testgetEscapedText()
+    {
+        $ce = new Formatter();
+
+        $strings = [
+            [
+                'original' => '14 Main St, Capital City',
+                'expected' => '14 Main St\, Capital City',
+                'name' => 'a comma'
+            ],
+            [
+                'original' => 'A comma and a dot; Semi-colon',
+                'expected' => 'A comma and a dot\; Semi-colon',
+                'name' => 'a semi-colon'
+            ],
+            [
+                'original' => 'Here is a comma, and; a semi-colon',
+                'expected' => 'Here is a comma\, and\; a semi-colon',
+                'name' => 'both comma and semi-colon'
+            ],
+            [
+                'original' => 'This comma\, is pre-escaped',
+                'expected' => 'This comma\, is pre-escaped',
+                'name' => 'a pre-escaped comma'
+            ],
+            [
+                'original' => 'Pre-escaped\; This Semi-colon is',
+                'expected' => 'Pre-escaped\; This Semi-colon is',
+                'name' => 'a pre-escaped semi-colon'
+            ],
+            [
+                'original' => 'Pre-escaped\; This Semi-colon is\, and so was that comma',
+                'expected' => 'Pre-escaped\; This Semi-colon is\, and so was that comma',
+                'name' => 'both a pre-escaped comma and a pre-escaped semi-colon'
+            ],
+            [
+                'original' => 'This comma\, was pre-escaped while this one, is not',
+                'expected' => 'This comma\, was pre-escaped while this one\, is not',
+                'name' => 'a pre-escaped comma and an unescaped comma'
+            ],
+            [
+                'original' => 'First\; we pre-escape. Then; we forget to',
+                'expected' => 'First\; we pre-escape. Then\; we forget to',
+                'name' => 'a pre-escaped semi-colon and an unescaped semi-colon'
+            ],
+            [
+                'original' => 'How many, ducks\; Is a question\, This; is not',
+                'expected' => 'How many\, ducks\; Is a question\, This\; is not',
+                'name' => 'both pre-escaped comma and semi-colon, and unescaped comma and semi-colon'
+            ],
+            [
+                'original' => 'It appears that backslashes (\) must also be escaped',
+                'expected' => 'It appears that backslashes (\\\) must also be escaped',
+                'name' => 'un-escaped backslash'
+            ],
+            [
+                'original' => 'It appears that backslashes (\\\) are now escaped',
+                'expected' => 'It appears that backslashes (\\\) are now escaped',
+                'name' => 'escaped backslash'
+            ],
+            [
+                'original' => "But we can't be escaping...\nnew-lines!",
+                'expected' => "But we can't be escaping...\nnew-lines!",
+                'name' => 'new-line character'
+            ],
+        ];
+
+        foreach ($strings as $string) {
+            $this->assertEquals(
+                $string['expected'],
+                $ce->getEscapedText($string['original']),
+                'Failed on escaping string including ' . $string['name']
+            );
+        }
+    }
 }

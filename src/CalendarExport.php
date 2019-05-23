@@ -193,7 +193,7 @@ class CalendarExport
 
                 $this->stream->addItem('STATUS:'.$event->getStatus())
                     ->addItem('SUMMARY:'.$event->getSummary())
-                    ->addItem('DESCRIPTION:'.$event->getDescription());
+                    ->addItem('DESCRIPTION:'.$this->formatter->getEscapedText($event->getDescription()));
 
                 if ($event->getClass()) {
                     $this->stream->addItem('CLASS:'.$event->getClass());
@@ -202,7 +202,7 @@ class CalendarExport
                 /* @var $location Location */
                 foreach ($event->getLocations() as $location) {
                     $this->stream
-                            ->addItem('LOCATION'.$location->getUri().$location->getLanguage().':'.$location->getName());
+                            ->addItem('LOCATION'.$location->getUri().$location->getLanguage().':'.$this->formatter->getEscapedText($location->getName()));
                 }
 
                 if ($event->getPriority() > 0 && $event->getPriority() <= 9) {
