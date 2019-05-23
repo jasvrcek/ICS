@@ -203,7 +203,17 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
                 'original' => 'It appears that backslashes (\) must also be escaped',
                 'expected' => 'It appears that backslashes (\\\) must also be escaped',
                 'name' => 'un-escaped backslash'
-            ]
+            ],
+            [
+                'original' => 'It appears that backslashes (\\\) are now escaped',
+                'expected' => 'It appears that backslashes (\\\) are now escaped',
+                'name' => 'escaped backslash'
+            ],
+            [
+                'original' => "But we can't be escaping...\nnew-lines!",
+                'expected' => "But we can't be escaping...\nnew-lines!",
+                'name' => 'new-line character'
+            ],
         ];
 
         foreach ($strings as $string) {
