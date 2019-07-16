@@ -130,6 +130,11 @@ class CalendarEvent
     private $url;
 
     /**
+     * @var string
+     */
+    private $transp;
+
+    /**
      * @var boolean
      */
     private $allDay = false;
@@ -607,6 +612,24 @@ class CalendarEvent
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransp()
+    {
+        return $this->transp;
+    }
+
+    /**
+     * @param string $transp
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setTransp($transp)
+    {
+        $this->transp = $transp;
+        return $this;
     }
 
     /**

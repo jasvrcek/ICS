@@ -55,6 +55,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
             ->setSequence(3)
+            ->setTransp('TRANSPARENT')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
@@ -177,6 +178,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
             ->setSequence(3)
+            ->setTransp('TRANSPARENT')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
@@ -300,6 +302,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
             ->setSequence(3)
+            ->setTransp('TRANSPARENT')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
