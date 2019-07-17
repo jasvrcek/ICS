@@ -623,6 +623,8 @@ class CalendarEvent
     }
 
     /**
+     * Possible values are 'TRANSPARENT' or 'OPAQUE'
+     *
      * @param string $transp
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
