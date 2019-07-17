@@ -187,6 +187,10 @@ class CalendarExport
                     $this->stream->addItem('SEQUENCE:'.$event->getSequence());
                 }
 
+                if ($event->getTransp()) {
+                    $this->stream->addItem('TRANSP:'.$event->getTransp());
+                }
+
                 if ($event->getImage()) {
                     $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
