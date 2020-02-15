@@ -25,6 +25,11 @@ class Provider implements \Iterator
     private $key;
 
     /**
+     * @var mixed
+     */
+    private $first;
+
+    /**
      * @param \Closure $provider An optional closure for adding items in batches during iteration. The closure will be
      *     called each time the end of the internal data array is reached during iteration, and the current data
      *     array key value will be passed as an argument. The closure should return an array containing the next
@@ -91,6 +96,9 @@ class Provider implements \Iterator
         if (count($this->data) < 1) {
             if ($this->provider instanceof \Closure) {
                 $this->data = $this->provider->__invoke($this->key);
+                if (isset($this->data[0])) {
+                    $this->first = $this->data[0];
+                }
             } else {
                 $this->data = $this->manuallyAddedData;
                 $this->manuallyAddedData = array();
@@ -105,6 +113,18 @@ class Provider implements \Iterator
      */
     public function first()
     {
+        if (isset($this->first)) {
+            return $this->first;
+        }
+
+        if ($this->provider instanceof \Closure) {
+            if ($this->valid()) {
+                return $this->first;
+            } else {
+                return false;
+            }
+        }
+
         if (!isset($this->manuallyAddedData[0])) {
             return false;
         }
