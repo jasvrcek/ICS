@@ -62,6 +62,11 @@ class Calendar
     private $freeBusy;
 
     /**
+     * @var string
+     */
+    private $color;
+
+    /**
      * Calendar constructor.
      */
     public function __construct()
@@ -365,6 +370,27 @@ class Calendar
     public function setFreeBusy(array $freeBusy)
     {
         $this->freeBusy = $freeBusy;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+
+    /**
+     * Set color as CSS3 string
+     *
+     * @param string $color
+     * @return \Jsvrcek\ICS\Model\Calendar
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
         return $this;
     }
 }
