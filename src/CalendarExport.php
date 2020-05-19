@@ -252,7 +252,7 @@ class CalendarExport
                     $this->stream->addItem($event->getOrganizer()->__toString());
                 }
 
-                foreach ($event->getCustomHeaders() as $key => $value) {
+                foreach ($event->getCustomProperties() as $key => $value) {
                     $this->stream->addItem($key.':'.$value);
                 }
 

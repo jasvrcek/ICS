@@ -100,8 +100,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $eventTwo->setUid('eventtwo@example.com')
             ->setStart(new \DateTime('2 October 2013', $timezone))
             ->setSummary('Every Wednesday event')
-            ->addCustomHeader('FOO', 'bar')
-            ->addCustomHeader('BAR', 'baz')
+            ->addCustomProperty('FOO', 'bar')
+            ->addCustomProperty('BAR', 'baz')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());

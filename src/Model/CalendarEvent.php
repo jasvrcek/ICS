@@ -147,7 +147,7 @@ class CalendarEvent
     /**
      * @var array
      */
-    private $customHeaders = [];
+    private $customProperties = [];
 
     /**
      * @return boolean
@@ -726,21 +726,21 @@ class CalendarEvent
     /**
      * @return array
      */
-    public function getCustomHeaders()
+    public function getCustomProperties()
     {
-        return $this->customHeaders;
+        return $this->customProperties;
     }
 
     /**
-     * use to add custom headers as array key-value pairs<br>
-     * <strong>Example:</strong> $customHeaders = array('X-WR-TIMEZONE' => 'America/New_York')
+     * use to add custom properties as array key-value pairs<br>
+     * <strong>Example:</strong> $customProperties = array('X-WR-TIMEZONE' => 'America/New_York')
      *
-     * @param array $customHeaders
+     * @param array $customProperties
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
-    public function setCustomHeaders(array $customHeaders)
+    public function setCustomProperties(array $customProperties)
     {
-        $this->customHeaders = $customHeaders;
+        $this->customProperties = $customProperties;
         return $this;
     }
 
@@ -749,9 +749,9 @@ class CalendarEvent
      * @param string $value
      * @return \Jsvrcek\ICS\Model\CalendarEvent
      */
-    public function addCustomHeader($key, $value)
+    public function addCustomProperty($key, $value)
     {
-        $this->customHeaders[$key] = $value;
+        $this->customProperties[$key] = $value;
         return $this;
     }
 }
