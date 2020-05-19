@@ -56,6 +56,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setOrganizer($organizer)
             ->setSequence(3)
             ->setTransp('TRANSPARENT')
+            ->setColor('red')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
@@ -99,6 +100,8 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $eventTwo->setUid('eventtwo@example.com')
             ->setStart(new \DateTime('2 October 2013', $timezone))
             ->setSummary('Every Wednesday event')
+            ->addCustomHeader('FOO', 'bar')
+            ->addCustomHeader('BAR', 'baz')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone));
 
         $rrule = new RecurrenceRule(new Formatter());
@@ -120,6 +123,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
         $timezone = new \DateTimeZone('Arctic/Longyearbyen');
         $calTwo = new Calendar();
         $calTwo->setProdId('-//Jsvrcek//ICS//EN2')
+            ->setColor('green')
             ->setTimezone($timezone);
 
         $calTwo->setEventsProvider(function ($start) use ($timezone) {

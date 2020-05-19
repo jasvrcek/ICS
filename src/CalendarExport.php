@@ -66,6 +66,10 @@ class CalendarExport
                 $this->stream->addItem('NAME:'.$cal->getName());
             }
 
+            if ($cal->getColor()) {
+                $this->stream->addItem('COLOR:'.$cal->getColor());
+            }
+
             if ($cal->getImage()) {
                 $this->stream->addItem($this->formatter->getFormattedImageString($cal->getImage()));
             }
@@ -191,6 +195,10 @@ class CalendarExport
                     $this->stream->addItem('TRANSP:'.$event->getTransp());
                 }
 
+                if ($event->getColor()) {
+                    $this->stream->addItem('COLOR:'.$event->getColor());
+                }
+
                 if ($event->getImage()) {
                     $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
@@ -242,6 +250,10 @@ class CalendarExport
 
                 if ($event->getOrganizer()) {
                     $this->stream->addItem($event->getOrganizer()->__toString());
+                }
+
+                foreach ($event->getCustomHeaders() as $key => $value) {
+                    $this->stream->addItem($key.':'.$value);
                 }
 
                 /** @var CalendarAlarm $alarm */
