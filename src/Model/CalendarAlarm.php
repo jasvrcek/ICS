@@ -22,7 +22,7 @@ class CalendarAlarm
      * Only absolute trigger times are supported.
      * @todo Support RELATED, DTSTART, and DTEND.
      *
-     * @var \DateTime
+     * @var \DateTime|\DateInterval
      */
     private $trigger;
 
@@ -96,7 +96,7 @@ class CalendarAlarm
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|\DateInterval
      */
     public function getTrigger()
     {
@@ -104,7 +104,7 @@ class CalendarAlarm
     }
 
     /**
-     * @param \DateTime $trigger
+     * @param \DateTime|\DateInterval $trigger
      * @return \Jsvrcek\ICS\Model\CalendarAlarm
      */
     public function setTrigger($trigger)

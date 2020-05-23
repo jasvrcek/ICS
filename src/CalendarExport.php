@@ -260,7 +260,7 @@ class CalendarExport
                 foreach ($event->getAlarms() as $alarm) {
                     //basic requirements for all types of alarm
                     $this->stream->addItem('BEGIN:VALARM')
-                            ->addItem('TRIGGER;VALUE=DATE-TIME:'.$this->formatter->getFormattedUTCDateTime($alarm->getTrigger()))
+                            ->addItem($this->formatTrigger($alarm->getTrigger()))
                             ->addItem('ACTION:'.$alarm->getAction());
 
                     //only handle repeats if both repeat and duration are set
@@ -350,5 +350,13 @@ class CalendarExport
     {
         $this->calendars[] = $cal;
         return $this;
+    }
+
+    private function formatTrigger($trigger) {
+        if ($trigger instanceof \DateInterval) {
+            return 'TRIGGER:-' . $this->formatter->getFormattedDateInterval($trigger);
+        } else {
+            return 'TRIGGER;VALUE=DATE-TIME:'.$this->formatter->getFormattedUTCDateTime($trigger);
+        }
     }
 }
