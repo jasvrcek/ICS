@@ -119,7 +119,7 @@ class CalendarExport
                 } else if ($this->dateTimeFormat === 'utc') {
                     ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
                 } else if ($this->dateTimeFormat == 'local-tz') {
-                    ${$varName}['start'] = ';' . $this->formatter->getFormattedDateTimeWithTimeZone(new \DateTime($transition['time']));
+                    ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
                 }
 
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
