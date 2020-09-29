@@ -130,9 +130,24 @@ class CalendarEvent
     private $url;
 
     /**
+     * @var string
+     */
+    private $transp;
+
+    /**
      * @var boolean
      */
     private $allDay = false;
+
+    /**
+     * @var string
+     */
+    private $color;
+
+    /**
+     * @var array
+     */
+    private $customProperties = [];
 
     /**
      * @return boolean
@@ -610,6 +625,26 @@ class CalendarEvent
     }
 
     /**
+     * @return string
+     */
+    public function getTransp()
+    {
+        return $this->transp;
+    }
+
+    /**
+     * Possible values are 'TRANSPARENT' or 'OPAQUE'
+     *
+     * @param string $transp
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setTransp($transp)
+    {
+        $this->transp = $transp;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getImage()
@@ -665,5 +700,58 @@ class CalendarEvent
             $new_image['FMTTYPE'] = isset($image['FMTTYPE']) ? $image['FMTTYPE'] : '';
             $this->image = $new_image;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+
+    /**
+     * Set color as CSS3 string
+     *
+     * @param string $color
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomProperties()
+    {
+        return $this->customProperties;
+    }
+
+    /**
+     * use to add custom properties as array key-value pairs<br>
+     * <strong>Example:</strong> $customProperties = array('X-WR-TIMEZONE' => 'America/New_York')
+     *
+     * @param array $customProperties
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function setCustomProperties(array $customProperties)
+    {
+        $this->customProperties = $customProperties;
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     * @return \Jsvrcek\ICS\Model\CalendarEvent
+     */
+    public function addCustomProperty($key, $value)
+    {
+        $this->customProperties[$key] = $value;
+        return $this;
     }
 }

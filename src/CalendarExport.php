@@ -66,6 +66,10 @@ class CalendarExport
                 $this->stream->addItem('NAME:'.$cal->getName());
             }
 
+            if ($cal->getColor()) {
+                $this->stream->addItem('COLOR:'.$cal->getColor());
+            }
+
             if ($cal->getImage()) {
                 $this->stream->addItem($this->formatter->getFormattedImageString($cal->getImage()));
             }
@@ -187,6 +191,14 @@ class CalendarExport
                     $this->stream->addItem('SEQUENCE:'.$event->getSequence());
                 }
 
+                if ($event->getTransp()) {
+                    $this->stream->addItem('TRANSP:'.$event->getTransp());
+                }
+
+                if ($event->getColor()) {
+                    $this->stream->addItem('COLOR:'.$event->getColor());
+                }
+
                 if ($event->getImage()) {
                     $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
@@ -240,11 +252,15 @@ class CalendarExport
                     $this->stream->addItem($event->getOrganizer()->__toString());
                 }
 
+                foreach ($event->getCustomProperties() as $key => $value) {
+                    $this->stream->addItem($key.':'.$value);
+                }
+
                 /** @var CalendarAlarm $alarm */
                 foreach ($event->getAlarms() as $alarm) {
                     //basic requirements for all types of alarm
                     $this->stream->addItem('BEGIN:VALARM')
-                            ->addItem('TRIGGER;VALUE=DATE-TIME:'.$this->formatter->getFormattedUTCDateTime($alarm->getTrigger()))
+                            ->addItem($this->formatTrigger($alarm->getTrigger()))
                             ->addItem('ACTION:'.$alarm->getAction());
 
                     //only handle repeats if both repeat and duration are set
@@ -334,5 +350,13 @@ class CalendarExport
     {
         $this->calendars[] = $cal;
         return $this;
+    }
+
+    private function formatTrigger($trigger) {
+        if ($trigger instanceof \DateInterval) {
+            return 'TRIGGER:-' . $this->formatter->getFormattedDateInterval($trigger);
+        } else {
+            return 'TRIGGER;VALUE=DATE-TIME:'.$this->formatter->getFormattedUTCDateTime($trigger);
+        }
     }
 }
