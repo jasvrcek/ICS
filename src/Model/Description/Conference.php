@@ -17,7 +17,7 @@ class Conference
     private $label;
 
     /**
-     * @var string
+     * @var string|string[]
      */
     private $feature;
 
@@ -67,11 +67,14 @@ class Conference
      */
     public function getFeature()
     {
+        if (is_array($this->feature)) {
+            implode(',', $this->feature);
+        }
         return $this->feature;
     }
 
     /**
-     * @param string $feature
+     * @param string|string[] $feature
      */
     public function setFeature($feature)
     {
@@ -92,5 +95,13 @@ class Conference
     public function setLabel($label)
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUri()
+    {
+        return $this->uri;
     }
 }
