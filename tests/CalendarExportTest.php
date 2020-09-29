@@ -3,6 +3,7 @@
 namespace Jsvrcek\ICS\Tests;
 
 use Jsvrcek\ICS\Model\CalendarAlarm;
+use Jsvrcek\ICS\Model\Description\Conference;
 use Jsvrcek\ICS\Model\Recurrence\DataType\Weekday;
 
 use Jsvrcek\ICS\Model\Recurrence\DataType\WeekdayNum;
@@ -47,6 +48,27 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->addCalendarMember('list@example.com')
             ->setValue('jane-smith@example.com');
 
+        $conference1 = new Conference('tel:+1-412-555-0123,,,654321');
+        $conference2 = new Conference(
+            'https://chat.example.com/audio?id=123456',
+            [
+                'feature' => ['AUDIO', 'VIDEO'],
+                'label' => 'Attendee dial-in'
+            ]
+        );
+        $conference3 = new Conference(
+            'xmpp:chat-123@conference.example.com',
+            [
+                'feature' => 'CHAT',
+                'label' => 'Chat Room',
+                'language' => 'en:Germany'
+            ]
+        );
+        $conferenceDetails = [
+            $conference1,
+            $conference2
+        ];
+
         $event = new CalendarEvent();
         $event->setUid('lLKjd89283oja89282lkjd8@example.com')
             ->setStart(new \DateTime('4 October 2013 12:00:00', $timezone))
@@ -57,7 +79,10 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setSequence(3)
             ->setTransp('TRANSPARENT')
             ->setColor('red')
-            ->setTimestamp(new \DateTime('1 September 2013', $timezone));
+            ->setTimestamp(new \DateTime('1 September 2013', $timezone))
+            ->setConference($conferenceDetails)
+            ->addConference($conference3);
+
 
         $rrule = new RecurrenceRule(new Formatter());
         $rrule->setFrequency(new Frequency(Frequency::MONTHLY))

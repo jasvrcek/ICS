@@ -58,6 +58,11 @@ ATTENDEE;CUTYPE=INDIVIDUAL;MEMBER="mailto:list@example.com";ROLE=REQ-P
 ATTACH;FMTTYPE=application/msword:http://example.com/agenda.docx
 ATTACH;FMTTYPE=application/pdf:http://example.com/agenda.pdf
 END:VALARM
+CONFERENCE;VALUE=URI:tel:+1-412-555-0123,,,654321
+CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;LABEL=Attendee dial-in:https:
+ //chat.example.com/audio?id=123456
+CONFERENCE;VALUE=URI;FEATURE=CHAT;LABEL=Chat Room;LANGUAGE=en:Germany:
+ xmpp:chat-123@conference.example.com
 END:VEVENT
 BEGIN:VEVENT
 UID:eventtwo@example.com
