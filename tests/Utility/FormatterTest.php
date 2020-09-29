@@ -2,6 +2,7 @@
 
 namespace Jsvrcek\ICS\Tests\Utility;
 
+use Jsvrcek\ICS\Model\Description\Conference;
 use Jsvrcek\ICS\Utility\Formatter;
 
 class FormatterTest extends \PHPUnit_Framework_TestCase
@@ -223,5 +224,41 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
                 'Failed on escaping string including ' . $string['name']
             );
         }
+    }
+
+    /**
+     * @covers \Jsvrcek\ICS\Utility\Formatter::getConferenceText
+     */
+    public function testgetConferenceText()
+    {
+        $conference1 = new Conference('tel:+1-412-555-0123,,,654321');
+        $conference2 = new Conference(
+            'https://chat.example.com/audio?id=123456',
+            [
+                'feature' => ['AUDIO', 'VIDEO'],
+                'label' => 'Attendee dial-in'
+            ]
+        );
+        $conference3 = new Conference(
+            'xmpp:chat-123@conference.example.com',
+            [
+                'feature' => 'CHAT',
+                'label' => 'Chat Room',
+                'language' => 'en:Germany'
+            ]
+        );
+
+        $expected = [
+            'CONFERENCE;VALUE=URI:tel:+1-412-555-0123,,,654321',
+            'CONFERENCE;VALUE=URI;FEATURE=AUDIO,VIDEO;LABEL=Attendee dial-in:https://chat.example.com/audio?id=123456',
+            'CONFERENCE;VALUE=URI;FEATURE=CHAT;LABEL=Chat Room;LANGUAGE=en:Germany:xmpp:chat-123@conference.example.com'
+        ];
+        $results = [
+
+        ];
+
+        $this->assertEquals($expected[0], $results[0]);
+        $this->assertEquals($expected[1], $results[1]);
+        $this->assertEquals($expected[2], $results[2]);
     }
 }

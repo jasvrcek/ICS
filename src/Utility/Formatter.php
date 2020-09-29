@@ -150,10 +150,13 @@ class Formatter
     {
         $text = 'CONFERENCE;VALUE=URI';
         if ($conference->getFeature()) {
-            $text .= ';' . $this->getEscapedText($conference->getFeature());
+            $text .= ';FEATURE=' . $conference->getFeature();
         }
         if ($conference->getLabel()) {
-            $text .= ';' . $this->getEscapedText($conference->getLabel());
+            $text .= ';LABEL=' . $this->getEscapedText($conference->getLabel());
+        }
+        if ($conference->getLanguage()) {
+            $text .= ';LANGUAGE=' . $this->getEscapedText($conference->getLanguage());
         }
         $text .= ':' . $conference->getUri();
         return $text;
