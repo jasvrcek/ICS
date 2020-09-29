@@ -700,12 +700,13 @@ class CalendarEvent
                     'BINARY' => $image['BINARY']
                 ];
             } else {
-                return;
+                return $this;
             }
             $new_image['DISPLAY'] = isset($image['DISPLAY']) ? $image['DISPLAY'] : '';
             $new_image['FMTTYPE'] = isset($image['FMTTYPE']) ? $image['FMTTYPE'] : '';
             $this->image = $new_image;
         }
+        return $this;
     }
 
     /**
