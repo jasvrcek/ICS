@@ -231,6 +231,8 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testgetConferenceText()
     {
+        $ce = new Formatter();
+
         $conference1 = new Conference('tel:+1-412-555-0123,,,654321');
         $conference2 = new Conference(
             'https://chat.example.com/audio?id=123456',
@@ -254,7 +256,9 @@ class FormatterTest extends \PHPUnit_Framework_TestCase
             'CONFERENCE;VALUE=URI;FEATURE=CHAT;LABEL=Chat Room;LANGUAGE=en:Germany:xmpp:chat-123@conference.example.com'
         ];
         $results = [
-
+            $ce->getConferenceText($conference1),
+            $ce->getConferenceText($conference2),
+            $ce->getConferenceText($conference3)
         ];
 
         $this->assertEquals($expected[0], $results[0]);

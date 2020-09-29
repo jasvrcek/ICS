@@ -35,11 +35,8 @@ class Conference
      * @param $uri
      * @param array $options
      */
-    public function __construct($uri, array $options)
+    public function __construct($uri, array $options=[])
     {
-        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
-            throw new \InvalidArgumentException('Invalid URI Provided');
-        }
         $this->uri = $uri;
         $this->label = isset($options['label']) ? $options['label'] : '';
         $this->feature = isset($options['feature']) ? $options['feature'] : '';
@@ -68,7 +65,7 @@ class Conference
     public function getFeature()
     {
         if (is_array($this->feature)) {
-            implode(',', $this->feature);
+            return implode(',', $this->feature);
         }
         return $this->feature;
     }
