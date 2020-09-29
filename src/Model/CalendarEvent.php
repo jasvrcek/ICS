@@ -3,6 +3,7 @@
 namespace Jsvrcek\ICS\Model;
 
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+use Jsvrcek\ICS\Model\Description\Conference;
 use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
@@ -148,6 +149,11 @@ class CalendarEvent
      * @var array
      */
     private $customProperties = [];
+
+    /**
+     * @var Conference[]
+     */
+    private $conference = [];
 
     /**
      * @return boolean
@@ -753,5 +759,33 @@ class CalendarEvent
     {
         $this->customProperties[$key] = $value;
         return $this;
+    }
+
+    /**
+     * @param Conference[] $conference
+     * @return CalendarEvent
+     */
+    public function setConference(array $conference)
+    {
+        $this->conference = $conference;
+        return $this;
+    }
+
+    /**
+     * @param Conference $conference
+     * @return $this
+     */
+    public function addConference(Conference $conference)
+    {
+        $this->conference[] = $conference;
+        return $this;
+    }
+
+    /**
+     * @return Conference[]
+     */
+    public function getConference()
+    {
+        return $this->conference;
     }
 }
