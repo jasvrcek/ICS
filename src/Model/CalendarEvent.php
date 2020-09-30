@@ -153,7 +153,7 @@ class CalendarEvent
     /**
      * @var Conference[]
      */
-    private $conference = [];
+    private $conferences = [];
 
     /**
      * @return boolean
@@ -763,12 +763,12 @@ class CalendarEvent
     }
 
     /**
-     * @param Conference[] $conference
+     * @param Conference[] $conferences
      * @return CalendarEvent
      */
-    public function setConference(array $conference)
+    public function setConferences(array $conferences)
     {
-        $this->conference = $conference;
+        $this->conferences = $conferences;
         return $this;
     }
 
@@ -778,15 +778,15 @@ class CalendarEvent
      */
     public function addConference(Conference $conference)
     {
-        $this->conference[] = $conference;
+        $this->conferences[] = $conference;
         return $this;
     }
 
     /**
      * @return Conference[]
      */
-    public function getConference()
+    public function getConferences()
     {
-        return $this->conference;
+        return $this->conferences;
     }
 }

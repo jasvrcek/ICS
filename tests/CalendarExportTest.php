@@ -80,7 +80,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setTransp('TRANSPARENT')
             ->setColor('red')
             ->setTimestamp(new \DateTime('1 September 2013', $timezone))
-            ->setConference($conferenceDetails)
+            ->setConferences($conferenceDetails)
             ->addConference($conference3);
 
 

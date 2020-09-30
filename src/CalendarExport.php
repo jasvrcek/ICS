@@ -297,7 +297,7 @@ class CalendarExport
                     $this->stream->addItem('END:VALARM');
                 }
 
-                foreach ($event->getConference() as $conference) {
+                foreach ($event->getConferences() as $conference) {
                     $this->stream->addItem($this->formatter->getConferenceText($conference));
                 }
 
