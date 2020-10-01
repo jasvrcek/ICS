@@ -3,6 +3,7 @@
 namespace Jsvrcek\ICS\Model;
 
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+use Jsvrcek\ICS\Model\Description\Conference;
 use Jsvrcek\ICS\Model\Description\Geo;
 use Jsvrcek\ICS\Model\Description\Location;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
@@ -148,6 +149,11 @@ class CalendarEvent
      * @var array
      */
     private $customProperties = [];
+
+    /**
+     * @var Conference[]
+     */
+    private $conferences = [];
 
     /**
      * @return boolean
@@ -694,12 +700,13 @@ class CalendarEvent
                     'BINARY' => $image['BINARY']
                 ];
             } else {
-                return;
+                return $this;
             }
             $new_image['DISPLAY'] = isset($image['DISPLAY']) ? $image['DISPLAY'] : '';
             $new_image['FMTTYPE'] = isset($image['FMTTYPE']) ? $image['FMTTYPE'] : '';
             $this->image = $new_image;
         }
+        return $this;
     }
 
     /**
@@ -753,5 +760,33 @@ class CalendarEvent
     {
         $this->customProperties[$key] = $value;
         return $this;
+    }
+
+    /**
+     * @param Conference[] $conferences
+     * @return CalendarEvent
+     */
+    public function setConferences(array $conferences)
+    {
+        $this->conferences = $conferences;
+        return $this;
+    }
+
+    /**
+     * @param Conference $conference
+     * @return $this
+     */
+    public function addConference(Conference $conference)
+    {
+        $this->conferences[] = $conference;
+        return $this;
+    }
+
+    /**
+     * @return Conference[]
+     */
+    public function getConferences()
+    {
+        return $this->conferences;
     }
 }

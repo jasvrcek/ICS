@@ -2,6 +2,8 @@
 
 namespace Jsvrcek\ICS\Utility;
 
+use Jsvrcek\ICS\Model\Description\Conference;
+
 class Formatter
 {
     const DATE_TIME = 'Ymd\THis';
@@ -142,5 +144,21 @@ class Formatter
     {
         $text = preg_replace('/((?<!\\\),|(?<!\\\);)/', '\\\$1', $text);
         return preg_replace('/((?<!\\\)\\\(?!,|;|n|N|\\\))/', '\\\\$1',$text);
+    }
+
+    public function getConferenceText(Conference $conference)
+    {
+        $text = 'CONFERENCE;VALUE=URI';
+        if ($conference->getFeature()) {
+            $text .= ';FEATURE=' . $conference->getFeature();
+        }
+        if ($conference->getLabel()) {
+            $text .= ';LABEL=' . $this->getEscapedText($conference->getLabel());
+        }
+        if ($conference->getLanguage()) {
+            $text .= ';LANGUAGE=' . $this->getEscapedText($conference->getLanguage());
+        }
+        $text .= ':' . $conference->getUri();
+        return $text;
     }
 }
