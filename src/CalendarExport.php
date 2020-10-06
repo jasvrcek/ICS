@@ -203,7 +203,11 @@ class CalendarExport
                     $this->stream->addItem($this->formatter->getFormattedImageString($event->getImage()));
                 }
 
-                $this->stream->addItem('STATUS:'.$event->getStatus())
+                if ($event->getStatus()) {
+                    $this->stream->addItem('STATUS:'.$event->getStatus());
+                }
+
+                $this->stream
                     ->addItem('SUMMARY:'.$event->getSummary())
                     ->addItem('DESCRIPTION:'.$this->formatter->getEscapedText($event->getDescription()));
 
