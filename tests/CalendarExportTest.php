@@ -204,6 +204,7 @@ class CalendarExportTest extends \PHPUnit_Framework_TestCase
             ->setStart(new \DateTime('4 October 2013 12:00:00', $timezone))
             ->setEnd(new \DateTime('4 October 2013 22:00:00', $timezone))
             ->setSummary('Poker night at the South Pole')
+            ->setStatus('CONFIRMED')
             ->addAttendee($attendee)
             ->setOrganizer($organizer)
             ->setSequence(3)
