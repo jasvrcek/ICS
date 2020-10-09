@@ -118,7 +118,7 @@ class CalendarExport
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
 
                 //get previous offset
-                $previousTimezoneObservance = $transition['ts'] - 100;
+                $previousTimezoneObservance = $transition['ts'] - 3700;
                 $tzDate = new \DateTime('now', $tz);
                 $tzDate->setTimestamp($previousTimezoneObservance);
                 $offset = $tzDate->getOffset();
