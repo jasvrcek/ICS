@@ -114,13 +114,6 @@ class CalendarExport
                 $varName = ($transition['isdst']) ? 'daylightSavings' : 'standard';
 
                 ${$varName}['exists'] = true;
-                if ($this->dateTimeFormat === 'local') {
-                    ${$varName}['start'] = ':' . $this->formatter->getFormattedDateTime(new \DateTime($transition['time']));
-                } else if ($this->dateTimeFormat === 'utc') {
-                    ${$varName}['start'] = ':' . $this->formatter->getFormattedUTCDateTime(new \DateTime($transition['time']));
-                } else if ($this->dateTimeFormat == 'local-tz') {
-                    ${$varName}['start'] = ';' . $this->formatter->getFormattedDateTimeWithTimeZone(new \DateTime($transition['time']));
-                }
 
                 ${$varName}['offsetTo'] = $this->formatter->getFormattedTimeOffset($transition['offset']);
 
@@ -131,6 +124,10 @@ class CalendarExport
                 $offset = $tzDate->getOffset();
 
                 ${$varName}['offsetFrom'] = $this->formatter->getFormattedTimeOffset($offset);
+
+                //use previous offset to get local transition start time
+                $transitionStartLocal = (new \DateTime($transition['time']))->modify($offset.' seconds');
+                ${$varName}['start'] = ':' . $this->formatter->getFormattedDateTime($transitionStartLocal);
             }
 
             $this->stream->addItem('TZID:'.$tz->getName());
