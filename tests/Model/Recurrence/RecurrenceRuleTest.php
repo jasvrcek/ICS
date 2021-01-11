@@ -8,8 +8,9 @@ use Jsvrcek\ICS\Model\Recurrence\DataType\Frequency;
 
 use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\Model\Recurrence\RecurrenceRule;
+use PHPUnit\Framework\TestCase;
 
-class RecurrenceRuleTest extends \PHPUnit_Framework_TestCase
+class RecurrenceRuleTest extends TestCase
 {
     /**
      * @var RecurrenceRule

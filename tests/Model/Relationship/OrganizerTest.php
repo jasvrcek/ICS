@@ -4,8 +4,9 @@ namespace Jsvrcek\ICS\Tests\Model\Relationship;
 
 use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\Model\Relationship\Organizer;
+use PHPUnit\Framework\TestCase;
 
-class OrganizerTest extends \PHPUnit_Framework_TestCase
+class OrganizerTest extends TestCase
 {
     /**
      * @var Organizer

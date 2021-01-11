@@ -22,8 +22,9 @@ use Jsvrcek\ICS\Model\Relationship\Attendee;
 use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarEvent;
+use PHPUnit\Framework\TestCase;
 
-class CalendarExportTest extends \PHPUnit_Framework_TestCase
+class CalendarExportTest extends TestCase
 {
     /**
      * @covers Jsvrcek\ICS\CalendarExport::getStream

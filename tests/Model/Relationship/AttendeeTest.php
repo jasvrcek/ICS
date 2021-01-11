@@ -4,8 +4,9 @@ namespace Jsvrcek\ICS\Tests\Model\Relationship;
 
 use Jsvrcek\ICS\Utility\Formatter;
 use Jsvrcek\ICS\Model\Relationship\Attendee;
+use PHPUnit\Framework\TestCase;
 
-class AttendeeTest extends \PHPUnit_Framework_TestCase
+class AttendeeTest extends TestCase
 {
     /**
      * @var Attendee
