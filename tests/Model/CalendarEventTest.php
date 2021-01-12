@@ -30,11 +30,12 @@ class CalendarEventTest extends TestCase
 
     /**
      * @covers Jsvrcek\ICS\Model\CalendarEvent::setEnd
-     * @expectedException Jsvrcek\ICS\Exception\CalendarEventException
-     * @expectedExceptionMessage End DateTime must be greater than Start DateTime
      */
     public function testSetEndDateEarlierThanStart()
     {
+        $this->expectException(CalendarEventException::class);
+        $this->expectExceptionMessage('End DateTime must be greater than Start DateTime');
+
         $object = new CalendarEvent;
 
         $start = new \DateTime('now');
@@ -46,11 +47,12 @@ class CalendarEventTest extends TestCase
 
     /**
      * @covers Jsvrcek\ICS\Model\CalendarEvent::setEnd
-     * @expectedException Jsvrcek\ICS\Exception\CalendarEventException
-     * @expectedExceptionMessage You must set the Start time before setting the End Time of a CalendarEvent
      */
     public function testSetEndWithoutStart()
     {
+        $this->expectException(CalendarEventException::class);
+        $this->expectExceptionMessage('You must set the Start time before setting the End Time of a CalendarEvent');
+
         $object = new CalendarEvent;
 
         $end = new \DateTime('yesterday');
