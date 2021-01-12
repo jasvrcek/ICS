@@ -4,8 +4,9 @@ namespace Jsvrcek\ICS\Tests\Utility;
 
 use Jsvrcek\ICS\Model\Description\Conference;
 use Jsvrcek\ICS\Utility\Formatter;
+use PHPUnit\Framework\TestCase;
 
-class FormatterTest extends \PHPUnit_Framework_TestCase
+class FormatterTest extends TestCase
 {
     /**
      * @covers Jsvrcek\ICS\Formatter::getFormattedDateTime

@@ -3,8 +3,9 @@
 namespace Jsvrcek\ICS\Tests\Utility;
 
 use Jsvrcek\ICS\Utility\Provider;
+use PHPUnit\Framework\TestCase;
 
-class ProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends TestCase
 {
     /**
      * @covers Jsvrcek\ICS\Utility\Provider::first
