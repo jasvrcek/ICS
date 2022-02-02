@@ -45,30 +45,34 @@ class Provider implements \Iterator
      * Cannot be used in conjunction with a provider closure!
      *
      * @param mixed $item
+     * @return void
      */
     public function add($item)
     {
         $this->manuallyAddedData[] = $item;
     }
 
-    /* (non-PHPdoc)
+    /**
      * @see Iterator::current()
+     * @return false|mixed
      */
     public function current()
     {
         return current($this->data);
     }
 
-    /* (non-PHPdoc)
+    /**
      * @see Iterator::key()
+     * @return float|int|null
      */
     public function key()
     {
         return $this->key;
     }
 
-    /* (non-PHPdoc)
+    /**
      * @see Iterator::next()
+     * @return void
      */
     public function next()
     {
@@ -76,8 +80,9 @@ class Provider implements \Iterator
         $this->key++;
     }
 
-    /* (non-PHPdoc)
+    /**
      * @see Iterator::rewind()
+     * @return void
      */
     public function rewind()
     {
@@ -88,8 +93,8 @@ class Provider implements \Iterator
     /**
      * get next batch from provider if data array is at the end
      *
-     * (non-PHPdoc)
      * @see Iterator::valid()
+     * @return bool
      */
     public function valid()
     {
@@ -108,8 +113,10 @@ class Provider implements \Iterator
         return count($this->data) > 0;
     }
 
-    /*
+    /**
      * Returns first event
+     *
+     * @return false|mixed
      */
     public function first()
     {
