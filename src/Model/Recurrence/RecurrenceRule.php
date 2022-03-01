@@ -487,6 +487,10 @@ class RecurrenceRule
                     $untilDate = new \DateTime(str_replace('Z', '', $value), new \DateTimeZone('UTC'));
                     $this->setUntil($untilDate);
                     break;
+
+                case 'COUNT':
+                    $this->setCount(intval($value));
+                    break;
                     
                 default:
                     throw new CalendarRecurrenceException('Unsupported attribute in Recurrence Rule (RRULE) string: '.$key);
