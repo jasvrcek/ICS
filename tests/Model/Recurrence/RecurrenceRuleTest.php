@@ -28,7 +28,7 @@ class RecurrenceRuleTest extends TestCase
             ->setUntil(new \DateTime('2050-01-01 00:00:00', new \DateTimeZone('UTC')))
         ;
         
-        $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;UNTIL=20500101T000000Z;COUNT=10;BYDAY=10MO,-10TU';
+        $expected = 'RRULE:FREQ=YEARLY;INTERVAL=2;UNTIL=20500101T000000Z;BYDAY=10MO,-10TU';
         
         $this->assertEquals($expected, $object->__toString());
 
