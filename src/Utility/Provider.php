@@ -56,6 +56,7 @@ class Provider implements \Iterator
      * @see Iterator::current()
      * @return false|mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->data);
@@ -65,6 +66,7 @@ class Provider implements \Iterator
      * @see Iterator::key()
      * @return float|int|null
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -74,6 +76,7 @@ class Provider implements \Iterator
      * @see Iterator::next()
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         array_shift($this->data);
@@ -84,6 +87,7 @@ class Provider implements \Iterator
      * @see Iterator::rewind()
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->data = array();
@@ -96,6 +100,7 @@ class Provider implements \Iterator
      * @see Iterator::valid()
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if (count($this->data) < 1) {
