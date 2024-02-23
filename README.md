@@ -7,6 +7,12 @@ Object-oriented php library for creating (and eventually reading) .ics iCal file
 
 * This project does not yet support all functionality of the .ics format.
 
+## Installation
+Using composer:
+```
+composer require jsvrcek/ics
+```
+
 ## 1. Basic Usage
 
 ```php
