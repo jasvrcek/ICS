@@ -209,7 +209,8 @@ class CalendarExport
 
                 $this->stream
                     ->addItem('SUMMARY:'.$event->getSummary())
-                    ->addItem('DESCRIPTION:'.$this->formatter->getEscapedText($event->getDescription()));
+                    ->addItem('DESCRIPTION:'.$this->formatter->getEscapedText($event->getDescription()))
+                    ->addItem('X-ALT-DESC;FMTTYPE=text/html:'.$this->formatter->getEscapedText($event->getDescription()));
 
                 if ($event->getClass()) {
                     $this->stream->addItem('CLASS:'.$event->getClass());
