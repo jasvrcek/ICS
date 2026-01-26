@@ -30,12 +30,12 @@ class Provider implements \Iterator
     private $first;
 
     /**
-     * @param \Closure $provider An optional closure for adding items in batches during iteration. The closure will be
+     * @param ?\Closure $provider An optional closure for adding items in batches during iteration. The closure will be
      *     called each time the end of the internal data array is reached during iteration, and the current data
      *     array key value will be passed as an argument. The closure should return an array containing the next
      *     batch of items.
      */
-    public function __construct(\Closure $provider = null)
+    public function __construct(?\Closure $provider = null)
     {
         $this->provider = $provider;
     }
